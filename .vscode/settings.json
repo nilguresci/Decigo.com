@@ -1,6 +1,6 @@
 {
   "jshint.config": "",
   "jshint.options": {
-    "esversion": 6
+    "esversion": 8
   }
 }
