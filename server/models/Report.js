@@ -9,7 +9,6 @@ const ReportSchema = new mongoose.Schema({
   Users: {
     type: [ReportUser],
     required: [true, "Please provide users"],
-    minLength: 1,
   },
   CreationDate: {
     type: Date,
