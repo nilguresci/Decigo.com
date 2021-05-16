@@ -1,9 +1,8 @@
-const crypto = require("crypto");
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-const UserSchema = new mongoose.Schema({
+const AdminSchema = new mongoose.Schema({
   Firstname: {
     type: String,
     minLength: 2,
@@ -18,11 +17,6 @@ const UserSchema = new mongoose.Schema({
     type: String,
     unique: true,
     required: [true, "Please provide username"],
-  },
-  City: {
-    type: String,
-    minLength: 2,
-    required: [true, "Please provide city"],
   },
   Email: {
     type: String,
@@ -41,7 +35,7 @@ const UserSchema = new mongoose.Schema({
   },
 });
 
-UserSchema.pre("save", async function (next) {
+AdminSchema.pre("save", async function (next) {
   if (!this.isModified("Password")) next();
 
   const salt = await bcrypt.genSalt(10);
@@ -49,16 +43,16 @@ UserSchema.pre("save", async function (next) {
   next();
 });
 
-UserSchema.methods.matchPassword = async function (password) {
+AdminSchema.methods.matchPassword = async function (password) {
   return await bcrypt.compare(password, this.Password);
 };
 
-UserSchema.methods.getSignedJwtToken = function () {
+AdminSchema.methods.getSignedJwtToken = function () {
   return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRE,
   });
 };
 
-const User = mongoose.model("User", UserSchema);
+const Admin = mongoose.model("Admin", AdminSchema);
 
-module.exports = User;
+module.exports = Admin;
