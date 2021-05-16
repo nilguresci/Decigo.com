@@ -9,6 +9,8 @@ connectDB();
 
 const auth = require("./routes/auth");
 const customer = require("./routes/customer");
+const survey = require("./routes/survey");
+const profile = require("./routes/profile");
 
 const app = express();
 
@@ -21,10 +23,12 @@ app.get("/", (req, res, next) => {
 
 app.use("/api/auth", auth);
 app.use("/api/customer", customer);
+app.use("/api/survey", survey);
+app.use("/api/profile", profile);
 
 app.use(errorHandler);
 
-const PORT = process.env.PORT || 4545;
+const PORT = process.env.PORT || 3545;
 
 app.listen(PORT, () => {
   console.log(`Server started on http://localhost:${PORT}/`);
