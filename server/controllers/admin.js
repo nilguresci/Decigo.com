@@ -1,22 +1,21 @@
 const jwt = require("jsonwebtoken");
 
-const User = require("../models/User");
+const Admin = require("../models/Admin");
 const ErrorResponse = require("../utils/errorResponse");
 
 exports.register = async (req, res, next) => {
   const { Firstname, Lastname, Username, City, Email, Password } = req.body;
 
   try {
-    const user = await User.create({
+    const admin = await Admin.create({
       Firstname,
       Lastname,
       Username,
-      City,
       Email,
       Password,
     });
 
-    sendToken(user, 200, res);
+    sendToken(admin, 200, res);
   } catch (err) {
     next(err);
   }
@@ -31,13 +30,13 @@ exports.login = async (req, res, next) => {
     );
 
   try {
-    const user = await User.findOne({ Username }).select("+Password");
-    if (!user) return next(new ErrorResponse("Invalid credentials", 401));
+    const admin = await Admin.findOne({ Username }).select("+Password");
+    if (!admin) return next(new ErrorResponse("Invalid credentials", 401));
 
-    const isMatch = await user.matchPassword(Password);
+    const isMatch = await admin.matchPassword(Password);
     if (!isMatch) return next(new ErrorResponse("Invalid credentials", 401));
 
-    sendToken(user, 200, res);
+    sendToken(admin, 200, res);
   } catch (err) {
     next(err);
   }
@@ -54,8 +53,8 @@ exports.refreshToken = async (req, res, next) => {
   res.status(200).json({ success: true, token });
 };
 
-const sendToken = (user, statusCode, res) => {
-  const token = user.getSignedJwtToken();
+const sendToken = (admin, statusCode, res) => {
+  const token = admin.getSignedJwtToken();
   res
     .status(statusCode)
     .json({ sucess: true, token, Username: user.Username, userid: user._id });

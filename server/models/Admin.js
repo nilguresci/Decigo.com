@@ -19,7 +19,7 @@ const AdminSchema = new mongoose.Schema({
     ],
     required: [true, "Please provide lastname"],
   },
-  UserName: {
+  Username: {
     type: String,
     unique: true,
     required: [true, "Please provide username"],

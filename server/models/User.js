@@ -14,7 +14,7 @@ const UserSchema = new mongoose.Schema({
     minLength: 2,
     required: [true, "Please provide lastname"],
   },
-  UserName: {
+  Username: {
     type: String,
     unique: true,
     required: [true, "Please provide username"],
