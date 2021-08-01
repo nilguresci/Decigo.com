@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const Participant = require("./Participant");
+const Participant = require("./Participant").schema;
 
 const OptionSchema = new mongoose.Schema({
   Text: {
