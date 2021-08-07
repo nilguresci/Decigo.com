@@ -1,6 +1,9 @@
 const jwt = require("jsonwebtoken");
 
 const Admin = require("../models/Admin");
+const Report = require("../models/Report");
+const Survey = require("../models/Survey");
+const { report } = require("../routes/admin");
 const ErrorResponse = require("../utils/errorResponse");
 
 exports.register = async (req, res, next) => {
@@ -51,6 +54,50 @@ exports.refreshToken = async (req, res, next) => {
     }
   );
   res.status(200).json({ success: true, token });
+};
+
+exports.getReports = async (req, res, next) => {
+  try {
+    const reports = await Report.find();
+
+    if (reports.length === 0)
+      return next(
+        new ErrorResponse(`There are currently no report to show`, 400)
+      );
+
+    res.status(200).json({
+      success: true,
+      data: reports,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.decideReport = async (req, res, next) => {
+  try {
+    const { decide, SurveyId, ReportId } = req.body;
+
+    if (decide) {
+      await Survey.deleteOne({ _id: SurveyId });
+      res.status(200).json({
+        success: true,
+        message: `Survey (${SurveyId}) is deleted`,
+        data: SurveyId,
+      });
+    } else {
+      await Report.deleteOne({ _id: ReportId });
+      res
+        .status(200)
+        .json({
+          success: true,
+          message: `Report (${ReportId}) is deleted`,
+          data: ReportId,
+        });
+    }
+  } catch (error) {
+    next(error);
+  }
 };
 
 const sendToken = (admin, statusCode, res) => {
