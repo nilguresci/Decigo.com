@@ -9,5 +9,3 @@ export default {
   name: "RegisterPage",
 };
 </script>
-
-<style scoped lang="scss"></style>
