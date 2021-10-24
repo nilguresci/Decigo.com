@@ -1,8 +1,6 @@
 const jwt = require("jsonwebtoken");
 
 const Survey = require("../models/Survey");
-const Option = require("../models/Option");
-const Participant = require("../models/Participant");
 const ErrorResponse = require("../utils/errorResponse");
 
 exports.addSurvey = async (req, res, next) => {
@@ -31,7 +29,7 @@ exports.getSurveys = async (req, res, next) => {
   try {
     const surveys = await Survey.find();
 
-    if (surveys.length === 0)
+    if (surveys.length === 0 || !surveys)
       return next(
         new ErrorResponse(`There are currently no survey to show`, 400)
       );
@@ -64,26 +62,59 @@ exports.getOneSurvey = async (req, res, next) => {
 };
 
 exports.joinSurvey = async (req, res, next) => {
-  //survey_id , option_id, user_id
   const { SurveyId, OptionId, UserId } = req.body;
   try {
-    const survey = await Survey.findById(SurveyId);
-    const option = await survey.findById(OptionId);
+    let survey = await Survey.findById(SurveyId);
 
-    const participant = { UserId };
+    if (!survey || survey == null || survey == []) {
+      return next(
+        new ErrorResponse(`There's no survey with id of ${SurveyId}`, 400)
+      );
+    }
 
-    const surv_option = await option.findOneAndUpdate(
-      { _id: OptionId },
-      {
-        $addToSet: {
-          Participants: participant,
-        },
+    let option = survey.Options.filter((o) => o._id == OptionId)[0];
+
+    if (!option || option == null || option == []) {
+      return next(
+        new ErrorResponse(`There's no option with id of ${OptionId}`, 400)
+      );
+    }
+
+    let participants = option.Participants;
+
+    if (
+      !participants ||
+      participants == null ||
+      participants == undefined ||
+      participants == []
+    ) {
+      participants = [];
+      participants.push({
+        UserId,
+      });
+    } else {
+      if (participants.filter((p) => p.UserId == UserId).length > 0) {
+        participants = participants.filter((p) => p.UserId != UserId);
+      } else {
+        participants.push({
+          UserId,
+        });
       }
-    );
+    }
+
+    option.Participants = participants;
+
+    survey.Options.forEach((o) => {
+      if (o._id == option._id) {
+        o = option;
+      }
+    });
+
+    const result = await Survey.findByIdAndUpdate(SurveyId, survey);
 
     res.status(200).json({
-      success: true,
-      data: surv_option,
+      succes: true,
+      data: result,
     });
   } catch (error) {
     next(error);
