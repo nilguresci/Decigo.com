@@ -9,7 +9,7 @@
           <div class="info">
             <a href="#myprofilelinki" class="home-user-profile">
               <img
-                src="../assets/cv-foto.jpeg"
+                src="../assets/cv-2.png"
                 alt="Italian Trulli"
                 class="user-img"
               />
@@ -48,6 +48,10 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 $primary_1: #383a45;
+$secondary_text: #bbbbdc;
+$primary_text: #626c72;
+$primary_color: #8224e3;
+$grey_text: #626c72;
 .layout-left-side {
   position: fixed;
 }
@@ -108,11 +112,16 @@ img {
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 0;
-
+    color: $primary_1;
+    text-decoration: none;
     a {
       display: block;
       font-weight: 600;
     }
+  }
+  a:hover {
+    color: $primary_color;
+    text-decoration: underline;
   }
 }
 .my-card ul.connections {

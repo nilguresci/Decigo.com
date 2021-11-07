@@ -45,14 +45,9 @@
             </div>
             <ul class="members">
               <li class="item">
-                <a
-                  href="https://mythemestore.com/beehive-preview/members/user/"
-                >
+                <a href="#">
                   <div class="thumbnail">
-                    <img
-                      src="https://mythemestore.com/beehive-preview/wp-content/uploads/avatars/3/6158a8408e436-bpthumb.jpg"
-                      class="avatar"
-                    />
+                    <img src="#" class="avatar" />
                   </div>
                   <div class="item-info">
                     <span class="title ellipsis">
@@ -62,9 +57,7 @@
                 </a>
               </li>
             </ul>
-            <a
-              href="https://mythemestore.com/beehive-preview/members/?s=john%20doe"
-              class="view-all color-primary"
+            <a href="#" class="view-all color-primary"
               >View all
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -85,31 +78,20 @@
       </div>
       <ul id="navbar-user" class="navbar-nav navbar-user">
         <li class="mini-cart nav-item">
-          <a
-            class="cart-contents nav-link"
-            href="https://mythemestore.com/beehive-preview/cart/"
-            title="View Cart"
-            ><svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              fill="currentColor"
-              class="bi bi-bag"
-              viewBox="0 0 32 32"
-            >
-              <path
-                d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5z"
-              /></svg
-          ></a>
+          <a class="cart-contents nav-link" href="#" title="View Cart"
+            ><font-awesome-icon icon="bell" />
+          </a>
         </li>
         <li class="nav-item">
           <a
             href="#"
+            id="nav-user"
             class="nav-link login"
             data-toggle="modal"
             data-target="#login-modal"
-            >Login</a
-          >
+            ><img src="../assets/cv-2.png" alt="" />
+            <span class="user-name">@nilguresci</span>
+          </a>
         </li>
       </ul>
     </div>
@@ -129,6 +111,11 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+$primary_1: #383a45;
+$secondary_text: #bbbbdc;
+$primary_text: #626c72;
+$primary_color: #8224e3;
+$grey_text: #626c72;
 .fixed-top {
   position: fixed;
   top: 0;
@@ -202,7 +189,7 @@ nav.decigo-navbar {
   padding-left: 15px;
   margin-right: auto;
   margin-left: auto;
-  margin-top: 10px;
+  margin-top: 12px;
 }
 
 .decigo-search {
@@ -235,14 +222,6 @@ nav.decigo-navbar {
     border: none;
     padding-left: 1.25rem;
   }
-
-  .beehive-loading-ring {
-    display: none;
-    position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
-  }
 }
 input[type="text"] {
   width: 100%;
@@ -270,25 +249,9 @@ input {
     line-height: 26px;
   }
 }
-.beehive-loading-ring {
-  display: inline-block;
-}
-/*
-.search-form button[type=submit] {
-    width: 2.5rem;
-    height: 2.5rem;
-    padding: 0;
-    text-align: center;
-    line-height: 2.5rem;
-    font-size: 1.125rem;
-    position: absolute;
-    right: 0;
-    top: 0;
-    display: none !important;
-}  */
 
 nav.decigo-navbar:not {
-  height: 80px;
+  height: 77px;
 }
 
 #search-result {
@@ -393,7 +356,9 @@ ul.navbar-user .nav-item .nav-link {
   padding-left: 0.5rem;
   padding-right: 0.5rem;
   position: relative;
-
+  color: $primary_1;
+  text-decoration: none;
+  display: block;
   svg {
     background-color: #f8f9fb;
     display: block;
@@ -408,10 +373,23 @@ ul.navbar-user .nav-item .nav-link {
     color: #29292d;
     font-size: 0.5rem;
   }
-  a {
-    padding: 0.125rem 0.75rem;
-    text-decoration: none;
-    display: block;
+
+  //padding: 0.125rem 0.75rem;
+
+  span.user-name {
+    line-height: 30px;
+    margin-right: 0.25rem;
+    font-size: 14px;
+  }
+
+  .user-name:hover {
+    color: $primary_color;
+  }
+  img {
+    width: 30px;
+    height: 30px;
+    margin-right: 0.25rem;
+    border-radius: 50%;
   }
 }
 

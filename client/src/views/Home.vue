@@ -7,8 +7,9 @@
     </div>
 
     <div class="layout-social site" id="decigo-page">
-      <header class="site-header">
+      <header class="site-header sticky-top">
         <nav-bar></nav-bar>
+        <hr />
       </header>
       <div class="site-content" id="content">
         <div class="container-fluid">
@@ -16,8 +17,8 @@
             <div class="col-lg-8 col-main">
               <home-main-content></home-main-content>
             </div>
-            <div class="col-lg-4 aside">
-              <div class="layout-right-side-bar">right side</div>
+            <div class="col-lg-4 rightside">
+              <right-side-bar></right-side-bar>
             </div>
           </div>
         </div>
@@ -29,14 +30,14 @@
 <script>
 // @ is an alias to /src
 import LeftSideBar from "../components/LeftSideBar.vue";
-//import RightSideBar from "../components/RightSideBar.vue";
+import RightSideBar from "../components/RightSideBar.vue";
 import Navbar from "../components/navbar.vue";
 import HomeMainContent from "../components/Home/HomeMainContent.vue";
 export default {
   name: "Home",
   components: {
     "left-side-bar": LeftSideBar,
-    //"right-side-bar": RightSideBar,
+    "right-side-bar": RightSideBar,
     "nav-bar": Navbar,
     "home-main-content": HomeMainContent,
   },
@@ -56,6 +57,7 @@ export default {
 
 header.site-header {
   margin-left: 22%;
+  background-color: #fff;
 }
 header.site-header:not(.overlay-header) {
   height: 80px;
@@ -75,7 +77,7 @@ header.site-header:not(.overlay-header) {
   position: fixed;
   left: 0;
   top: 0;
-  z-index: 10002;
+  z-index: 1000;
 }
 
 #decigo-page {
@@ -93,5 +95,22 @@ header.site-header:not(.overlay-header) {
 .col-main {
   padding: 30px 40px 70px 40px;
   min-height: 100vh;
+}
+.rightside {
+  border-left: 1px solid #e7edf2;
+  padding: 30px 30px 70px 30px;
+  min-height: 100vh;
+  // ::before {
+  //   content: "";
+  //   background: #fefefe;
+  //   display: block;
+  //   height: 100%;
+  //   //width: 2500px;
+  //   position: absolute;
+  //   top: 0;
+  //   left: 0;
+  //   bottom: 0;
+  //   z-index: -99;
+  // }
 }
 </style>
