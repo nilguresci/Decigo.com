@@ -103,6 +103,7 @@ exports.joinSurvey = async (req, res, next) => {
     }
 
     option.Participants = participants;
+    option.ParticipantNum = option.Participants.length;
 
     survey.Options.forEach((o) => {
       if (o._id == option._id) {
