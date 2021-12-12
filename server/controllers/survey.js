@@ -62,7 +62,8 @@ exports.getOneSurvey = async (req, res, next) => {
 };
 
 exports.joinSurvey = async (req, res, next) => {
-  const { SurveyId, OptionId, UserId } = req.body;
+  const { SurveyId, OptionId, UserId } = req.body.data;
+  //console.log("b survey id", SurveyId, OptionId, UserId);
   try {
     let survey = await Survey.findById(SurveyId);
 
@@ -94,7 +95,8 @@ exports.joinSurvey = async (req, res, next) => {
       });
     } else {
       if (participants.filter((p) => p.UserId == UserId).length > 0) {
-        participants = participants.filter((p) => p.UserId != UserId);
+        // kullanıcı daha önce bu seçeneği işaretlediyse herhangi bir işlem yapılmasına gerek yok.
+        participants = participants; //participants.filter((p) => p.UserId != UserId);
       } else {
         participants.push({
           UserId,

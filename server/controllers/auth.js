@@ -32,10 +32,19 @@ exports.login = async (req, res, next) => {
 
   try {
     const user = await User.findOne({ Username }).select("+Password");
-    if (!user) return next(new ErrorResponse("Invalid credentials", 401));
+    console.log("user", user);
+    if (!user) {
+      return next(
+        new ErrorResponse("Invalid credentials, user not found", 401)
+      );
+    }
 
     const isMatch = await user.matchPassword(Password);
-    if (!isMatch) return next(new ErrorResponse("Invalid credentials", 401));
+    console.log("ismatch", isMatch);
+    if (!isMatch)
+      return next(
+        new ErrorResponse("Invalid credentials, password does not match", 401)
+      );
 
     sendToken(user, 200, res);
   } catch (err) {

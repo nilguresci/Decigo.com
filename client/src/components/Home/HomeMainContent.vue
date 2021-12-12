@@ -2,7 +2,7 @@
   <div id="main">
     <div class="activity-update-form">
       <div id="whats-new-avatar">
-        <a href="#profile" data-v-e73966fe=""
+        <a href="#profile"
           ><img
             src="../../assets/cv-2.png"
             class="avatar user-3-avatar avatar-50 photo"
@@ -31,58 +31,6 @@
             <a href="#profile">
               <img
                 loading="lazy"
-                src="../../assets/cv-2.png"
-                class="avatar"
-                width="200"
-                height="200"
-                alt="Profile picture of user"
-              />
-            </a>
-          </div>
-          <div class="post-content">
-            <div class="post-header">
-              <div class="posted-meta">
-                <p><a href="#user">Nil Güreşçi</a> posted an update</p>
-              </div>
-              <div class="mute">1 minute ago</div>
-            </div>
-
-            <div class="poll">
-              <div class="question">{{ poll.question }}</div>
-              <div class="answers-area">
-                <div
-                  class="answers"
-                  v-for="answer in poll.answers"
-                  :key="answer"
-                >
-                  <div
-                    class="answer"
-                    @click="markAnswer(answer.answer)"
-                    :id="answer.answer"
-                  >
-                    {{ answer.answer }}
-                    <span
-                      class="percentage-bar"
-                      :style="{
-                        width: answer.weight + 'px',
-                      }"
-                    ></span>
-                    <span class="percentage-value">20%</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </li>
-      </ul>
-    </div>
-    <div class="main-content">
-      <ul class="survey-list">
-        <li class="survey-item">
-          <div class="survey-avatar">
-            <a href="#profile">
-              <img
-                loading="lazy"
                 src="../../assets/barista2.png"
                 class="avatar"
                 width="200"
@@ -91,35 +39,44 @@
               />
             </a>
           </div>
-          <div class="post-content">
+          <div class="post-content" v-for="(poll, id) in polls" :key="id">
             <div class="post-header">
               <div class="posted-meta">
-                <p><a href="#user">Barista Ahmet</a> posted an update</p>
+                <p>
+                  <a href="#user">{{ poll.userId }} </a> posted an update
+                </p>
               </div>
               <div class="mute">1 minute ago</div>
             </div>
 
-            <div class="poll">
+            <div class="poll" :id="poll.id">
               <div class="question">{{ poll.question }}</div>
               <div class="answers-area">
                 <div
                   class="answers"
-                  v-for="answer in poll.answers"
-                  :key="answer"
+                  v-for="option in poll.options"
+                  :key="option"
                 >
                   <div
                     class="answer"
-                    @click="markAnswer(answer.answer)"
-                    :id="answer.answer"
+                    @click="markAnswer(option.id, poll)"
+                    :id="option.id"
                   >
-                    {{ answer.answer }}
+                    {{ option.text }}
                     <span
-                      class="percentage-bar"
+                      class="pb"
+                      :class="[poll.isVoted ? 'percentage-bar' : 'hide']"
+                      id="pb"
                       :style="{
-                        width: answer.weight + 'px',
+                        width: option.ratio + '%',
                       }"
                     ></span>
-                    <span class="percentage-value">20%</span>
+                    <span
+                      class="pv"
+                      :class="[poll.isVoted ? 'percentage-value' : 'hide']"
+                      id="pv"
+                      >{{ option.ratio }}%</span
+                    >
                   </div>
                 </div>
               </div>
@@ -136,18 +93,19 @@ export default {
   name: "HomeMainContent",
   data() {
     return {
-      poll: {
-        question: "What's your favorite programming language?",
-        answers: [
-          { answer: "C", weight: 200, vote: 0 },
-          { answer: "Java", weight: 200 },
-          { answer: "node.js", weight: 500 },
-          { answer: "JavaScript", weight: 800 },
-        ],
-        pollCount: 20,
-        answersWeight: [40, 40, 20, 100],
-        selectedAnswer: -1,
-      },
+      // poll: {
+      //   question: "What's your favorite programming language?",
+      //   answers: [
+      //     { answer: "C", weight: 200, vote: 0 },
+      //     { answer: "Java", weight: 200 },
+      //     { answer: "node.js", weight: 500 },
+      //     { answer: "JavaScript", weight: 800 },
+      //   ],
+      pollCount: 20,
+      answersWeight: [40, 40, 20, 100],
+      selectedAnswer: -1,
+      // },
+      polls: [],
     };
   },
   mounted() {
@@ -156,46 +114,88 @@ export default {
     //   answers: document.querySelector(".poll .answers"),
     // };
     //pollDOM.question.innerText = this.poll.question;
+
+    this.getPolls();
+
+    this.$store.watch(
+      () => [this.$store.state.polls, this.$store.state.updated],
+      async () => {
+        this.polls = this.$store.state.polls;
+      }
+    );
+
+    this.$store.watch(
+      () => this.$store.state.updated,
+      async () => {
+        this.getPolls();
+        this.polls = this.$store.state.polls;
+      }
+    );
   },
   methods: {
-    markAnswer(i) {
-      this.selectedAnswer = i;
-      try {
-        var selectedElement = document.querySelector(
-          ".poll .answers .answer.selected"
-        );
-        if (selectedElement) {
-          console.log(selectedElement);
-          selectedElement.classList.remove("selected");
-        }
-      } catch (msg) {
-        return msg;
-      }
-      // document.querySelectorAll(".poll .answers-area .answers .answer");
-      var newSelectedElement = document.getElementById(i);
-      //console.log(deger);
-      newSelectedElement.classList.add("selected");
-      this.showResults();
-    },
-    showResults() {
-      let answers = document.querySelectorAll(".poll .answers .answer");
-      for (let i = 0; i < answers.length; i++) {
-        let percentage = 0;
-        if (i == this.selectedAnswer) {
-          percentage = Math.round(
-            ((this.answersWeight[i] + 1) * 100) / (this.pollCount + 1)
+    markAnswer(id, poll) {
+      if (!poll.isVoted) {
+        var sel = document.getElementById(poll.id);
+        console.log("markanswer a geldi", sel);
+        console.log("id", id);
+        console.log("poll id", poll.id);
+        this.selectedAnswer = +id;
+        try {
+          var selectedElement = document.querySelector(
+            ".poll .answers .answer.selected"
           );
-        } else {
-          percentage = Math.round(
-            (this.answersWeight[i] * 100) / (this.pollCount + 1)
-          );
+          if (selectedElement) {
+            //console.log(selectedElement);
+            selectedElement.classList.remove("selected");
+          }
+        } catch (msg) {
+          return msg;
         }
-        answers[i].querySelector(".percentage-bar").style.width =
-          percentage + "%";
-        answers[i].querySelector(".percentage-value").innerText =
-          percentage + "%";
+        document.querySelectorAll(".poll .answers-area .answers .answer");
+        var newSelectedElement = document.getElementById(id);
+        console.log("newSelectedElement", newSelectedElement);
+        newSelectedElement.classList.add("selected");
+        var polldata = {
+          SurveyId: poll.id,
+          OptionId: id,
+          UserId: this.$store.state.loggedInUserId,
+        };
+
+        this.$store.dispatch("joinPoll", {
+          data: polldata,
+        });
+      } else {
+        console.log("zaten katılmışsın!!!");
       }
     },
+    getPolls() {
+      this.$store.dispatch({
+        type: "setPolls",
+      });
+      this.polls = this.$store.state.polls;
+    },
+    // participantUserControl(id, poll) {
+    //   const userid = this.$store.state.loggedInUserId;
+
+    //   //console.log("tık", poll.options);
+    //   poll.options.forEach((option) => {
+    //     //console.log("opt", option);
+    //     if (option.participants.length > 0) {
+    //       option.participants.forEach((participant) => {
+    //         if (participant.UserId === userid) {
+    //
+    //           console.log("zaten katıldın");
+    //         }
+    //       });
+    //     }
+    //   });
+
+    //   if (!this.isVoted) {
+    //     console.log("gidiyor2");
+    //     this.isVoted = poll.id;
+    //     this.markAnswer(id, poll);
+    //   }
+    // },
   },
 };
 </script>
@@ -207,7 +207,9 @@ $grey_text: #626c72;
 #main {
   margin: 0 15px;
 }
-
+.hide {
+  display: none;
+}
 .main-content {
   display: block;
   .survey-list {
