@@ -1,27 +1,8 @@
 <template>
   <div id="main">
     <div class="activity-update-form">
-      <div id="whats-new-avatar">
-        <a href="#profile"
-          ><img
-            src="../../assets/cv-2.png"
-            class="avatar user-3-avatar avatar-50 photo"
-            width="50"
-            height="50"
-            alt="Profile photo of user"
-        /></a>
-      </div>
       <div class="create-survey-input">
-        <div class="input-group mb-3">
-          <input
-            type="text"
-            class="form-control border border-1"
-            aria-label="Sizing example input"
-            aria-describedby="inputGroup-sizing-default"
-            width="100%"
-            placeholder="Create a survey"
-          />
-        </div>
+        <add-survey></add-survey>
       </div>
     </div>
     <div class="main-content">
@@ -89,7 +70,9 @@
 </template>
 
 <script>
+import AddSurvey from "./AddSurvey.vue";
 export default {
+  components: { AddSurvey },
   name: "HomeMainContent",
   data() {
     return {

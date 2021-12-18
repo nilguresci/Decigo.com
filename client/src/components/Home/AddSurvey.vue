@@ -18,6 +18,8 @@
           type="text"
           placeholder="Survey Question"
           v-model="surveyQuestion"
+          @change="change()"
+          @keypress="change()"
         />
       </div>
     </div>
@@ -35,7 +37,7 @@
               v-model="option.text"
             />
             <button
-              v-if="optionCount > 1"
+              v-if="optionCount > 2"
               class="btn btn-outline-danger option-button"
               type="button"
               id="button-addon2"
@@ -112,12 +114,16 @@
 
 <script>
 export default {
+  name: "add-survey",
   components: {},
   data() {
     return {
       surveyQuestion: "",
       optionCount: 1,
-      options: [{ text: "", id: 1 }],
+      options: [
+        { text: "", id: 1 },
+        { text: "", id: 2 },
+      ],
     };
   },
   methods: {
@@ -129,6 +135,14 @@ export default {
     deleteOption(id) {
       this.options = this.options.filter((option) => option.id !== id);
       this.optionCount = this.options.length;
+    },
+    change() {
+      if (this.surveyQuestion === "") {
+        this.options = [
+          { text: "", id: 1 },
+          { text: "", id: 2 },
+        ];
+      }
     },
   },
 };
