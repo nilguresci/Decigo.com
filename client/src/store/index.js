@@ -1,11 +1,13 @@
 import Vuex from "vuex";
 import * as pollService from "../services/pollService";
+import * as registerService from "../services/registerService";
 
 export default Vuex.createStore({
   state: {
     polls: [],
     updated: {},
     loggedInUserId: "61912afa785acf3d5d63021c", //login işlemi henüz yapılmadığından, kullanıcı kişi buraya kendi idsini yazmalı, bu id ile de çalışabilir
+    showRegisterComp: false,
   },
   mutations: {
     getPolls(state, payload) {
@@ -32,7 +34,7 @@ export default Vuex.createStore({
             //ratio2:(((p.Participants.length * 94) / totalParticipants) * 100) / 94,
           });
         });
-        console.log("totsl", totalParticipants);
+
         var isParticipant = [];
         poll.Options.forEach((option) => {
           if (option.Participants.length > 0) {
@@ -56,13 +58,17 @@ export default Vuex.createStore({
           isVoted: isParticipant.length > 0 ? true : false,
         });
       });
-      console.log("data", pollsObject);
       state.polls = pollsObject;
     },
-
     getJoinPoll(state, payload) {
       state.updated = payload.data;
       console.log("pay", payload.data);
+    },
+    getRegister(state) {
+      state.showRegisterComp = false;
+      console.log(
+        "kayıt oldu üstte ki değeri false yaparak  rgister componentini kapatıp login i açmış olduk yani kayıt olan kullanıcıyı logine yönlendirdik."
+      );
     },
   },
   actions: {
@@ -75,13 +81,25 @@ export default Vuex.createStore({
       pollService.joinPoll(data).then(
         (res) => {
           console.log("r", res);
-          if (res.data.succes) {
-            console.log("başarılı");
+          if (res.data.success) {
             commit("getJoinPoll", { data: res.data });
           }
         },
         (err) => {
           console.log("başarısız", err);
+        }
+      );
+    },
+    setRegister({ commit }, data) {
+      registerService.register(data.data).then(
+        (res) => {
+          console.log(res);
+          if (res.data.success) {
+            commit("getRegister");
+          }
+        },
+        (err) => {
+          console.log("kayıt olunmadı", err);
         }
       );
     },

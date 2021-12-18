@@ -87,13 +87,11 @@ exports.decideReport = async (req, res, next) => {
       });
     } else {
       await Report.deleteOne({ _id: ReportId });
-      res
-        .status(200)
-        .json({
-          success: true,
-          message: `Report (${ReportId}) is deleted`,
-          data: ReportId,
-        });
+      res.status(200).json({
+        success: true,
+        message: `Report (${ReportId}) is deleted`,
+        data: ReportId,
+      });
     }
   } catch (error) {
     next(error);
@@ -104,5 +102,5 @@ const sendToken = (admin, statusCode, res) => {
   const token = admin.getSignedJwtToken();
   res
     .status(statusCode)
-    .json({ sucess: true, token, Username: user.Username, userid: user._id });
+    .json({ success: true, token, Username: user.Username, userid: user._id });
 };

@@ -2,7 +2,13 @@
   <div class="layout">
     <div class="decigo-social-panel" id="decigo-social-panel">
       <div class="layout-left-side-bar">
-        <left-side-bar></left-side-bar>
+        <left-side-bar v-if="isLoggedIn"></left-side-bar>
+        <login-component
+          v-if="!showRegisterComp && !isLoggedIn"
+        ></login-component>
+        <register-component
+          v-if="showRegisterComp && !isLoggedIn"
+        ></register-component>
       </div>
     </div>
 
@@ -33,13 +39,32 @@ import LeftSideBar from "../components/LeftSideBar.vue";
 import RightSideBar from "../components/RightSideBar.vue";
 import Navbar from "../components/navbar.vue";
 import HomeMainContent from "../components/Home/HomeMainContent.vue";
+import LoginComponent from "../components/Home/Login.vue";
+import RegisterComponent from "../components/Home/Register.vue";
 export default {
   name: "Home",
+  data() {
+    return {
+      isLoggedIn: false,
+      showRegisterComp: false,
+    };
+  },
   components: {
     "left-side-bar": LeftSideBar,
     "right-side-bar": RightSideBar,
     "nav-bar": Navbar,
     "home-main-content": HomeMainContent,
+    "login-component": LoginComponent,
+    "register-component": RegisterComponent,
+  },
+  mounted() {
+    this.$store.watch(
+      () => this.$store.state.showRegisterComp,
+      async () => {
+        this.showRegisterComp = this.$store.state.showRegisterComp;
+        console.log("showregister", this.showRegisterComp);
+      }
+    );
   },
 };
 </script>

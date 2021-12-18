@@ -4,14 +4,15 @@ const User = require("../models/User");
 const ErrorResponse = require("../utils/errorResponse");
 
 exports.register = async (req, res, next) => {
-  const { Firstname, Lastname, Username, City, Email, Password } = req.body;
+  const { Fullname, /*Lastname,*/ Username, /*City,*/ Email, Password } =
+    req.body;
 
   try {
     const user = await User.create({
-      Firstname,
-      Lastname,
+      Fullname,
+      //Lastname,
       Username,
-      City,
+      // City,
       Email,
       Password,
     });
@@ -67,5 +68,5 @@ const sendToken = (user, statusCode, res) => {
   const token = user.getSignedJwtToken();
   res
     .status(statusCode)
-    .json({ sucess: true, token, Username: user.Username, userid: user._id });
+    .json({ success: true, token, Username: user.Username, userid: user._id });
 };

@@ -2,7 +2,8 @@
   <div id="main">
     <div class="activity-update-form">
       <div class="create-survey-input">
-        <add-survey></add-survey>
+        <!-- <add-survey></add-survey> -->
+        <add-survey-component v-show="!add"></add-survey-component>
       </div>
     </div>
     <div class="main-content">
@@ -70,26 +71,20 @@
 </template>
 
 <script>
-import AddSurvey from "./AddSurvey.vue";
+import AddSurveyComponent from "./AddSurvey.vue";
 export default {
-  components: { AddSurvey },
   name: "HomeMainContent",
   data() {
     return {
-      // poll: {
-      //   question: "What's your favorite programming language?",
-      //   answers: [
-      //     { answer: "C", weight: 200, vote: 0 },
-      //     { answer: "Java", weight: 200 },
-      //     { answer: "node.js", weight: 500 },
-      //     { answer: "JavaScript", weight: 800 },
-      //   ],
       pollCount: 20,
       answersWeight: [40, 40, 20, 100],
       selectedAnswer: -1,
-      // },
+      add: false,
       polls: [],
     };
+  },
+  components: {
+    "add-survey-component": AddSurveyComponent,
   },
   mounted() {
     // let pollDOM = {
@@ -118,10 +113,8 @@ export default {
   methods: {
     markAnswer(id, poll) {
       if (!poll.isVoted) {
-        var sel = document.getElementById(poll.id);
-        console.log("markanswer a geldi", sel);
-        console.log("id", id);
-        console.log("poll id", poll.id);
+        // var sel = document.getElementById(poll.id);
+        // console.log("markanswer a geldi", sel);
         this.selectedAnswer = +id;
         try {
           var selectedElement = document.querySelector(
@@ -136,7 +129,6 @@ export default {
         }
         document.querySelectorAll(".poll .answers-area .answers .answer");
         var newSelectedElement = document.getElementById(id);
-        console.log("newSelectedElement", newSelectedElement);
         newSelectedElement.classList.add("selected");
         var polldata = {
           SurveyId: poll.id,

@@ -6,67 +6,67 @@
           <img src="../../assets/logo_beyaz.svg" alt="Italian Trulli" />
         </a>
         <div class="my-card item">
-          <h4 class="form-title">Login Now</h4>
+          <h4 class="form-title">Register</h4>
           <form
             method="post"
             id="panel-login-form"
             class="login-form panel-login"
             name="panel-login"
+            v-on:submit.prevent="signUp(data)"
           >
             <div class="form-group">
               <div class="user-name">
-                <label class="screen-reader-text">Email/username</label>
-                <span class="icon"
-                  ><svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    fill="currentColor"
-                    class="bi bi-person-circle"
-                    viewBox="0 0 16 16"
-                  >
-                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
-                    <path
-                      fill-rule="evenodd"
-                      d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"
-                    /></svg
-                ></span>
+                <label class="screen-reader-text">Ad Soyad</label>
+                <input
+                  type="text"
+                  id="username"
+                  class="username-control"
+                  required=""
+                  v-model="data.fullname"
+                  name="log"
+                  placeholder="Ad Soyad"
+                />
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="user-name">
+                <label class="screen-reader-text">E-mail</label>
                 <input
                   type="text"
                   id="username"
                   class="username-control"
                   required=""
                   name="log"
-                  value=""
-                  placeholder="Email or username"
+                  v-model="data.email"
+                  placeholder="Email"
+                />
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="user-name">
+                <label class="screen-reader-text">Kullanıcı adı</label>
+                <input
+                  type="text"
+                  id="username"
+                  class="username-control"
+                  required=""
+                  name="log"
+                  placeholder="Username"
+                  v-model="data.username"
                 />
               </div>
             </div>
             <div class="form-group">
               <div class="pass">
-                <label class="screen-reader-text">Password</label>
-                <span class="icon"
-                  ><svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    fill="currentColor"
-                    class="bi bi-key"
-                    viewBox="0 0 16 16"
-                  >
-                    <path
-                      d="M0 8a4 4 0 0 1 7.465-2H14a.5.5 0 0 1 .354.146l1.5 1.5a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0L13 9.207l-.646.647a.5.5 0 0 1-.708 0L11 9.207l-.646.647a.5.5 0 0 1-.708 0L9 9.207l-.646.647A.5.5 0 0 1 8 10h-.535A4 4 0 0 1 0 8zm4-3a3 3 0 1 0 2.712 4.285A.5.5 0 0 1 7.163 9h.63l.853-.854a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.793-.793-1-1h-6.63a.5.5 0 0 1-.451-.285A3 3 0 0 0 4 5z"
-                    />
-                    <path d="M4 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" /></svg
-                ></span>
+                <label class="screen-reader-text">Şifre</label>
                 <input
                   type="password"
                   id="password"
                   class="password-control"
                   required=""
                   name="pwd"
-                  value=""
                   placeholder="Password"
+                  v-model="data.password"
                 />
               </div>
             </div>
@@ -78,17 +78,16 @@
                 class="submit-login"
                 name="wp-submit"
               >
-                Log In
+                Sign up
               </button>
             </div>
-            <div class="register-link">
-              <!-- <a @click="goRegister()">Signup</a> -->
+            <div class="login-link">
               <button
                 type="button"
-                class="btn btn-link register-btn"
-                @click="goRegister()"
+                class="btn btn-link login-btn"
+                @click="goLogin()"
               >
-                Signup
+                Log in
               </button>
             </div>
             <input
@@ -111,9 +110,41 @@ export default {
   props: {
     msg: String,
   },
+  data() {
+    return {
+      show: false,
+      data: {
+        fullname: "",
+        email: "",
+        password: "",
+        username: "",
+      },
+    };
+  },
+  mounted() {
+    // this.$store.watch(
+    //   () => this.$store.state.showRegisterComp,
+    //   async () => {
+    //     this.show = this.$store.state.showRegisterComp;
+    //   }
+    // );
+  },
   methods: {
-    goRegister() {
-      this.$store.state.showRegisterComp = true;
+    goLogin() {
+      this.$store.state.showRegisterComp = false;
+    },
+    signUp(data) {
+      var sendData = {
+        Fullname: data.fullname,
+        Email: data.email,
+        Username: data.username,
+        Password: data.password,
+      };
+
+      this.$store.dispatch({
+        type: "setRegister",
+        data: sendData,
+      });
     },
   },
 };
@@ -186,7 +217,7 @@ h4 {
   margin-top: 0;
   line-height: 1.2;
   color: #4f515b;
-  font-size: 1rem;
+  font-size: 1.2rem;
   font-family: "Quicksand", Verdana, sans-serif;
   font-weight: 200;
 }
@@ -267,7 +298,7 @@ input {
   cursor: text;
   margin: 0;
   font-family: inherit;
-  font-size: inherit;
+  font-size: 0.8rem;
   overflow: visible;
   color: #626c72;
   outline: none !important;
@@ -278,7 +309,7 @@ input {
   padding: 0.375rem 1rem;
   width: 100%;
   background: transparent;
-  padding-left: 2.75em;
+  padding-left: 0.8rem;
 }
 input[type="text"]:not(:focus),
 input[type="password"]:not(:focus) {
@@ -294,11 +325,11 @@ input[type="password"]:focus {
     margin-top: 0.25rem;
     border-top: 1px solid #e7edf2;
   }
-  .register-link {
+  .login-link {
     margin-top: 0.25rem;
     font-size: 90%;
 
-    .register-btn {
+    .login-btn {
       color: #8224e3;
       text-decoration: solid;
       background: transparent;

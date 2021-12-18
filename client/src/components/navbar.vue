@@ -76,7 +76,7 @@
           </div>
         </div>
       </div>
-      <ul id="navbar-user" class="navbar-nav navbar-user">
+      <ul id="navbar-user" class="navbar-nav navbar-user" v-show="isLoggedIn">
         <li class="mini-cart nav-item">
           <a class="cart-contents nav-link" href="#" title="View Cart"
             ><font-awesome-icon icon="bell" />
@@ -94,6 +94,9 @@
           </a>
         </li>
       </ul>
+      <ul id="navbar-user" class="navbar-nav navbar-user" v-show="!isLoggedIn">
+        Decigo.com
+      </ul>
     </div>
   </nav>
 </template>
@@ -104,6 +107,11 @@ export default {
   name: "navbar",
   props: {
     msg: String,
+  },
+  data() {
+    return {
+      isLoggedIn: false,
+    };
   },
   //components: { FontAwesomeIcon },
 };
