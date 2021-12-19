@@ -1,107 +1,97 @@
 <template>
-  <div class="layout-left-side-container">
-    <div class="layout-left-side">
-      <div class="panel-block dark">
-        <a href="#" class="panel-logo item">
-          <img src="../../assets/logo_beyaz.svg" alt="Italian Trulli" />
-        </a>
-        <div class="my-card item">
-          <h4 class="form-title">Login Now</h4>
-          <form
-            method="post"
-            id="panel-login-form"
-            class="login-form panel-login"
-            name="panel-login"
-          >
-            <div class="form-group">
-              <div class="user-name">
-                <label class="screen-reader-text">Email/username</label>
-                <span class="icon"
-                  ><svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    fill="currentColor"
-                    class="bi bi-person-circle"
-                    viewBox="0 0 16 16"
-                  >
-                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
-                    <path
-                      fill-rule="evenodd"
-                      d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"
-                    /></svg
-                ></span>
-                <input
-                  type="text"
-                  id="username"
-                  class="username-control"
-                  required=""
-                  name="log"
-                  value=""
-                  placeholder="Email or username"
-                />
-              </div>
-            </div>
-            <div class="form-group">
-              <div class="pass">
-                <label class="screen-reader-text">Password</label>
-                <span class="icon"
-                  ><svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    fill="currentColor"
-                    class="bi bi-key"
-                    viewBox="0 0 16 16"
-                  >
-                    <path
-                      d="M0 8a4 4 0 0 1 7.465-2H14a.5.5 0 0 1 .354.146l1.5 1.5a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0L13 9.207l-.646.647a.5.5 0 0 1-.708 0L11 9.207l-.646.647a.5.5 0 0 1-.708 0L9 9.207l-.646.647A.5.5 0 0 1 8 10h-.535A4 4 0 0 1 0 8zm4-3a3 3 0 1 0 2.712 4.285A.5.5 0 0 1 7.163 9h.63l.853-.854a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.793-.793-1-1h-6.63a.5.5 0 0 1-.451-.285A3 3 0 0 0 4 5z"
-                    />
-                    <path d="M4 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" /></svg
-                ></span>
-                <input
-                  type="password"
-                  id="password"
-                  class="password-control"
-                  required=""
-                  name="pwd"
-                  value=""
-                  placeholder="Password"
-                />
-              </div>
-            </div>
-            <div class="login-result"></div>
-            <div class="submit">
-              <button
-                type="submit"
-                id="login_submit"
-                class="submit-login"
-                name="wp-submit"
-              >
-                Log In
-              </button>
-            </div>
-            <div class="register-link">
-              <!-- <a @click="goRegister()">Signup</a> -->
-              <button
-                type="button"
-                class="btn btn-link register-btn"
-                @click="goRegister()"
-              >
-                Signup
-              </button>
-            </div>
-            <input
-              type="hidden"
-              id="panel-login-security"
-              name="panel-login-security"
-              value="f52122e428"
-            /><input type="hidden" name="_wp_http_referer" value="hhhhhh" />
-          </form>
+  <div class="my-card item">
+    <h4 class="form-title">Login Now</h4>
+    <form
+      method="post"
+      id="panel-login-form"
+      class="login-form panel-login"
+      name="panel-login"
+    >
+      <div class="form-group">
+        <div class="user-name">
+          <label class="screen-reader-text">Email/username</label>
+          <span class="icon"
+            ><svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              class="bi bi-person-circle"
+              viewBox="0 0 16 16"
+            >
+              <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+              <path
+                fill-rule="evenodd"
+                d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"
+              /></svg
+          ></span>
+          <input
+            type="text"
+            id="username"
+            class="username-control"
+            required=""
+            name="log"
+            value=""
+            placeholder="Email or username"
+          />
         </div>
       </div>
-      <div class="panel-block light"></div>
-    </div>
+      <div class="form-group">
+        <div class="pass">
+          <label class="screen-reader-text">Password</label>
+          <span class="icon"
+            ><svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              class="bi bi-key"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M0 8a4 4 0 0 1 7.465-2H14a.5.5 0 0 1 .354.146l1.5 1.5a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0L13 9.207l-.646.647a.5.5 0 0 1-.708 0L11 9.207l-.646.647a.5.5 0 0 1-.708 0L9 9.207l-.646.647A.5.5 0 0 1 8 10h-.535A4 4 0 0 1 0 8zm4-3a3 3 0 1 0 2.712 4.285A.5.5 0 0 1 7.163 9h.63l.853-.854a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.793-.793-1-1h-6.63a.5.5 0 0 1-.451-.285A3 3 0 0 0 4 5z"
+              />
+              <path d="M4 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" /></svg
+          ></span>
+          <input
+            type="password"
+            id="password"
+            class="password-control"
+            required=""
+            name="pwd"
+            value=""
+            placeholder="Password"
+          />
+        </div>
+      </div>
+      <div class="login-result"></div>
+      <div class="submit">
+        <button
+          type="submit"
+          id="login_submit"
+          class="submit-login"
+          name="wp-submit"
+        >
+          Log In
+        </button>
+      </div>
+      <div class="register-link">
+        <!-- <a @click="goRegister()">Signup</a> -->
+        <button
+          type="button"
+          class="btn btn-link register-btn"
+          @click="goRegister()"
+        >
+          Signup
+        </button>
+      </div>
+      <input
+        type="hidden"
+        id="panel-login-security"
+        name="panel-login-security"
+        value="f52122e428"
+      /><input type="hidden" name="_wp_http_referer" value="hhhhhh" />
+    </form>
   </div>
 </template>
 
@@ -122,19 +112,6 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 $primary_1: #383a45;
-.layout-left-side {
-  position: fixed;
-}
-.layout-left-side {
-  background: #f8f9fb;
-  width: 22%;
-  height: 100vh;
-  text-align: center;
-  position: fixed;
-  left: 0;
-  top: 0;
-  z-index: 10002;
-}
 
 .panel-block .panel-logo img {
   max-width: 90%;
@@ -193,21 +170,6 @@ h4 {
 
 .my-card .form-title {
   margin-bottom: 0.75rem;
-}
-
-.layout-left-side-container {
-  font-family: "Nunito Sans", Arial, sans-serif;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 26px;
-  color: #626c72;
-
-  position: relative;
-  overflow: hidden;
-  height: 100%;
-  max-width: 100%;
-  outline: 0;
-  direction: ltr;
 }
 
 form {

@@ -5,53 +5,70 @@
         <a href="#" class="panel-logo item">
           <img src="../assets/logo_beyaz.svg" alt="Italian Trulli" />
         </a>
-        <div class="my-card item">
-          <div class="info">
-            <a href="#myprofilelinki" class="home-user-profile">
-              <img
-                src="../assets/cv-2.png"
-                alt="Italian Trulli"
-                class="user-img"
-              />
-            </a>
-            <div class="profile-name">
-              <a href="#userprofilelinki" class="name ellipsis">Nil Güreşçi</a>
-              <small>Member</small>
-            </div>
-          </div>
-          <ul class="connections">
-            <li>
-              <span class="count">10</span>
-              <p class="mute">Anketlerim</p>
-            </li>
-            <li>
-              <span class="count">50</span>
-              <p class="mute">Oyladıklarım</p>
-            </li>
-          </ul>
-        </div>
+        <login-user-comp v-if="isLoggedIn"></login-user-comp>
+        <register-comp v-if="showRegisterComp && !isLoggedIn"></register-comp>
+        <login-comp v-if="!showRegisterComp && !isLoggedIn"></login-comp>
       </div>
-      <div class="panel-block light">light</div>
+      <div class="panel-block light"></div>
     </div>
   </div>
 </template>
 
 <script>
+import RegisterComp from "./Home/registercomp.vue";
+import LoginComp from "./Home/Login.vue";
+import LoginUserComp from "./Home/LeftSideUser.vue";
 export default {
   name: "LeftSideBar",
   props: {
     msg: String,
   },
+  data() {
+    return {
+      isLoggedIn: false,
+      showRegisterComp: false,
+    };
+  },
+  components: {
+    "register-comp": RegisterComp,
+    "login-comp": LoginComp,
+    "login-user-comp": LoginUserComp,
+  },
+  mounted() {
+    this.$store.watch(
+      () => this.$store.state.showRegisterComp,
+      async () => {
+        this.showRegisterComp = this.$store.state.showRegisterComp;
+        console.log("showregister", this.showRegisterComp);
+      }
+    );
+  },
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss">
+<style lang="scss">
 $primary_1: #383a45;
 $secondary_text: #bbbbdc;
 $primary_text: #626c72;
 $primary_color: #8224e3;
 $grey_text: #626c72;
+
+.layout-left-side-container {
+  font-family: "Nunito Sans", Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 26px;
+  color: #626c72;
+
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+  max-width: 100%;
+  outline: 0;
+  direction: ltr;
+}
+
 .layout-left-side {
   position: fixed;
 }

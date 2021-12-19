@@ -1,106 +1,92 @@
 <template>
-  <div class="layout-left-side-container">
-    <div class="layout-left-side">
-      <div class="panel-block dark">
-        <a href="#" class="panel-logo item">
-          <img src="../../assets/logo_beyaz.svg" alt="Italian Trulli" />
-        </a>
-        <div class="my-card item">
-          <h4 class="form-title">Register</h4>
-          <form
-            method="post"
-            id="panel-login-form"
-            class="login-form panel-login"
-            name="panel-login"
-            v-on:submit.prevent="signUp(data)"
-          >
-            <div class="form-group">
-              <div class="user-name">
-                <label class="screen-reader-text">Ad Soyad</label>
-                <input
-                  type="text"
-                  id="username"
-                  class="username-control"
-                  required=""
-                  v-model="data.fullname"
-                  name="log"
-                  placeholder="Ad Soyad"
-                />
-              </div>
-            </div>
-            <div class="form-group">
-              <div class="user-name">
-                <label class="screen-reader-text">E-mail</label>
-                <input
-                  type="text"
-                  id="username"
-                  class="username-control"
-                  required=""
-                  name="log"
-                  v-model="data.email"
-                  placeholder="Email"
-                />
-              </div>
-            </div>
-            <div class="form-group">
-              <div class="user-name">
-                <label class="screen-reader-text">Kullanıcı adı</label>
-                <input
-                  type="text"
-                  id="username"
-                  class="username-control"
-                  required=""
-                  name="log"
-                  placeholder="Username"
-                  v-model="data.username"
-                />
-              </div>
-            </div>
-            <div class="form-group">
-              <div class="pass">
-                <label class="screen-reader-text">Şifre</label>
-                <input
-                  type="password"
-                  id="password"
-                  class="password-control"
-                  required=""
-                  name="pwd"
-                  placeholder="Password"
-                  v-model="data.password"
-                />
-              </div>
-            </div>
-            <div class="login-result"></div>
-            <div class="submit">
-              <button
-                type="submit"
-                id="login_submit"
-                class="submit-login"
-                name="wp-submit"
-              >
-                Sign up
-              </button>
-            </div>
-            <div class="login-link">
-              <button
-                type="button"
-                class="btn btn-link login-btn"
-                @click="goLogin()"
-              >
-                Log in
-              </button>
-            </div>
-            <input
-              type="hidden"
-              id="panel-login-security"
-              name="panel-login-security"
-              value="f52122e428"
-            /><input type="hidden" name="_wp_http_referer" value="hhhhhh" />
-          </form>
+  <div class="my-card item">
+    <h4 class="form-title">Register</h4>
+    <form
+      method="post"
+      id="panel-login-form"
+      class="login-form panel-login"
+      name="panel-login"
+      v-on:submit.prevent="signUp(data)"
+    >
+      <div class="form-group">
+        <div class="user-name">
+          <label class="screen-reader-text">Fullname</label>
+          <input
+            type="text"
+            id="username"
+            class="username-control"
+            required=""
+            v-model="data.fullname"
+            name="log"
+            placeholder="Fullnme"
+          />
         </div>
       </div>
-      <div class="panel-block light"></div>
-    </div>
+      <div class="form-group">
+        <div class="user-name">
+          <label class="screen-reader-text">E-mail</label>
+          <input
+            type="text"
+            id="username"
+            class="username-control"
+            required=""
+            name="log"
+            v-model="data.email"
+            placeholder="Email"
+          />
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="user-name">
+          <label class="screen-reader-text">Kullanıcı adı</label>
+          <input
+            type="text"
+            id="username"
+            class="username-control"
+            required=""
+            name="log"
+            placeholder="Username"
+            v-model="data.username"
+          />
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="pass">
+          <label class="screen-reader-text">Şifre</label>
+          <input
+            type="password"
+            id="password"
+            class="password-control"
+            required=""
+            name="pwd"
+            placeholder="Password"
+            v-model="data.password"
+          />
+        </div>
+      </div>
+      <div class="login-result"></div>
+      <div class="submit">
+        <button
+          type="submit"
+          id="login_submit"
+          class="submit-login"
+          name="wp-submit"
+        >
+          Sign up
+        </button>
+      </div>
+      <div class="login-link">
+        <button type="button" class="btn btn-link login-btn" @click="goLogin()">
+          Log in
+        </button>
+      </div>
+      <input
+        type="hidden"
+        id="panel-login-security"
+        name="panel-login-security"
+        value="f52122e428"
+      /><input type="hidden" name="_wp_http_referer" value="hhhhhh" />
+    </form>
   </div>
 </template>
 
@@ -150,27 +136,9 @@ export default {
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 $primary_1: #383a45;
-.layout-left-side {
-  position: fixed;
-}
-.layout-left-side {
-  background: #f8f9fb;
-  width: 22%;
-  height: 100vh;
-  text-align: center;
-  position: fixed;
-  left: 0;
-  top: 0;
-  z-index: 10002;
-}
 
-.panel-block .panel-logo img {
-  max-width: 90%;
-  max-height: 115px;
-}
 .my-card:before {
   content: "";
   background: #fff;
@@ -185,17 +153,10 @@ $primary_1: #383a45;
   z-index: -1;
   box-shadow: 0 15px 100px rgba(58, 46, 68, 0.6);
 }
-.panel-block {
-  padding: 2.5rem 1rem 1rem;
-}
+
 .dark {
   background-color: $primary_1;
   background-image: linear-gradient(135deg, #4f5261 0%, #383a45 50%);
-}
-.panel-block .item {
-  max-width: 250px;
-  margin-left: auto;
-  margin-right: auto;
 }
 
 .my-card {
@@ -224,21 +185,6 @@ h4 {
 
 .my-card .form-title {
   margin-bottom: 0.75rem;
-}
-
-.layout-left-side-container {
-  font-family: "Nunito Sans", Arial, sans-serif;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 26px;
-  color: #626c72;
-
-  position: relative;
-  overflow: hidden;
-  height: 100%;
-  max-width: 100%;
-  outline: 0;
-  direction: ltr;
 }
 
 form {
