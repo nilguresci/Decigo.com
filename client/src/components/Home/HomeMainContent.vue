@@ -87,12 +87,6 @@ export default {
     "add-survey-component": AddSurveyComponent,
   },
   mounted() {
-    // let pollDOM = {
-    //   question: document.querySelector(".poll .question"),
-    //   answers: document.querySelector(".poll .answers"),
-    // };
-    //pollDOM.question.innerText = this.poll.question;
-
     this.getPolls();
 
     this.$store.watch(

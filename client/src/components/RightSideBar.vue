@@ -84,6 +84,7 @@ $grey_text: #626c72;
         color: #4f515b;
         line-height: 1.2;
         border-bottom: 2px solid #8224e3;
+        max-width: 31.5%;
       }
 
       ul.categories-list {

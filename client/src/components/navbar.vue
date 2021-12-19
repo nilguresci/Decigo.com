@@ -110,7 +110,7 @@ export default {
   },
   data() {
     return {
-      isLoggedIn: false,
+      isLoggedIn: true,
     };
   },
   //components: { FontAwesomeIcon },
@@ -124,6 +124,7 @@ $secondary_text: #bbbbdc;
 $primary_text: #626c72;
 $primary_color: #8224e3;
 $grey_text: #626c72;
+
 .fixed-top {
   position: fixed;
   top: 0;
