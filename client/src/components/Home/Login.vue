@@ -6,6 +6,7 @@
       id="panel-login-form"
       class="login-form panel-login"
       name="panel-login"
+      v-on:submit.prevent="login()"
     >
       <div class="form-group">
         <div class="user-name">
@@ -31,7 +32,7 @@
             class="username-control"
             required=""
             name="log"
-            value=""
+            v-model="emailUsername"
             placeholder="Email or username"
           />
         </div>
@@ -59,7 +60,7 @@
             class="password-control"
             required=""
             name="pwd"
-            value=""
+            v-model="password"
             placeholder="Password"
           />
         </div>
@@ -101,9 +102,25 @@ export default {
   props: {
     msg: String,
   },
+  data() {
+    return {
+      emailUsername: "",
+      password: "",
+    };
+  },
   methods: {
     goRegister() {
       this.$store.state.showRegisterComp = true;
+    },
+    login() {
+      var loginData = {
+        Username: this.emailUsername,
+        Password: this.password,
+      };
+      this.$store.dispatch({
+        type: "setLogin",
+        data: loginData,
+      });
     },
   },
 };

@@ -1,6 +1,6 @@
 import Vuex from "vuex";
 import * as pollService from "../services/pollService";
-import * as registerService from "../services/registerService";
+import * as authService from "../services/authService";
 
 export default Vuex.createStore({
   state: {
@@ -8,6 +8,8 @@ export default Vuex.createStore({
     updated: {},
     loggedInUserId: "61912afa785acf3d5d63021c", //login işlemi henüz yapılmadığından, kullanıcı kişi buraya kendi idsini yazmalı, bu id ile de çalışabilir
     showRegisterComp: false,
+    loggedInUserInfo: {},
+    isLoggedIn: false,
   },
   mutations: {
     getPolls(state, payload) {
@@ -70,6 +72,14 @@ export default Vuex.createStore({
         "kayıt oldu üstte ki değeri false yaparak  rgister componentini kapatıp login i açmış olduk yani kayıt olan kullanıcıyı logine yönlendirdik."
       );
     },
+    getLogin(state, payload) {
+      state.loggedInUserInfo = payload;
+      state.loggedInUserId = payload.data.userid;
+      state.isLoggedIn = true;
+      localStorage.setItem("isLoggedIn", true);
+      localStorage.setItem("userInfo", payload.data);
+      console.log("giriş yapıldı", payload);
+    },
   },
   actions: {
     setPolls({ commit }) {
@@ -91,7 +101,7 @@ export default Vuex.createStore({
       );
     },
     setRegister({ commit }, data) {
-      registerService.register(data.data).then(
+      authService.register(data.data).then(
         (res) => {
           console.log(res);
           if (res.data.success) {
@@ -100,6 +110,19 @@ export default Vuex.createStore({
         },
         (err) => {
           console.log("kayıt olunmadı", err);
+        }
+      );
+    },
+    setLogin({ commit }, data) {
+      authService.login(data.data).then(
+        (res) => {
+          console.log(res);
+          if (res.data.success) {
+            commit("getLogin", { data: res.data });
+          }
+        },
+        (err) => {
+          console.log("giriş yapılamadı", err);
         }
       );
     },

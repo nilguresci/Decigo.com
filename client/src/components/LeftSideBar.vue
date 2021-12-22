@@ -5,7 +5,7 @@
         <a href="#" class="panel-logo item">
           <img src="../assets/logo_beyaz.svg" alt="Italian Trulli" />
         </a>
-        <login-user-comp v-if="isLoggedIn"></login-user-comp>
+        <loggedin-user-comp v-if="isLoggedIn"></loggedin-user-comp>
         <register-comp v-if="showRegisterComp && !isLoggedIn"></register-comp>
         <login-comp v-if="!showRegisterComp && !isLoggedIn"></login-comp>
       </div>
@@ -32,14 +32,18 @@ export default {
   components: {
     "register-comp": RegisterComp,
     "login-comp": LoginComp,
-    "login-user-comp": LoginUserComp,
+    "loggedin-user-comp": LoginUserComp,
   },
   mounted() {
+    this.showRegisterComp = this.$store.state.showRegisterComp;
+    this.isLoggedIn = localStorage.getItem("isLoggedIn");
+
     this.$store.watch(
-      () => this.$store.state.showRegisterComp,
+      () => [this.$store.state.showRegisterComp, this.$store.state.isLoggedIn],
       async () => {
         this.showRegisterComp = this.$store.state.showRegisterComp;
         console.log("showregister", this.showRegisterComp);
+        this.isLoggedIn = this.$store.state.isLoggedIn;
       }
     );
   },

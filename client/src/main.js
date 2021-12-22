@@ -21,6 +21,7 @@ import {
   faCat,
   faPumpSoap,
   faBell,
+  faBan,
 } from "@fortawesome/free-solid-svg-icons";
 //import { faBell } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
@@ -37,6 +38,7 @@ library.add(faObjectGroup);
 library.add(faCat);
 library.add(faPumpSoap);
 library.add(faBell);
+library.add(faBan);
 
 createApp(App)
   .use(router)

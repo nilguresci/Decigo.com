@@ -26,6 +26,28 @@
   </div>
 </template>
 
+<script>
+export default {
+  name: "LeftSideUser",
+  data() {
+    return {
+      username: "",
+      userInfo: {},
+    };
+  },
+  mounted() {
+    this.getUserInfo();
+  },
+  methods: {
+    getUserInfo() {
+      //this.userInfo = this.$store.state.loggedInUserInfo;
+      this.userInfo = localStorage.getItem("userInfo");
+      console.log("userInfo", this.userInfo);
+    },
+  },
+};
+</script>
+
 <style scoped lang="scss">
 $primary_1: #383a45;
 $secondary_text: #bbbbdc;
