@@ -66,7 +66,5 @@ exports.refreshToken = async (req, res, next) => {
 
 const sendToken = (user, statusCode, res) => {
   const token = user.getSignedJwtToken();
-  res
-    .status(statusCode)
-    .json({ success: true, token, Username: user.Username, userid: user._id });
+  res.status(statusCode).json({ success: true, token, ...user });
 };

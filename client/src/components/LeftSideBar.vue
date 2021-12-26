@@ -36,11 +36,16 @@ export default {
   },
   mounted() {
     this.showRegisterComp = this.$store.state.showRegisterComp;
-    this.isLoggedIn = localStorage.getItem("isLoggedIn");
+    this.isLoggedIn = this.$store.state.isLoggedIn =
+      localStorage.getItem("isLoggedIn");
 
     this.$store.watch(
-      () => [this.$store.state.showRegisterComp, this.$store.state.isLoggedIn],
-      async () => {
+      () => [
+        this.$store.state.showRegisterComp,
+        this.$store.state.isLoggedIn,
+        this.isLoggedIn,
+      ],
+      () => {
         this.showRegisterComp = this.$store.state.showRegisterComp;
         console.log("showregister", this.showRegisterComp);
         this.isLoggedIn = this.$store.state.isLoggedIn;

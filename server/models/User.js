@@ -39,6 +39,12 @@ const UserSchema = new mongoose.Schema({
     minLength: 6,
     select: false,
   },
+  AvatarNo: {
+    type: String,
+    required: true,
+    minLength: 1,
+    default: 0,
+  },
 });
 
 UserSchema.pre("save", async function (next) {

@@ -3,13 +3,13 @@
     <div class="info">
       <a href="#myprofilelinki" class="home-user-profile">
         <img
-          src="../../assets/cv-2.png"
+          src="../../assets/avatars/a0.png"
           alt="Italian Trulli"
           class="user-img"
         />
       </a>
       <div class="profile-name">
-        <a href="#userprofilelinki" class="name ellipsis">Nil Güreşçi</a>
+        <a href="#userprofilelinki" class="name ellipsis">{{ username }}</a>
         <small>Member</small>
       </div>
     </div>
@@ -27,21 +27,32 @@
 </template>
 
 <script>
+import store from "store";
 export default {
   name: "LeftSideUser",
   data() {
     return {
       username: "",
       userInfo: {},
+      avatarno: 0,
     };
   },
   mounted() {
+    this.userInfo = store.get("userInfo");
     this.getUserInfo();
+
+    // this.$store.watch(
+    //   () => this.$store.state.loggedInUserInfo,
+    //   () => {
+    //     this.userInfo = localStorage.userInfo; // this.$store.state.loggedInUserInfo =localStorage.getItem("userInfo");
+    //   }
+    // );
   },
   methods: {
     getUserInfo() {
       //this.userInfo = this.$store.state.loggedInUserInfo;
-      this.userInfo = localStorage.getItem("userInfo");
+      //this.userInfo = localStorage.userInfo;
+      this.username = this.userInfo.username;
       console.log("userInfo", this.userInfo);
     },
   },

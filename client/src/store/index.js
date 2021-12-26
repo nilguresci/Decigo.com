@@ -1,6 +1,7 @@
 import Vuex from "vuex";
 import * as pollService from "../services/pollService";
 import * as authService from "../services/authService";
+import store from "store";
 
 export default Vuex.createStore({
   state: {
@@ -15,7 +16,7 @@ export default Vuex.createStore({
   mutations: {
     getPolls(state, payload) {
       const data = payload.data;
-
+      console.log("data", data);
       const pollsObject = [];
 
       data.forEach((poll) => {
@@ -50,6 +51,7 @@ export default Vuex.createStore({
         });
         pollsObject.push({
           userId: poll.UserId,
+          username: poll.Username,
           id: poll._id,
           question: poll.Question,
           options: options,
@@ -74,11 +76,22 @@ export default Vuex.createStore({
       );
     },
     getLogin(state, payload) {
-      state.loggedInUserInfo = payload;
+      //state.loggedInUserInfo = payload;
+      var data = payload.data;
+      console.log(data);
+      var userData = {
+        username: data.Username,
+        token: data.token,
+        userId: data.userid,
+        avatarNo: 0,
+      };
+      state.loggedInUserInfo = userData;
       state.loggedInUserId = payload.data.userid;
       state.isLoggedIn = true;
       localStorage.setItem("isLoggedIn", true);
-      localStorage.setItem("userInfo", payload.data);
+      store.set("userInfo", userData);
+      //localStorage.userInfo = userData;
+      console.log(state.loggedInUserInfo);
       console.log("giriş yapıldı", payload);
     },
     getCreatePool(state, payload) {
@@ -120,7 +133,7 @@ export default Vuex.createStore({
     setLogin({ commit }, data) {
       authService.login(data.data).then(
         (res) => {
-          console.log(res);
+          console.log("res", res);
           if (res.data.success) {
             commit("getLogin", { data: res.data });
           }

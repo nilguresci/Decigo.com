@@ -90,7 +90,7 @@
             data-toggle="modal"
             data-target="#login-modal"
             ><img src="../assets/cv-2.png" alt="" />
-            <span class="user-name">@nilguresci</span>
+            <span class="user-name">@{{ username }}</span>
           </a>
         </li>
         <li>
@@ -124,6 +124,7 @@
 
 <script>
 //import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import store from "store";
 export default {
   name: "navbar",
   props: {
@@ -131,13 +132,42 @@ export default {
   },
   data() {
     return {
-      isLoggedIn: true,
+      isLoggedIn: false,
+      username: "",
     };
+  },
+  mounted() {
+    this.isLoggedIn = localStorage.getItem("isLoggedIn")
+      ? (this.isLoggedIn = localStorage.getItem("isLoggedIn"))
+      : false;
+
+    this.$store.watch(
+      () => this.$store.state.isLoggedIn,
+      () => {
+        this.isLoggedIn = this.$store.state.isLoggedIn;
+      }
+    );
+    if (this.isLoggedIn) {
+      this.username = store.get("userInfo").username
+        ? store.get("userInfo").username
+        : "";
+    }
+    this.$store.watch(
+      () => this.isLoggedIn,
+      () => {
+        if (this.isLoggedIn) {
+          this.username = store.get("userInfo").username
+            ? store.get("userInfo").username
+            : "";
+        }
+      }
+    );
   },
   methods: {
     logout() {
       localStorage.removeItem("isLoggedIn");
       localStorage.removeItem("userInfo");
+      this.$store.state.isLoggedIn = false;
     },
   },
   //components: { FontAwesomeIcon },
