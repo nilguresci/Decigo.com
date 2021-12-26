@@ -32,6 +32,22 @@ export const getPolls = () => {
   });
 };
 
+export const getUsers = () => {
+  var urlusers = url + "/users";
+  console.log("urlusers", urlusers);
+  return new Promise((resolve, reject) => {
+    axios
+      .get(urlusers)
+      .then((res) => {
+        const data = res.data;
+        resolve(data);
+      })
+      .catch((err) => {
+        reject(err);
+      });
+  });
+};
+
 export const joinPoll = (data) => {
   return axios.patch(url, data);
 };

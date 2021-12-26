@@ -160,6 +160,10 @@ export default {
     "add-survey-component": AddSurveyComponent,
   },
   mounted() {
+    this.$store.dispatch({
+      type: "setUsers",
+    });
+
     this.getPolls();
 
     this.$store.watch(

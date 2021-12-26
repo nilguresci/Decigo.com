@@ -1,0 +1,336 @@
+<template>
+  <div class="page-content">
+    <nav class="d-flex">
+      <div class="content-nav">
+        <h3 class="col-3">barista</h3>
+        <div class="tabs col-9">
+          <ul class="profile-nav">
+            <button
+              type="button"
+              class="btn btn-light"
+              :class="[activity ? '' : 'nothere']"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-subtract"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M0 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2h2a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-2H2a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H2z"
+                />
+              </svg>
+              <span class="" v-show="!activity">Activity</span>
+            </button>
+            <button
+              type="button"
+              class="btn btn-light"
+              :class="[profile ? '' : 'nothere']"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-person-workspace"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M4 16s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H4Zm4-5.95a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z"
+                />
+                <path
+                  d="M2 1a2 2 0 0 0-2 2v9.5A1.5 1.5 0 0 0 1.5 14h.653a5.373 5.373 0 0 1 1.066-2H1V3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v9h-2.219c.554.654.89 1.373 1.066 2h.653a1.5 1.5 0 0 0 1.5-1.5V3a2 2 0 0 0-2-2H2Z"
+                />
+              </svg>
+              <span class="" v-show="!profile">Profile</span>
+            </button>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="page-body d-flex">
+      <div class="col-2 body-left">left</div>
+      <div class="col-8 body-main d-flex">
+        <nav>
+          <ul>
+            <li>anketlerim</li>
+          </ul>
+        </nav>
+        <div class="poll">
+          <div class="question">where is my package</div>
+          <div class="answers-area">
+            <div class="answers">
+              <div class="answer">
+                izmir
+                <span
+                  class="pb percentage-bar"
+                  id="pb"
+                  style="width: 150px"
+                ></span>
+                <span class="pv percentage-value" id="pv">50%</span>
+              </div>
+              <div class="answer">
+                Antalya
+                <span
+                  class="pb percentage-bar"
+                  id="pb"
+                  style="width: 150px"
+                ></span>
+                <span class="pv percentage-value" id="pv">50%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- <div class="poll" :id="poll.id" v-for="(poll, id) in polls" :key="id">
+          <div class="question">{{ poll.question }}</div>
+          <div class="answers-area">
+            <div class="answers" v-for="option in poll.options" :key="option">
+              <div class="answer" :id="option.id">
+                {{ option.text }}
+                <span
+                  class="pb percentage-bar"
+                  id="pb"
+                  :style="{
+                    width: option.ratio + '%',
+                  }"
+                ></span>
+                <span class="pv percentage-value" id="pv"
+                  >{{ option.ratio }}%</span
+                >
+              </div>
+            </div>
+          </div>
+        </div> -->
+      </div>
+      <div class="col-2 body-right">right</div>
+    </div>
+  </div>
+</template>
+<script>
+export default {
+  name: "pagecontentcomp",
+  data() {
+    return {
+      activity: false,
+      profile: true,
+      polls: [],
+    };
+  },
+  mounted() {
+    this.getPolls();
+
+    this.$store.watch(
+      () => [this.$store.state.polls, this.$store.state.updated],
+      async () => {
+        this.polls = this.$store.state.polls;
+      }
+    );
+
+    this.$store.watch(
+      () => this.$store.state.updated,
+      async () => {
+        this.getPolls();
+        this.polls = this.$store.state.polls;
+      }
+    );
+  },
+  methods: {
+    getPolls() {
+      console.log("geliyor");
+      this.$store.dispatch({
+        type: "setPolls",
+      });
+      this.polls = this.$store.state.polls;
+    },
+  },
+};
+</script>
+<style lang="scss" scoped>
+.page-content {
+  position: relative;
+  margin-right: 15%;
+  margin-left: 15%;
+  display: flex;
+  flex-direction: column;
+
+  .content-nav {
+    display: flex;
+    width: 100%;
+    justify-content: flex-start;
+    align-items: baseline;
+
+    h3 {
+      margin-top: 2.5rem;
+      padding-right: 12rem;
+    }
+    .tabs {
+      flex-grow: 3;
+      .profile-nav {
+        display: flex;
+        white-space: nowrap;
+        margin: -1rem;
+        padding: 1rem;
+        overflow: hidden;
+        gap: 15px;
+
+        button {
+          background: linear-gradient(135deg, #c395f1 0%, #8224e3 75%);
+          color: #fff;
+          border-radius: 12px;
+          box-shadow: 0 10px 20px -8px rgba(58, 46, 68, 0.7);
+          font-size: 90%;
+          text-align: center;
+          width: 70px;
+          height: 70px;
+        }
+
+        .nothere {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          background: none;
+          color: gray;
+          svg {
+            flex-grow: 3;
+            justify-self: center;
+            align-self: center;
+          }
+          span {
+            font-size: 0.7rem;
+            display: flex;
+            align-self: center;
+          }
+        }
+        li {
+          float: none;
+          background: none !important;
+          display: block;
+          list-style: none;
+          margin: 0;
+          a {
+            background: linear-gradient(135deg, #c395f1 0%, #8224e3 75%);
+            color: #fff;
+            height: 67px;
+            width: 72px;
+            border-radius: 12px;
+            box-shadow: 0 10px 20px -8px rgba(58, 46, 68, 0.7);
+            font-size: 90%;
+            text-align: center;
+            padding-left: 1.125rem;
+            padding-right: 1.125rem;
+          }
+        }
+      }
+    }
+  }
+
+  .page-body {
+    //justify-content: space-between;
+    margin-top: 20px;
+    border-top: 1px solid #e7edf2;
+    .body-left {
+      //width: 10%;
+      border-right: 1px solid #e7edf2;
+    }
+    .body-right {
+      //width: 10%;
+      border-left: 1px solid #e7edf2;
+    }
+    .body-main {
+      //width: 70%;
+      padding: 30px 15px 70px 15px;
+      flex-direction: column;
+      nav {
+        margin-bottom: 1.5rem;
+        background: transparent;
+        width: 100%;
+        ul {
+          border-bottom: 1px solid #e7edf2;
+          width: 100%;
+          justify-self: flex-start;
+          display: flex;
+          padding-left: 11%;
+          li {
+            border-bottom: 2px solid #8224e3;
+            list-style: none;
+            margin: 0;
+            float: none;
+            display: inline-block;
+            color: #8224e3;
+            font-weight: 600;
+            opacity: 1;
+          }
+        }
+      }
+      .poll {
+        top: 30%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 94%;
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0px 0px 20px 5px rgba(35, 30, 128, 0.05);
+        position: relative;
+        display: flex;
+        flex-direction: column;
+      }
+      .poll .question {
+        font-size: 14px;
+        margin-bottom: 0.5rem;
+        display: flex;
+        justify-self: flex-start;
+        padding-left: 58px;
+      }
+
+      .answers-area {
+        .answers {
+          margin-left: 3.5rem;
+          font-size: 0.8rem;
+          font-weight: 400;
+
+          .answer {
+            display: flex;
+            justify-content: flex-start;
+            position: relative;
+            width: 94%;
+            height: 30px;
+            padding: 0px 10px;
+            line-height: 30px;
+            color: #7442a9;
+            margin-bottom: 10px;
+            border: 1px solid #d4d4d4;
+            border-radius: 10px;
+            cursor: pointer;
+            overflow: hidden;
+          }
+        }
+      }
+
+      .poll .answers .answer.selected {
+        border: 2px solid #8224e3;
+      }
+      .poll .answers .answer span.percentage-value {
+        position: absolute;
+        top: 50%;
+        right: 0px;
+        width: 40px;
+        transform: translateY(-50%);
+        color: #7442a9;
+        font-size: 13px;
+      }
+      .poll .answers .answer span.percentage-bar {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 0%;
+        height: 100%;
+        background: #e6d2f9;
+        z-index: -1;
+        transition: width 300ms ease-in-out;
+      }
+    }
+  }
+}
+</style>

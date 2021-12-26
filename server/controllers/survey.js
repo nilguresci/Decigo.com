@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-
+const User = require("../models/User");
 const Survey = require("../models/Survey");
 const ErrorResponse = require("../utils/errorResponse");
 
@@ -118,6 +118,25 @@ exports.joinSurvey = async (req, res, next) => {
     res.status(200).json({
       succes: true,
       data: result,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.getUsers = async (req, res, next) => {
+  //surveylerin kullnaıcı adını bulmak için oluşturuldu.
+  try {
+    const users = await User.find();
+
+    if (users.length === 0 || !users)
+      return next(
+        new ErrorResponse(`There are currently no user to show`, 400)
+      );
+
+    res.status(200).json({
+      success: true,
+      data: users,
     });
   } catch (error) {
     next(error);

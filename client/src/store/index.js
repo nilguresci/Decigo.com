@@ -12,13 +12,15 @@ export default Vuex.createStore({
     loggedInUserInfo: {},
     isLoggedIn: false,
     newPool: {},
+    users: [],
   },
   mutations: {
     getPolls(state, payload) {
       const data = payload.data;
       console.log("data", data);
+      console.log("poll users", state.users);
       const pollsObject = [];
-
+      // const userinfo = [];
       data.forEach((poll) => {
         const options = [];
         // console.log(poll.Options);
@@ -49,6 +51,16 @@ export default Vuex.createStore({
             });
           }
         });
+        var found = state.users.find((element) => element._id === poll.UserId);
+
+        console.log("found", found);
+        // found.forEach((element) => {
+        //   userinfo.push({
+        //     user: element,
+        //   });
+        // });
+
+        // console.log("userinfo found", userinfo);
         pollsObject.push({
           userId: poll.UserId,
           username: poll.Username,
@@ -74,6 +86,10 @@ export default Vuex.createStore({
       console.log(
         "kayıt oldu üstte ki değeri false yaparak  rgister componentini kapatıp login i açmış olduk yani kayıt olan kullanıcıyı logine yönlendirdik."
       );
+    },
+    getUsers(state, payload) {
+      state.users = payload.data;
+      console.log("users", payload);
     },
     getLogin(state, payload) {
       //state.loggedInUserInfo = payload;
@@ -129,6 +145,11 @@ export default Vuex.createStore({
           console.log("kayıt olunmadı", err);
         }
       );
+    },
+    setUsers({ commit }) {
+      pollService.getUsers().then((res) => {
+        commit("getUsers", { data: res.data });
+      });
     },
     setLogin({ commit }, data) {
       authService.login(data.data).then(
