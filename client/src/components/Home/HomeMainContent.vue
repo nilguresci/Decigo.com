@@ -27,6 +27,34 @@
                 <p>
                   <a href="#user">{{ poll.userId }} </a> posted an update
                 </p>
+                <div class="dropdown">
+                  <button
+                    class="three-dot dropdown-toggle"
+                    type="button"
+                    id="dropdownMenuButton1"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      fill="currentColor"
+                      class="bi bi-three-dots"
+                      viewBox="0 0 16 16"
+                    >
+                      <path
+                        d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"
+                      />
+                    </svg>
+                  </button>
+                  <ul
+                    class="dropdown-menu"
+                    aria-labelledby="dropdownMenuButton1"
+                  >
+                    <li><a class="dropdown-item" href="#">Action</a></li>
+                  </ul>
+                </div>
               </div>
               <div class="mute">1 minute ago</div>
             </div>
@@ -461,5 +489,13 @@ a {
   transition: 0.5s;
   text-decoration: none;
   background-color: transparent;
+}
+.three-dot {
+  background-color: transparent;
+  border: none;
+  border-color: transparent;
+}
+.dropdown-toggle::after {
+  display: none;
 }
 </style>
