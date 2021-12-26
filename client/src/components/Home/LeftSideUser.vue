@@ -2,11 +2,7 @@
   <div class="my-card item">
     <div class="info">
       <a href="#myprofilelinki" class="home-user-profile">
-        <img
-          src="../../assets/avatars/a0.png"
-          alt="Italian Trulli"
-          class="user-img"
-        />
+        <img :src="avatarfilename" alt="Italian Trulli" class="user-img" />
       </a>
       <div class="profile-name">
         <a href="#userprofilelinki" class="name ellipsis">{{ username }}</a>
@@ -35,6 +31,7 @@ export default {
       username: "",
       userInfo: {},
       avatarno: 0,
+      avatarfilename: "../../assets/avatars/a0.png",
     };
   },
   mounted() {
@@ -53,7 +50,10 @@ export default {
       //this.userInfo = this.$store.state.loggedInUserInfo;
       //this.userInfo = localStorage.userInfo;
       this.username = this.userInfo.username;
+      this.avatarno = this.userInfo.avatarNo;
+      this.avatarfilename = "../../assets/avatars/a" + this.avatarno + ".png"; //bunu test edebilmek için username:avatar pass: 123123 ile girmelisin.
       console.log("userInfo", this.userInfo);
+      console.log("avatafarfile", this.avatarfilename);
     },
   },
 };

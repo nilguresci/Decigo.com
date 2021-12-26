@@ -7,7 +7,7 @@ export default Vuex.createStore({
   state: {
     polls: [],
     updated: {},
-    loggedInUserId: "61912afa785acf3d5d63021c", //login işlemi henüz yapılmadığından, kullanıcı kişi buraya kendi idsini yazmalı, bu id ile de çalışabilir
+    loggedInUserId: "",
     showRegisterComp: false,
     loggedInUserInfo: {},
     isLoggedIn: false,
@@ -78,12 +78,12 @@ export default Vuex.createStore({
     getLogin(state, payload) {
       //state.loggedInUserInfo = payload;
       var data = payload.data;
-      console.log(data);
+      console.log("geldi.", data);
       var userData = {
-        username: data.Username,
+        username: data._doc.Username,
         token: data.token,
-        userId: data.userid,
-        avatarNo: 0,
+        userId: data._doc._id,
+        avatarNo: data._doc.AvatarNo,
       };
       state.loggedInUserInfo = userData;
       state.loggedInUserId = payload.data.userid;
