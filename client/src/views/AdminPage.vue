@@ -15,30 +15,33 @@
           <div class="row">
             <div class="col-lg-8 col-main">
               <h5 class="reports-polls-title">Raporlanmış Anketler (25)</h5>
-              <div
-                class="accordion"
-                id="accordionExample"
-                v-for="(poll, id) in polls"
-                :key="id"
-              >
-                <div class="accordion-item poll" :id="poll.id">
-                  <h5 class="accordion-header question" id="headingOne">
+              <div class="accordion" id="accordionPool">
+                <div
+                  class="accordion-item poll"
+                  :id="poll.id"
+                  v-for="(poll, poolIndex) in polls"
+                  :key="poolIndex"
+                >
+                  <h5
+                    class="accordion-header question"
+                    :id="'heading' + poolIndex"
+                  >
                     <button
-                      class="accordion-button"
+                      class="accordion-button collapsed"
                       type="button"
                       data-bs-toggle="collapse"
-                      data-bs-target="#collapseOne"
+                      :data-bs-target="'#collapse' + poolIndex"
                       aria-expanded="true"
-                      aria-controls="collapseOne"
+                      :aria-controls="'collapse' + poolIndex"
                     >
                       {{ poll.question }}
                     </button>
                   </h5>
                   <div
-                    id="collapseOne"
-                    class="accordion-collapse collapse show"
-                    aria-labelledby="headingOne"
-                    data-bs-parent="#accordionExample"
+                    :id="'collapse' + poolIndex"
+                    class="accordion-collapse collapse"
+                    :aria-labelledby="'heading' + poolIndex"
+                    data-bs-parent="#accordionPool"
                   >
                     <div class="accordion-body" id="acc-body">
                       <ul class="list-group list-group-flush answers-area">
