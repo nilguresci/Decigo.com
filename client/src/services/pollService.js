@@ -36,6 +36,10 @@ export const joinPoll = (data) => {
   return axios.patch(url, data);
 };
 
+export const createPool = (pool) => {
+  return axios.post(url, pool);
+};
+
 // export const getPolls = () => {
 //   return axios.get(url);
 // };

@@ -10,6 +10,7 @@ export default Vuex.createStore({
     showRegisterComp: false,
     loggedInUserInfo: {},
     isLoggedIn: false,
+    newPool: {},
   },
   mutations: {
     getPolls(state, payload) {
@@ -80,6 +81,9 @@ export default Vuex.createStore({
       localStorage.setItem("userInfo", payload.data);
       console.log("giriş yapıldı", payload);
     },
+    getCreatePool(state, payload) {
+      state.newPool = payload;
+    },
   },
   actions: {
     setPolls({ commit }) {
@@ -125,6 +129,19 @@ export default Vuex.createStore({
           console.log("giriş yapılamadı", err);
         }
       );
+    },
+    createPool({ commit }, data) {
+      data.UserId = this.state.loggedInUserId;
+      pollService
+        .createPool(data)
+        .then((res) => {
+          if (res.data.success) {
+            commit("getCreatePool");
+          }
+        })
+        .catch((err) => {
+          console.log("Create Olmadı", err);
+        });
     },
   },
   modules: {},

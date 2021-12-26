@@ -92,12 +92,21 @@
           <select
             class="form-select form-select-sm kategori"
             aria-label=".form-select-sm example"
+            v-model="category"
           >
             <option selected>Kategori</option>
-            <option value="1">Kitap</option>
-            <option value="2">Moda</option>
-            <option value="3">Filmler</option>
+            <option value="Kitap">Kitap</option>
+            <option value="Moda">Moda</option>
+            <option value="Filmler">Filmler</option>
           </select>
+        </div>
+        <div class="col">
+          <input
+            class="form-control kategori"
+            type="time"
+            aria-label=".form-control-sm example"
+            v-model="expiryDate"
+          />
         </div>
         <div class="col">
           <input
@@ -105,6 +114,7 @@
             id="survey-submit"
             class="survey-submit"
             value="Post Survey"
+            @click="create()"
           />
         </div>
       </div>
@@ -119,11 +129,13 @@ export default {
   data() {
     return {
       surveyQuestion: "",
-      optionCount: 1,
+      optionCount: 2,
       options: [
         { text: "", id: 1 },
         { text: "", id: 2 },
       ],
+      expiryDate: "00:01",
+      category: "",
     };
   },
   methods: {
@@ -142,7 +154,24 @@ export default {
           { text: "", id: 1 },
           { text: "", id: 2 },
         ];
+        this.expiryDate = "00:01";
+        this.optionCount = 2;
       }
+    },
+    create() {
+      const options = this.options.map((x) => {
+        return { Text: x.text };
+      });
+      console.log(options);
+      console.log(this.surveyQuestion);
+      console.log(this.expiryDate);
+      console.log(this.category);
+      this.$store.dispatch("createPool", {
+        Question: this.surveyQuestion,
+        Time: Date.now(),
+        Options: options,
+        Category: this.category,
+      });
     },
   },
 };
