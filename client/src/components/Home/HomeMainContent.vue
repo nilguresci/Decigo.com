@@ -73,7 +73,10 @@
                       </a>
                     </li>
                     <li>
-                      <a class="dropdown-item" href="#"
+                      <a
+                        class="dropdown-item"
+                        href="#"
+                        @click.prevent="report(poll.id)"
                         ><svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="15"
@@ -227,6 +230,10 @@ export default {
         "Anket numarasını kopyaladınız. Arama çubuğundan anketi bulabilirsiniz " +
           id
       );
+    },
+    report(id) {
+      this.$store.dispatch("reportSurvey", id);
+      alert("Anket raporlandı. Teşekkür ederiz.");
     },
     // participantUserControl(id, poll) {
     //   const userid = this.$store.state.loggedInUserId;

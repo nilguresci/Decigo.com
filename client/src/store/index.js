@@ -15,6 +15,7 @@ export default Vuex.createStore({
     newPool: {},
     users: [],
     loggedinPolls: [],
+    reportedPool: {},
   },
   mutations: {
     getPolls(state, payload) {
@@ -120,6 +121,9 @@ export default Vuex.createStore({
       state.loggedinPolls = payload;
       console.log("state.loggedinPolls", state.loggedinPolls);
     },
+    reportSurvey(state, payload) {
+      state.reportedPool = payload;
+    },
   },
   actions: {
     setPolls({ commit }) {
@@ -193,6 +197,16 @@ export default Vuex.createStore({
           if (res.data.success) {
             commit("getMyPolls", { data: res.data });
           }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    reportSurvey({ commit }, data) {
+      pollService
+        .reportPool(data)
+        .then((res) => {
+          commit("reportSurvey", res);
         })
         .catch((err) => {
           console.log(err);

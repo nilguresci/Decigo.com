@@ -56,6 +56,10 @@ export const createPool = (pool) => {
   return axios.post(url, pool);
 };
 
+export const reportPool = (surveyId) => {
+  return axios.post(url + "/report", { surveyId });
+};
+
 // export const getPolls = () => {
 //   return axios.get(url);
 // };

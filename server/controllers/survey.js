@@ -145,9 +145,10 @@ exports.getUsers = async (req, res, next) => {
 };
 
 exports.addReport = async (req, res, next) => {
-  const { SurveyId } = req.body;
-
-  const isReportExist = Report.find({ SurveyId: SurveyId });
+  const { surveyId } = req.body;
+  console.log("Raporlanıyor", req.body);
+  const isReportExist = await Report.find({ SurveyId: surveyId });
+  console.log(isReportExist.length);
 
   if (isReportExist.length !== 0) {
     res.status(200).json({
@@ -156,7 +157,7 @@ exports.addReport = async (req, res, next) => {
     });
   } else {
     const report = await Report.create({
-      SurveyId,
+      SurveyId: surveyId,
     });
 
     res.status(201).json({
