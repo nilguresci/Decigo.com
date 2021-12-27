@@ -15,6 +15,7 @@
           <div class="row">
             <div class="col-lg-8 col-main">
               <h5 class="reports-polls-title">Raporlanmış Anketler (25)</h5>
+
               <div class="accordion" id="accordionPool">
                 <div
                   class="accordion-item poll"
@@ -34,7 +35,7 @@
                       aria-expanded="true"
                       :aria-controls="'collapse' + poolIndex"
                     >
-                      {{ poll.question }}
+                      {{ poll.Question }}
                     </button>
                   </h5>
                   <div
@@ -47,11 +48,11 @@
                       <ul class="list-group list-group-flush answers-area">
                         <li
                           class="list-group-item d-flex answers"
-                          v-for="option in poll.options"
+                          v-for="option in poll.Options"
                           :key="option"
                           :id="option.id"
                         >
-                          {{ option.text }}
+                          {{ option.Text }}
                         </li>
                       </ul>
                       <div class="rapor-footer">
@@ -144,16 +145,16 @@ export default {
     this.$store.watch(
       () => [this.$store.state.polls, this.$store.state.updated],
       async () => {
-        this.polls = this.$store.state.polls;
+        this.polls = this.$store.state.reportedPools;
       }
     );
   },
   methods: {
-    getPolls() {
+    async getPolls() {
       this.$store.dispatch({
-        type: "setPolls",
+        type: "getReportedPolls",
       });
-      this.polls = this.$store.state.polls;
+      this.polls = await this.$store.state.reportedPools;
     },
     //decideReport(decide, SurveyId, ReportId) {},
   },

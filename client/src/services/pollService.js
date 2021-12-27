@@ -60,6 +60,10 @@ export const reportPool = (surveyId) => {
   return axios.post(url + "/report", { surveyId });
 };
 
+export const getReportedPolls = () => {
+  return axios.get(url + "/getReporteds");
+};
+
 // export const getPolls = () => {
 //   return axios.get(url);
 // };

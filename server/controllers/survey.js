@@ -166,3 +166,19 @@ exports.addReport = async (req, res, next) => {
     });
   }
 };
+
+exports.getReportedSurveys = async (req, res, next) => {
+  const reports = await Report.find();
+  let surveys = [];
+  await Promise.all(
+    reports.map(async (report) => {
+      const survey = await Survey.findById(report.SurveyId);
+      surveys.push(survey);
+    })
+  );
+
+  res.status(201).json({
+    success: true,
+    data: surveys,
+  });
+};
