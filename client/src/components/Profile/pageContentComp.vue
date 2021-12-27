@@ -9,6 +9,7 @@
               type="button"
               class="btn btn-light"
               :class="[activity ? '' : 'nothere']"
+              @click="changetab()"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -28,6 +29,7 @@
               type="button"
               class="btn btn-light"
               :class="[profile ? '' : 'nothere']"
+              @click="changetab()"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -52,7 +54,7 @@
     </nav>
     <div class="page-body d-flex">
       <div class="col-2 body-left">left</div>
-      <div class="col-8 body-main d-flex">
+      <div class="col-8 body-main d-flex" v-if="activity">
         <nav>
           <ul>
             <li>anketlerim</li>
@@ -211,19 +213,24 @@
           </div>
         </div> -->
       </div>
+      <profile-edit-view-comp v-if="!activity"></profile-edit-view-comp>
       <div class="col-2 body-right">right</div>
     </div>
   </div>
 </template>
 <script>
+import profileEditViewComp from "./profileEditViewComp.vue";
 export default {
   name: "pagecontentcomp",
   data() {
     return {
-      activity: false,
-      profile: true,
+      activity: true,
+      profile: false,
       polls: [],
     };
+  },
+  components: {
+    "profile-edit-view-comp": profileEditViewComp,
   },
   mounted() {
     this.$store.dispatch({
@@ -253,6 +260,10 @@ export default {
         type: "setPolls",
       });
       this.polls = this.$store.state.polls;
+    },
+    changetab() {
+      this.activity = !this.activity;
+      this.profile = !this.profile;
     },
   },
 };
