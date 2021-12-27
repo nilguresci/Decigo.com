@@ -8,7 +8,7 @@
     </div>
     <div class="main-content">
       <ul class="survey-list">
-        <li class="survey-item">
+        <li class="survey-item" v-for="(poll, id) in polls" :key="id">
           <div class="survey-avatar">
             <a href="#profile">
               <img
@@ -21,7 +21,7 @@
               />
             </a>
           </div>
-          <div class="post-content" v-for="(poll, id) in polls" :key="id">
+          <div class="post-content">
             <div class="post-header">
               <div class="posted-meta">
                 <p>
@@ -130,11 +130,12 @@
                       class="pv"
                       :class="[poll.isVoted ? 'percentage-value' : 'hide']"
                       id="pv"
-                      >{{ option.ratio }}%</span
+                      >%{{ option.ratio }}</span
                     >
                   </div>
                 </div>
               </div>
+              <div class="mute vote-count">{{ poll.totalParticipants }} oy</div>
             </div>
           </div>
         </li>
@@ -174,7 +175,7 @@ export default {
     );
 
     this.$store.watch(
-      () => this.$store.state.updated,
+      () => [this.$store.state.updated, this.$store.state.newPool],
       async () => {
         this.getPolls();
         this.polls = this.$store.state.polls;
@@ -277,7 +278,7 @@ $grey_text: #626c72;
       list-style: none;
       padding: 0;
       margin-top: 0;
-      margin-bottom: 2.5rem;
+      margin-bottom: 4.5rem;
       border: none !important;
 
       li {
@@ -311,7 +312,7 @@ $grey_text: #626c72;
             display: flex;
             justify-self: flex-start;
             padding-left: 20px;
-            font-size: 90%;
+            font-size: 85%;
             color: #bbbbdc;
           }
         }
@@ -408,6 +409,12 @@ $grey_text: #626c72;
           background: #fff;
           border-radius: 10px;
           box-shadow: 0px 0px 20px 5px rgba(35, 30, 128, 0.05);
+
+          .vote-count {
+            padding-left: 58px;
+            display: flex;
+            font-size: 85%;
+          }
         }
         .poll .question {
           font-size: 14px;
@@ -454,7 +461,7 @@ $grey_text: #626c72;
         .poll .answers .answer span.percentage-value {
           position: absolute;
           top: 50%;
-          right: 0px;
+          right: 6px;
           width: 40px;
           transform: translateY(-50%);
           color: #7442a9;
@@ -502,6 +509,7 @@ $grey_text: #626c72;
   box-shadow: 0 20px 90px rgba(58, 46, 68, 0.05);
   display: flex;
   justify-content: space-around;
+  margin-top: 1rem;
 
   #whats-new-form {
     position: relative;

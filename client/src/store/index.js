@@ -1,6 +1,7 @@
 import Vuex from "vuex";
 import * as pollService from "../services/pollService";
 import * as authService from "../services/authService";
+import * as profileService from "../services/profileService";
 import store from "store";
 
 export default Vuex.createStore({
@@ -13,6 +14,7 @@ export default Vuex.createStore({
     isLoggedIn: false,
     newPool: {},
     users: [],
+    loggedinPolls: [],
   },
   mutations: {
     getPolls(state, payload) {
@@ -113,6 +115,11 @@ export default Vuex.createStore({
     getCreatePool(state, payload) {
       state.newPool = payload;
     },
+    getMyPolls(state, payload) {
+      console.log("mypolls", payload);
+      state.loggedinPolls = payload;
+      console.log("state.loggedinPolls", state.loggedinPolls);
+    },
   },
   actions: {
     setPolls({ commit }) {
@@ -165,7 +172,8 @@ export default Vuex.createStore({
       );
     },
     createPool({ commit }, data) {
-      data.UserId = this.state.loggedInUserId;
+      data.UserId = store.get("userInfo").userId; // this.state.loggedInUserId;
+      console.log("createpolldata", data);
       pollService
         .createPool(data)
         .then((res) => {
@@ -175,6 +183,19 @@ export default Vuex.createStore({
         })
         .catch((err) => {
           console.log("Create Olmadı", err);
+        });
+    },
+    setMyPolls({ commit }) {
+      var id = store.get("userInfo").userId;
+      profileService
+        .getMyPolls(id)
+        .then((res) => {
+          if (res.data.success) {
+            commit("getMyPolls", { data: res.data });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
         });
     },
   },

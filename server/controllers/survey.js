@@ -116,7 +116,7 @@ exports.joinSurvey = async (req, res, next) => {
     const result = await Survey.findByIdAndUpdate(SurveyId, survey);
 
     res.status(200).json({
-      succes: true,
+      success: true,
       data: result,
     });
   } catch (error) {

@@ -14,5 +14,10 @@ export default {
     "cover-image-comp": coverImageComp,
     "page-content-comp": pageContentComp,
   },
+  mounted() {
+    this.$store.dispatch({
+      type: "setMyPolls",
+    });
+  },
 };
 </script>

@@ -138,6 +138,14 @@ export default {
       category: "",
     };
   },
+  mounted() {
+    this.$store.watch(
+      () => this.$store.state.newPool,
+      async () => {
+        this.surveyQuestion === "";
+      }
+    );
+  },
   methods: {
     addOption() {
       this.optionCount = this.options.length;
