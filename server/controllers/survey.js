@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const Survey = require("../models/Survey");
+const Report = require("../models/Report");
 const ErrorResponse = require("../utils/errorResponse");
 
 exports.addSurvey = async (req, res, next) => {
@@ -140,5 +141,27 @@ exports.getUsers = async (req, res, next) => {
     });
   } catch (error) {
     next(error);
+  }
+};
+
+exports.addReport = async (req, res, next) => {
+  const { SurveyId } = req.body;
+
+  const isReportExist = Report.find({ SurveyId: SurveyId });
+
+  if (isReportExist.length !== 0) {
+    res.status(200).json({
+      success: true,
+      data: "Survey Already Reported",
+    });
+  } else {
+    const report = await Report.create({
+      SurveyId,
+    });
+
+    res.status(201).json({
+      success: true,
+      data: report,
+    });
   }
 };

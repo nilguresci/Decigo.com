@@ -18,7 +18,7 @@
               <div class="accordion" id="accordionPool">
                 <div
                   class="accordion-item poll"
-                  :id="poll.id"
+                  :id="poll._id"
                   v-for="(poll, poolIndex) in polls"
                   :key="poolIndex"
                 >
@@ -155,6 +155,7 @@ export default {
       });
       this.polls = this.$store.state.polls;
     },
+    //decideReport(decide, SurveyId, ReportId) {},
   },
 };
 </script>
