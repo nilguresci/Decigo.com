@@ -26,9 +26,11 @@ export default Vuex.createStore({
       console.log("data", data);
       console.log("poll users", state.users);
       const pollsObject = [];
-      // const userinfo = [];
+      //const userinfo = [];
       data.forEach((poll) => {
         const options = [];
+        var survey_username = "";
+        var avatar_no = 0;
         // console.log(poll.Options);
         var totalParticipants = 0;
         poll.Options.forEach((p) => {
@@ -57,19 +59,21 @@ export default Vuex.createStore({
             });
           }
         });
-        var found = state.users.find((element) => element._id === poll.UserId);
+        // var found = [];
+        // found = state.users.find((element) => element._id === poll.UserId);
 
-        console.log("found", found);
-        // found.forEach((element) => {
-        //   userinfo.push({
-        //     user: element,
-        //   });
-        // });
+        //console.log("found", found);
+        state.users.forEach((element) => {
+          if (element._id === poll.UserId) {
+            survey_username = element.Username;
+            avatar_no = element.AvatarNo ? element.AvatarNo : 0;
+          }
+        });
 
-        // console.log("userinfo found", userinfo);
         pollsObject.push({
           userId: poll.UserId,
-          username: poll.Username,
+          username: survey_username,
+          avatarNo: avatar_no,
           id: poll._id,
           question: poll.Question,
           options: options,
@@ -82,6 +86,7 @@ export default Vuex.createStore({
         });
       });
       state.polls = pollsObject;
+      console.log("ps", state.polls);
     },
     getJoinPoll(state, payload) {
       state.updated = payload.data;
@@ -106,6 +111,8 @@ export default Vuex.createStore({
         token: data.token,
         userId: data._doc._id,
         avatarNo: data._doc.AvatarNo,
+        fullName: data._doc.Fullname,
+        email: data._doc.Email,
       };
       state.loggedInUserInfo = userData;
       state.loggedInUserId = payload.userid;

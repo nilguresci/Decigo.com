@@ -2,7 +2,7 @@
   <div class="page-content">
     <nav class="d-flex">
       <div class="content-nav">
-        <h3 class="col-3">barista</h3>
+        <h3 class="col-3"></h3>
         <div class="tabs col-9">
           <ul class="profile-nav">
             <button
@@ -233,10 +233,7 @@ export default {
     "profile-edit-view-comp": profileEditViewComp,
   },
   mounted() {
-    this.$store.dispatch({
-      type: "setMyPolls",
-    });
-    this.getPolls();
+    this.getMyPolls();
 
     this.$store.watch(
       () => [this.$store.state.polls, this.$store.state.updated],
@@ -248,18 +245,16 @@ export default {
     this.$store.watch(
       () => this.$store.state.updated,
       async () => {
-        this.getPolls();
         this.polls = this.$store.state.polls;
       }
     );
   },
   methods: {
-    getPolls() {
-      console.log("geliyor");
+    getMyPolls() {
+      console.log("sfds");
       this.$store.dispatch({
-        type: "setPolls",
+        type: "setMyPolls",
       });
-      this.polls = this.$store.state.polls;
     },
     changetab() {
       this.activity = !this.activity;
@@ -295,6 +290,7 @@ export default {
         padding: 1rem;
         overflow: hidden;
         gap: 15px;
+        margin-top: 0.75rem;
 
         button {
           background: linear-gradient(135deg, #c395f1 0%, #8224e3 75%);

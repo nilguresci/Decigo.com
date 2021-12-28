@@ -13,13 +13,14 @@
       <div class="content">
         <div class="mb-3 d-flex content-d">
           <label class="form-label edit">Avatarını değiştir</label>
-          <div @click="change()">
+          <div @click="change()" style="width: 105%">
             <button type="button" class="btn">
               <img
                 src="../../assets/avatars/a1.png"
                 class="img-thumbnail rounded"
                 alt="..."
                 style="width: 70px; height: 70px"
+                id="1"
               />
             </button>
             <button type="button" class="btn">
@@ -28,6 +29,7 @@
                 class="img-thumbnail rounded"
                 alt="..."
                 style="width: 70px; height: 70px"
+                id="2"
               />
             </button>
             <button type="button" class="btn">
@@ -36,6 +38,7 @@
                 class="img-thumbnail rounded"
                 alt="..."
                 style="width: 70px; height: 70px"
+                id="3"
               />
             </button>
             <button type="button" class="btn">
@@ -44,6 +47,7 @@
                 class="img-thumbnail rounded"
                 alt="..."
                 style="width: 70px; height: 70px"
+                id="4"
               />
             </button>
             <button type="button" class="btn">
@@ -218,20 +222,22 @@
   </div>
 </template>
 <script>
+import store from "store";
 import useVuelidate from "@vuelidate/core";
 import { required, minLength, sameAs } from "@vuelidate/validators";
 export default {
   name: "profileEditComp",
   data() {
     return {
-      username: "nil",
-      email: "nilguresci@gmail.com",
-      avatarNo: "",
+      username: "",
+      email: "",
+      avatarno: 0,
       updated: false,
       password: "",
       newPassword: "",
       newPasswordAgain: "",
       submitted: false,
+      userInfo: {},
     };
   },
   setup() {
@@ -246,10 +252,25 @@ export default {
       //email: { required, email } // Matches this.contact.email
     };
   },
+  mounted() {
+    this.userInfo = store.get("userInfo");
+    console.log(this.userInfo);
+    this.getUserInfo();
+  },
   methods: {
     change() {
       this.updated = true;
       console.log("tıklandı");
+    },
+    getUserInfo() {
+      //this.userInfo = this.$store.state.loggedInUserInfo;
+      //this.userInfo = localStorage.userInfo;
+      this.username = this.userInfo.username;
+      this.avatarno = this.userInfo.avatarNo;
+      this.email = this.userInfo.email;
+      //this.avatarfilename = "../../assets/avatars/a" + this.avatarno + ".png"; //bunu test edebilmek için username:avatar pass: 123123 ile girmelisin.
+      // console.log("userInfo", this.userInfo);
+      // console.log("fullname", this.fullname);
     },
   },
 };

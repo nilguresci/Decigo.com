@@ -89,7 +89,10 @@
             class="nav-link login"
             data-toggle="modal"
             data-target="#login-modal"
-            ><img src="../assets/cv-2.png" alt="" />
+            ><img
+              :src="'../../assets/avatars/a' + this.avatarno + '.png'"
+              alt=""
+            />
             <span class="user-name">@{{ username }}</span>
           </a>
         </li>
@@ -134,6 +137,7 @@ export default {
     return {
       isLoggedIn: false,
       username: "",
+      avatarno: 0,
     };
   },
   mounted() {
@@ -147,6 +151,11 @@ export default {
         this.isLoggedIn = this.$store.state.isLoggedIn;
       }
     );
+
+    this.avatarno = store.get("userInfo").avatarNo
+      ? store.get("userInfo").avatarNo
+      : 0;
+
     if (this.isLoggedIn) {
       this.username = store.get("userInfo").username
         ? store.get("userInfo").username
@@ -168,6 +177,8 @@ export default {
       localStorage.removeItem("isLoggedIn");
       localStorage.removeItem("userInfo");
       this.$store.state.isLoggedIn = false;
+      store.removeItem("userInfo");
+      this.avatarno = 0;
     },
   },
   //components: { FontAwesomeIcon },
