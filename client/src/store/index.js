@@ -99,7 +99,7 @@ export default Vuex.createStore({
     },
     getLogin(state, payload) {
       //state.loggedInUserInfo = payload;
-      var data = payload.data;
+      var data = payload;
       console.log("geldi.", data);
       var userData = {
         username: data._doc.Username,
@@ -108,7 +108,7 @@ export default Vuex.createStore({
         avatarNo: data._doc.AvatarNo,
       };
       state.loggedInUserInfo = userData;
-      state.loggedInUserId = payload.data.userid;
+      state.loggedInUserId = payload.userid;
       state.isLoggedIn = true;
       localStorage.setItem("isLoggedIn", true);
       store.set("userInfo", userData);
