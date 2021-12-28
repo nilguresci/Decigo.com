@@ -62,6 +62,7 @@
                           data-bs-toggle="tooltip"
                           data-bs-placement="right"
                           title="Anketi sil"
+                          @click="decideReport(true, poll._id, poll.ReportId)"
                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -85,6 +86,7 @@
                           data-bs-toggle="tooltip"
                           data-bs-placement="right"
                           title="Raporu sil"
+                          @click="decideReport(false, poll._id, poll.ReportId)"
                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -139,6 +141,9 @@ export default {
       polls: [],
     };
   },
+  beforeMount() {
+    this.getPolls();
+  },
   mounted() {
     this.getPolls();
 
@@ -155,8 +160,17 @@ export default {
         type: "getReportedPolls",
       });
       this.polls = await this.$store.state.reportedPools;
+      console.log("this.polls", this.polls);
     },
-    //decideReport(decide, SurveyId, ReportId) {},
+    decideReport(decide, SurveyId, ReportId) {
+      console.log({ decide, SurveyId, ReportId });
+      this.$store.dispatch("decideReport", {
+        decide,
+        SurveyId,
+        ReportId,
+      });
+      this.polls = this.polls.filter((poll) => poll._id !== SurveyId);
+    },
   },
 };
 </script>

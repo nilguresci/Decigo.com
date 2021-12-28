@@ -168,17 +168,22 @@ exports.addReport = async (req, res, next) => {
 };
 
 exports.getReportedSurveys = async (req, res, next) => {
+  console.log("getReportedSurveys");
   const reports = await Report.find();
   let surveys = [];
+  //new Promise
   await Promise.all(
     reports.map(async (report) => {
-      const survey = await Survey.findById(report.SurveyId);
-      surveys.push(survey);
+      Survey.findById(report.SurveyId).then((res) => {
+        console.log("RES", res);
+        surveys.push(res);
+      });
     })
-  );
-
-  res.status(201).json({
-    success: true,
-    data: surveys,
+  ).then((x) => {
+    console.log("Bitti");
+    res.status(201).json({
+      success: true,
+      data: surveys,
+    });
   });
 };

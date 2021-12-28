@@ -2,6 +2,7 @@ import Vuex from "vuex";
 import * as pollService from "../services/pollService";
 import * as authService from "../services/authService";
 import * as profileService from "../services/profileService";
+import * as adminService from "../services/adminService";
 import store from "store";
 
 export default Vuex.createStore({
@@ -17,6 +18,7 @@ export default Vuex.createStore({
     loggedinPolls: [],
     reportedPool: {},
     reportedPools: [],
+    decidedReport: {},
   },
   mutations: {
     getPolls(state, payload) {
@@ -130,6 +132,9 @@ export default Vuex.createStore({
       state.reportedPools = payload.data;
       console.log("state.reportedPools", state.reportedPools);
     },
+    decideReport(state, payload) {
+      state.decidedReport = payload;
+    },
   },
   actions: {
     setPolls({ commit }) {
@@ -225,7 +230,16 @@ export default Vuex.createStore({
         .then((res) => {
           console.log("res", res.data.data);
           commit("getReportedPolls", { data: res.data.data });
-          return res.data.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    decideReport({ commit }, data) {
+      adminService
+        .decideReport(data)
+        .then((res) => {
+          commit("decideReport", res.data);
         })
         .catch((err) => {
           console.log(err);

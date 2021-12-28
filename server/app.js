@@ -11,6 +11,7 @@ const auth = require("./routes/auth");
 const customer = require("./routes/customer");
 const survey = require("./routes/survey");
 const profile = require("./routes/profile");
+const admin = require("./routes/admin");
 
 const app = express();
 
@@ -25,6 +26,7 @@ app.use("/api/auth", auth);
 app.use("/api/customer", customer);
 app.use("/api/survey", survey);
 app.use("/api/profile", profile);
+app.use("/api/admin", admin);
 
 app.use(errorHandler);
 
