@@ -15,7 +15,7 @@
           <div class="row">
             <div class="col-lg-8 col-main">
               <h5 class="reports-polls-title">
-                Raporlanmış Anketler (25)
+                Raporlanmış Anketler ({{ polls.length }})
                 <button class="btn" @click="getPolls">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
