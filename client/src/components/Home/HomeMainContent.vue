@@ -25,7 +25,8 @@
             <div class="post-header">
               <div class="posted-meta">
                 <p>
-                  <a href="#user">{{ poll.User.Fullname }} </a> posted an update
+                  <a href="#user">{{ poll.User.Fullname }} </a> bir anket
+                  paylaştı
                 </p>
                 <div class="dropdown">
                   <button
@@ -133,12 +134,14 @@
                       class="pv"
                       :class="[!isJoinable(poll) ? 'percentage-value' : 'hide']"
                       id="pv"
-                      >%{{ option.ratio }}</span
+                      >%{{ optionRatio(option, poll).toFixed(1) }}</span
                     >
                   </div>
                 </div>
               </div>
-              <div class="mute vote-count">{{ totalPaticipants(poll) }} oy</div>
+              <div class="mute vote-count">
+                Toplam {{ totalPaticipants(poll) }} oy
+              </div>
             </div>
           </div>
         </li>
