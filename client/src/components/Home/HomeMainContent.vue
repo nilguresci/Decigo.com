@@ -13,7 +13,7 @@
             <a href="#profile">
               <img
                 loading="lazy"
-                :src="'../../assets/avatars/a' + poll.avatarNo + '.png'"
+                :src="'../../assets/avatars/a' + poll.User.AvatarNo + '.png'"
                 class="avatar"
                 width="200"
                 height="200"
@@ -25,7 +25,7 @@
             <div class="post-header">
               <div class="posted-meta">
                 <p>
-                  <a href="#user">{{ poll.username }} </a> posted an update
+                  <a href="#user">{{ poll.User.Fullname }} </a> posted an update
                 </p>
                 <div class="dropdown">
                   <button
@@ -56,7 +56,7 @@
                       <a
                         class="dropdown-item"
                         href="#"
-                        @click.prevent="share(poll.id)"
+                        @click.prevent="share(poll._id)"
                         ><svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="15"
@@ -76,7 +76,7 @@
                       <a
                         class="dropdown-item"
                         href="#"
-                        @click.prevent="report(poll.id)"
+                        @click.prevent="report(poll._id)"
                         ><svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="15"
@@ -100,45 +100,45 @@
               </div>
               <div class="mute">
                 {{
-                  new Date(poll.creationDate).toLocaleDateString() +
+                  new Date(poll.CreationDate).toLocaleDateString() +
                   " " +
-                  new Date(poll.creationDate).toLocaleTimeString()
+                  new Date(poll.CreationDate).toLocaleTimeString()
                 }}
               </div>
             </div>
 
-            <div class="poll" :id="poll.id">
-              <div class="question">{{ poll.question }}</div>
+            <div class="poll" :id="poll._id">
+              <div class="question">{{ poll.Question }}</div>
               <div class="answers-area">
                 <div
                   class="answers"
-                  v-for="option in poll.options"
+                  v-for="option in poll.Options"
                   :key="option"
                 >
                   <div
                     class="answer"
-                    @click="markAnswer(option.id, poll)"
-                    :id="option.id"
+                    @click="markAnswer(option._id, poll)"
+                    :id="option_id"
                   >
-                    {{ option.text }}
+                    {{ option.Text }}
                     <span
                       class="pb"
-                      :class="[poll.isVoted ? 'percentage-bar' : 'hide']"
+                      :class="[!isJoinable(poll) ? 'percentage-bar' : 'hide']"
                       id="pb"
                       :style="{
-                        width: option.ratio + '%',
+                        width: optionRatio(option, poll) + '%',
                       }"
                     ></span>
                     <span
                       class="pv"
-                      :class="[poll.isVoted ? 'percentage-value' : 'hide']"
+                      :class="[!isJoinable(poll) ? 'percentage-value' : 'hide']"
                       id="pv"
                       >%{{ option.ratio }}</span
                     >
                   </div>
                 </div>
               </div>
-              <div class="mute vote-count">{{ poll.totalParticipants }} oy</div>
+              <div class="mute vote-count">{{ totalPaticipants(poll) }} oy</div>
             </div>
           </div>
         </li>
@@ -149,6 +149,7 @@
 
 <script>
 import AddSurveyComponent from "./AddSurvey.vue";
+import store from "store";
 export default {
   name: "HomeMainContent",
   data() {
@@ -187,34 +188,32 @@ export default {
     );
   },
   methods: {
-    markAnswer(id, poll) {
-      if (!poll.isVoted) {
-        // var sel = document.getElementById(poll.id);
-        // console.log("markanswer a geldi", sel);
-        this.selectedAnswer = +id;
-        try {
-          var selectedElement = document.querySelector(
-            ".poll .answers .answer.selected"
-          );
-          if (selectedElement) {
-            //console.log(selectedElement);
-            selectedElement.classList.remove("selected");
+    markAnswer(optionId, poll) {
+      if (this.isJoinable(poll)) {
+        this.polls.forEach((pol) => {
+          if (pol._id == poll._id) {
+            pol.Options.forEach((option) => {
+              if (option._id === optionId) {
+                option.Participants.push({
+                  _id: Math.random() * 100000000,
+                  UserId: store.get("userInfo").userId,
+                });
+              }
+            });
           }
-        } catch (msg) {
-          return msg;
-        }
-        document.querySelectorAll(".poll .answers-area .answers .answer");
-        var newSelectedElement = document.getElementById(id);
-        newSelectedElement.classList.add("selected");
+        });
+
         var polldata = {
-          SurveyId: poll.id,
-          OptionId: id,
-          UserId: this.$store.state.loggedInUserId,
+          SurveyId: poll._id,
+          OptionId: optionId,
+          UserId: store.get("userInfo").userId,
         };
 
         this.$store.dispatch("joinPoll", {
           data: polldata,
         });
+
+        this.getPolls();
       } else {
         console.log("zaten katılmışsın!!!");
       }
@@ -236,28 +235,34 @@ export default {
       this.$store.dispatch("reportSurvey", id);
       alert("Anket raporlandı. Teşekkür ederiz.");
     },
-    // participantUserControl(id, poll) {
-    //   const userid = this.$store.state.loggedInUserId;
-
-    //   //console.log("tık", poll.options);
-    //   poll.options.forEach((option) => {
-    //     //console.log("opt", option);
-    //     if (option.participants.length > 0) {
-    //       option.participants.forEach((participant) => {
-    //         if (participant.UserId === userid) {
-    //
-    //           console.log("zaten katıldın");
-    //         }
-    //       });
-    //     }
-    //   });
-
-    //   if (!this.isVoted) {
-    //     console.log("gidiyor2");
-    //     this.isVoted = poll.id;
-    //     this.markAnswer(id, poll);
-    //   }
-    // },
+    totalPaticipants(poll) {
+      let total = 0;
+      poll.Options.forEach((option) => {
+        total += option.Participants.length;
+      });
+      return total;
+    },
+    optionRatio(option, poll) {
+      const participantNum = option.Participants.length;
+      if (participantNum === 0) return 0;
+      const totalPartici = this.totalPaticipants(poll);
+      return (participantNum * 100) / totalPartici;
+    },
+    isJoinable(poll) {
+      if (!store.get("userInfo").userId) return false;
+      let joinable = true;
+      const myUserId = store.get("userInfo").userId;
+      poll.Options.forEach((option) => {
+        if (option.Participants.length > 0) {
+          option.Participants.forEach((participant) => {
+            if (participant.UserId === myUserId) {
+              joinable = false;
+            }
+          });
+        }
+      });
+      return joinable;
+    },
   },
 };
 </script>

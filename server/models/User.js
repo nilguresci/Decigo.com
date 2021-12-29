@@ -41,8 +41,6 @@ const UserSchema = new mongoose.Schema({
   },
   AvatarNo: {
     type: String,
-    required: true,
-    minLength: 1,
     default: 0,
   },
 });
@@ -56,6 +54,7 @@ UserSchema.pre("save", async function (next) {
 });
 
 UserSchema.methods.matchPassword = async function (password) {
+  console.log("Gelen şifre", password);
   return await bcrypt.compare(password, this.Password);
 };
 
