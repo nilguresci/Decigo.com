@@ -1,7 +1,7 @@
 <template>
   <div class="my-card item">
     <div class="info">
-      <a href="#myprofilelinki" class="home-user-profile">
+      <a href="profilepage" class="home-user-profile">
         <img
           :src="'../../assets/avatars/a' + this.avatarno + '.png'"
           alt="Avatar"

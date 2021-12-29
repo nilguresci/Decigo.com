@@ -13,7 +13,7 @@
             <a href="#profile">
               <img
                 loading="lazy"
-                src="../../assets/barista2.png"
+                :src="'../../assets/avatars/a' + poll.avatarNo + '.png'"
                 class="avatar"
                 width="200"
                 height="200"
@@ -25,7 +25,7 @@
             <div class="post-header">
               <div class="posted-meta">
                 <p>
-                  <a href="#user">{{ poll.userId }} </a> posted an update
+                  <a href="#user">{{ poll.username }} </a> posted an update
                 </p>
                 <div class="dropdown">
                   <button
@@ -158,6 +158,7 @@ export default {
       selectedAnswer: -1,
       add: false,
       polls: [],
+      avatarno: 0,
     };
   },
   components: {

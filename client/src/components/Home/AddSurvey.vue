@@ -4,7 +4,7 @@
       <div class="col-2">
         <img
           loading="lazy"
-          src="../../assets/cv-2.png"
+          :src="'../../assets/avatars/a' + this.avatarno + '.png'"
           class="avatar"
           width="200"
           height="200"
@@ -123,6 +123,7 @@
 </template>
 
 <script>
+import store from "store";
 export default {
   name: "add-survey",
   components: {},
@@ -136,9 +137,11 @@ export default {
       ],
       expiryDate: "00:01",
       category: "",
+      avatarno: 0,
     };
   },
   mounted() {
+    this.avatarno = store.get("userInfo").avatarNo;
     this.$store.watch(
       () => this.$store.state.newPool,
       async () => {
