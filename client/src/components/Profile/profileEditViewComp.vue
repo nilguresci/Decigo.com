@@ -17,101 +17,37 @@
             <button
               type="button"
               class="btn"
-              @click.prevent="console.log('a1')"
+              v-for="(avatarid, $index) in avatarIds"
+              :key="$index"
+              @click="chooseAvatar(avatarid)"
             >
               <img
-                src="../../assets/avatars/a1.png"
+                :src="'../../assets/avatars/' + avatarid + '.png'"
                 class="img-thumbnail rounded"
                 alt="..."
                 style="width: 70px; height: 70px"
               />
             </button>
-            <button type="button" class="btn" @click="chooseAvatar(a2)">
-              <img
-                src="../../assets/avatars/a2.png"
-                class="img-thumbnail rounded"
-                alt="..."
-                style="width: 70px; height: 70px"
-                id="2"
-              />
-            </button>
-            <button type="button" class="btn" @click="chooseAvatar(a3)">
-              <img
-                src="../../assets/avatars/a3.png"
-                class="img-thumbnail rounded"
-                alt="..."
-                style="width: 70px; height: 70px"
-                id="3"
-              />
-            </button>
-            <button type="button" class="btn" @click="chooseAvatar(a4)">
-              <img
-                src="../../assets/avatars/a4.png"
-                class="img-thumbnail rounded"
-                alt="..."
-                style="width: 70px; height: 70px"
-                id="4"
-              />
-            </button>
-            <button type="button" class="btn" @click="chooseAvatar(a5)">
-              <img
-                src="../../assets/avatars/a5.png"
-                class="img-thumbnail rounded"
-                alt="..."
-                style="width: 70px; height: 70px"
-              />
-            </button>
-            <button type="button" class="btn" @click="chooseAvatar(a6)">
-              <img
-                src="../../assets/avatars/a6.png"
-                class="img-thumbnail rounded"
-                alt="..."
-                style="width: 70px; height: 70px"
-              />
-            </button>
-            <button type="button" class="btn" @click="chooseAvatar(a7)">
-              <img
-                src="../../assets/avatars/a7.png"
-                class="img-thumbnail rounded"
-                alt="..."
-                style="width: 70px; height: 70px"
-              />
-            </button>
-            <button type="button" class="btn" @click="chooseAvatar(a8)">
-              <img
-                src="../../assets/avatars/a8.png"
-                class="img-thumbnail rounded"
-                alt="..."
-                style="width: 70px; height: 70px"
-              />
-            </button>
-            <button type="button" class="btn" @click="chooseAvatar(a9)">
-              <img
-                src="../../assets/avatars/a9.png"
-                class="img-thumbnail rounded"
-                alt="..."
-                style="width: 70px; height: 70px"
-              />
-            </button>
-            <button type="button" class="btn" @click="chooseAvatar(a10)">
+
+            <!-- <button type="button" class="btn">
               <img
                 src="../../assets/avatars/a10.png"
                 class="img-thumbnail rounded"
                 alt="..."
                 style="width: 70px; height: 70px"
               />
-            </button>
+            </button> -->
           </div>
         </div>
 
         <div class="mb-3 d-flex content-d">
-          <label for="formGroupExampleInput" class="form-label edit"
+          <label for="formGroupExampleInput1" class="form-label edit"
             >Adın Soyadın</label
           >
           <input
             type="text"
             class="form-control edit-input"
-            id="formGroupExampleInput"
+            id="formGroupExampleInput1"
             placeholder="Example input placeholder"
             :value="fullname"
             @change="change()"
@@ -234,7 +170,9 @@
           </div>
         </div>
         <div class="save-update" v-if="updated">
-          <button type="button" class="btn">Kaydet</button>
+          <button type="button" class="btn" @click="updateInfo()">
+            Kaydet
+          </button>
         </div>
       </div>
     </div>
@@ -258,18 +196,7 @@ export default {
       newPasswordAgain: "",
       submitted: false,
       userInfo: {},
-      avatarIds: {
-        a1: "a1",
-        a2: "a2",
-        a3: "a3",
-        a4: "a4",
-        a5: "a5",
-        a6: "a6",
-        a7: "a7",
-        a8: "a8",
-        a9: "a9",
-        a10: "a10",
-      },
+      avatarIds: ["a1", "a2", "a3", "a4", "a5", "a6", "a7", "a8", "a9"],
     };
   },
   setup() {
@@ -295,19 +222,18 @@ export default {
       console.log("tıklandı");
     },
     getUserInfo() {
-      //this.userInfo = this.$store.state.loggedInUserInfo;
-      //this.userInfo = localStorage.userInfo;
       this.username = this.userInfo.username;
       this.avatarno = this.userInfo.avatarNo;
       this.email = this.userInfo.email;
       this.fullname = this.userInfo.fullName;
-      //this.avatarfilename = "../../assets/avatars/a" + this.avatarno + ".png"; //bunu test edebilmek için username:avatar pass: 123123 ile girmelisin.
-      // console.log("userInfo", this.userInfo);
-      // console.log("fullname", this.fullname);
     },
-    // chooseAvatar(id) {
-    //   console.log("secile", id);
-    // },
+    chooseAvatar(id) {
+      console.log("secile", id);
+      this.avatarno = id;
+    },
+    updateInfo() {
+      console.log("kaydet");
+    },
   },
 };
 </script>

@@ -60,9 +60,9 @@
             <li>anketlerim</li>
           </ul>
         </nav>
-        <div class="poll">
+        <div class="poll" :id="poll.id" v-for="(poll, id) in polls" :key="id">
           <div class="poll-header">
-            <div class="question">where is my package</div>
+            <div class="question">{{ poll.question }}</div>
             <div class="dropdown">
               <button
                 class="three-dot dropdown-toggle"
@@ -149,48 +149,25 @@
             </div>
           </div>
 
-          <div class="mute">8/15/2021 2:17:37 PM</div>
+          <div class="mute">{{ poll.creationDate }}</div>
           <div class="answers-area">
-            <div class="answers">
-              <div class="answer">
-                izmir
+            <div class="answers" v-for="option in poll.options" :key="option">
+              <div class="answer" :id="option.id">
+                {{ option.text }}
                 <span
                   class="pb percentage-bar"
                   id="pb"
-                  style="width: 150px"
+                  :style="{
+                    width: option.ratio + '%',
+                  }"
                 ></span>
-                <span class="pv percentage-value" id="pv">50%</span>
-              </div>
-              <div class="answer">
-                Antalya
-                <span
-                  class="pb percentage-bar"
-                  id="pb"
-                  style="width: 150px"
-                ></span>
-                <span class="pv percentage-value" id="pv">50%</span>
-              </div>
-              <div class="answer">
-                izmir
-                <span
-                  class="pb percentage-bar"
-                  id="pb"
-                  style="width: 150px"
-                ></span>
-                <span class="pv percentage-value" id="pv">50%</span>
-              </div>
-              <div class="answer">
-                Antalya
-                <span
-                  class="pb percentage-bar"
-                  id="pb"
-                  style="width: 150px"
-                ></span>
-                <span class="pv percentage-value" id="pv">50%</span>
+                <span class="pv percentage-value" id="pv"
+                  >{{ option.ratio }}%</span
+                >
               </div>
             </div>
           </div>
-          <div class="mute">5.078 oy</div>
+          <div class="mute">{{ poll.totalParticipants }} oy</div>
         </div>
         <!-- <div class="poll" :id="poll.id" v-for="(poll, id) in polls" :key="id">
           <div class="question">{{ poll.question }}</div>
@@ -224,8 +201,8 @@ export default {
   name: "pagecontentcomp",
   data() {
     return {
-      activity: false,
-      profile: true,
+      activity: true,
+      profile: false,
       polls: [],
     };
   },
@@ -236,16 +213,16 @@ export default {
     this.getMyPolls();
 
     this.$store.watch(
-      () => [this.$store.state.polls, this.$store.state.updated],
+      () => [this.$store.state.loggedinPolls, this.$store.state.updated],
       async () => {
-        this.polls = this.$store.state.polls;
+        this.polls = this.$store.state.loggedinPolls;
       }
     );
 
     this.$store.watch(
       () => this.$store.state.updated,
       async () => {
-        this.polls = this.$store.state.polls;
+        this.polls = this.$store.state.loggedinPolls;
       }
     );
   },

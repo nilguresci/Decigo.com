@@ -128,7 +128,69 @@ export default Vuex.createStore({
     },
     getMyPolls(state, payload) {
       console.log("mypolls", payload);
-      state.loggedinPolls = payload;
+      //state.loggedinPolls = payload.data;
+      const data = payload.data;
+      const pollsObject = [];
+      data.forEach((poll) => {
+        const options = [];
+        var survey_username = "";
+        var avatar_no = 0;
+        // console.log(poll.Options);
+        var totalParticipants = 0;
+        poll.Options.forEach((p) => {
+          totalParticipants = totalParticipants + p.Participants.length;
+        });
+        poll.Options.forEach((p) => {
+          //totalParticipants = totalParticipants + p.Participants.length;
+          options.push({
+            suggestion: p.Suggestion,
+            id: p._id,
+            text: p.Text,
+            participants: p.Participants,
+            participantNum: p.ParticipantNum,
+            ratio: (p.Participants.length * 100) / totalParticipants,
+            //ratio2:(((p.Participants.length * 94) / totalParticipants) * 100) / 94,
+          });
+        });
+
+        var isParticipant = [];
+        poll.Options.forEach((option) => {
+          if (option.Participants.length > 0) {
+            option.Participants.forEach((participant) => {
+              if (participant.UserId === state.loggedInUserId) {
+                isParticipant.push(participant.UserId);
+              }
+            });
+          }
+        });
+        // var found = [];
+        // found = state.users.find((element) => element._id === poll.UserId);
+
+        //console.log("found", found);
+        state.users.forEach((element) => {
+          if (element._id === poll.UserId) {
+            survey_username = element.Username;
+            avatar_no = element.AvatarNo ? element.AvatarNo : 0;
+          }
+        });
+
+        pollsObject.push({
+          userId: poll.UserId,
+          username: survey_username,
+          avatarNo: avatar_no,
+          id: poll._id,
+          question: poll.Question,
+          options: options,
+          category: poll.Category,
+          creationDate: poll.CreationDate,
+          suggestionNum: poll.SuggestionNum,
+          time: poll.Time,
+          totalParticipants: totalParticipants,
+          isVoted: isParticipant.length > 0 ? true : false,
+        });
+      });
+
+      state.loggedinPolls = pollsObject;
       console.log("state.loggedinPolls", state.loggedinPolls);
     },
     reportSurvey(state, payload) {
@@ -209,10 +271,12 @@ export default Vuex.createStore({
     },
     setMyPolls({ commit }) {
       var id = store.get("userInfo").userId;
+      console.log("myid", id);
       profileService
         .getMyPolls(id)
         .then((res) => {
-          if (res.data.success) {
+          console.log("res geld", res);
+          if (res.success) {
             commit("getMyPolls", { data: res.data });
           }
         })
