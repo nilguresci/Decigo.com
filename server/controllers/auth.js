@@ -4,15 +4,12 @@ const User = require("../models/User");
 const ErrorResponse = require("../utils/errorResponse");
 
 exports.register = async (req, res, next) => {
-  const { Fullname, /*Lastname,*/ Username, /*City,*/ Email, Password } =
-    req.body;
+  const { Fullname, Username, Email, Password } = req.body;
 
   try {
     const user = await User.create({
       Fullname,
-      //Lastname,
       Username,
-      // City,
       Email,
       Password,
     });

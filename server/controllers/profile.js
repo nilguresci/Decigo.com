@@ -109,21 +109,18 @@ exports.updateUser = async (req, res, next) => {
 };
 
 exports.changePassword = async (req, res, next) => {
-  const { username, Password, newPassword } = req.body;
+  const { Password, newPassword } = req.body;
   try {
     const user = await User.findById({ _id: req.params.id }).select(
       "+Password"
-    ); //.findOne({ username }).select("+Password");
-    console.log("userfind", user);
+    );
 
     if (!user) {
       return next(
         new ErrorResponse("Invalid credentials, user not found", 401)
       );
     }
-
-    const isMatch = await user.matchPassword(Password);
-    console.log("ismatch", Password);
+    const isMatch = Password === (await user.Password);
     if (!isMatch) {
       return next(
         new ErrorResponse("Invalid credentials, password does not match", 401)
