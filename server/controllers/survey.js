@@ -170,20 +170,25 @@ exports.addReport = async (req, res, next) => {
 exports.getReportedSurveys = async (req, res, next) => {
   console.log("getReportedSurveys");
   const reports = await Report.find();
-  let surveys = [];
-  //new Promise
-  await Promise.all(
+
+  const surveys = await Promise.all(
     reports.map(async (report) => {
-      Survey.findById(report.SurveyId).then((res) => {
-        console.log("RES", res);
-        surveys.push(res);
-      });
+      const survey = await Survey.findById(report.SurveyId);
+      if (survey) {
+        return {
+          _id: survey._id,
+          UserId: survey.UserId,
+          Question: survey.Question,
+          Options: survey.Options,
+          Category: survey.Category,
+          ReportId: report._id,
+        };
+      }
     })
-  ).then((x) => {
-    console.log("Bitti");
-    res.status(201).json({
-      success: true,
-      data: surveys,
-    });
+  );
+
+  res.status(201).json({
+    success: true,
+    data: surveys,
   });
 };

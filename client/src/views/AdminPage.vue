@@ -141,9 +141,6 @@ export default {
       polls: [],
     };
   },
-  beforeMount() {
-    this.getPolls();
-  },
   mounted() {
     this.getPolls();
 

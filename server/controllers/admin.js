@@ -80,6 +80,7 @@ exports.decideReport = async (req, res, next) => {
 
     if (decide) {
       await Survey.deleteOne({ _id: SurveyId });
+      await Report.deleteOne({ _id: ReportId });
       res.status(200).json({
         success: true,
         message: `Survey (${SurveyId}) is deleted`,
