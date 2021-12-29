@@ -184,6 +184,10 @@ export default Vuex.createStore({
     getDeleteMySurvey(state, payload) {
       console.log("silindi", payload);
     },
+    getUpdateMyInfo(state, payload) {
+      console.log(payload);
+      //store.set("userInfo", userData);
+    },
   },
   actions: {
     setPolls({ commit }) {
@@ -312,6 +316,16 @@ export default Vuex.createStore({
         .deleteMySurvey(id)
         .then((res) => {
           commit("getDeleteMySurvey", res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    setUpdateMyInfo({ commit }, data, id) {
+      profileService
+        .updateMyInfo(id, data)
+        .then((res) => {
+          commit("getupdateMyInfo", res.data);
         })
         .catch((err) => {
           console.log(err);

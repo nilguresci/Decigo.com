@@ -55,3 +55,18 @@ export const deleteMySurvey = (id) => {
       });
   });
 };
+
+export const updateMyInfo = (id, data) => {
+  var urlUpdateInfo = url + `/update/${id}`;
+  return new Promise((resolve, reject) => {
+    axios
+      .put(urlUpdateInfo, data, { headers: authHeaders })
+      .then((res) => {
+        const data = res.data;
+        resolve(data);
+      })
+      .catch((err) => {
+        reject(err);
+      });
+  });
+};
