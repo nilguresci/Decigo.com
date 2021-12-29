@@ -192,3 +192,27 @@ exports.getReportedSurveys = async (req, res, next) => {
     data: surveys,
   });
 };
+
+exports.getSurveyByCategory = async (req, res, next) => {
+  console.log("getSurveyByCategory");
+  const category = req.params.category;
+  console.log("category", category);
+  const surveys = await Survey.find({ Category: category });
+
+  console.log("surveys", surveys);
+
+  if (!surveys || surveys.length === 0) {
+    console.log("Hata");
+    return next(
+      new ErrorResponse(
+        `There are currently no survey with ${category} category`,
+        400
+      )
+    );
+  }
+
+  res.status(200).json({
+    success: true,
+    data: surveys,
+  });
+};

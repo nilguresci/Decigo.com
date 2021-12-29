@@ -8,11 +8,13 @@ const {
   getUsers,
   addReport,
   getReportedSurveys,
+  getSurveyByCategory,
 } = require("../controllers/survey");
 
 const router = express.Router();
 
 router.route("/").get(getSurveys);
+router.route("/category/:category").get(getSurveyByCategory);
 router.route("/users").get(getUsers);
 router.route("/report").post(/*protect, */ addReport);
 router.route("/").post(/*protect, */ addSurvey); //şu anda giriş işlemi yapılmadığından authenticaondan kurtulmak için buraları yorum satırına aldım şimdilik.
