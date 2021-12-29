@@ -5,7 +5,7 @@ const User = require("../models/User");
 const ErrorResponse = require("../utils/errorResponse");
 
 exports.getMySurveys = async (req, res, next) => {
-  const { userId } = req.body;
+  const userId = req.params.id;
 
   if (!userId) return next(new ErrorResponse("User id not found!", 400));
 

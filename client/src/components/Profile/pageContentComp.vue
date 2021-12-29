@@ -224,8 +224,8 @@ export default {
   name: "pagecontentcomp",
   data() {
     return {
-      activity: true,
-      profile: false,
+      activity: false,
+      profile: true,
       polls: [],
     };
   },

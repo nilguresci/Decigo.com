@@ -11,7 +11,7 @@ const {
 
 const router = express.Router();
 
-router.route("/mySurveys").get(protect, getMySurveys);
+router.route("/mySurveys/:id").get(protect, getMySurveys);
 //router.route("/mySurveys/:id").get(protect, getOneSurvey);
 router.route("/mySurveys/:id").put(/*protect,*/ updateSurvey);
 router.route("/mySurveys/:id").delete(/*protect, */ deleteSurvey);

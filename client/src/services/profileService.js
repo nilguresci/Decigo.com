@@ -24,14 +24,13 @@ const authHeaders = {
 // );
 
 export const getMyPolls = (id) => {
-  var urlmysurveys = url + "/mySurveys";
+  var urlmysurveys = url + `/mySurveys/${id}`;
   console.log("urlmysurveys", urlmysurveys);
-  var data = {
-    userId: id,
-  };
+  console.log("token", authHeaders);
+
   return new Promise((resolve, reject) => {
     axios
-      .get(urlmysurveys, data, { headers: authHeaders })
+      .get(urlmysurveys, { headers: authHeaders })
       .then((res) => {
         const data = res.data;
         resolve(data);
