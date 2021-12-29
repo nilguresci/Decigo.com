@@ -3,6 +3,7 @@ import * as pollService from "../services/pollService";
 import * as authService from "../services/authService";
 import * as profileService from "../services/profileService";
 import * as adminService from "../services/adminService";
+import moment from "moment";
 import store from "store";
 
 export default Vuex.createStore({
@@ -124,6 +125,26 @@ export default Vuex.createStore({
             avatar_no = element.AvatarNo ? element.AvatarNo : 0;
           }
         });
+        //var time = new Date(poll.Time).toLocaleTimeString();
+        var countDownDate = new Date(poll.Time).getTime();
+        console.log(countDownDate);
+        var hours = "";
+        var minutes = "";
+        var x = setInterval(function () {
+          var now = new Date().getTime();
+          var distance = countDownDate - now;
+
+          hours = Math.floor(
+            (distance % (1000 * 60 * 60 * 12)) / (1000 * 60 * 60)
+          );
+          minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+          console.log("hours", hours);
+          console.log("min", minutes);
+          if (distance < 0) {
+            clearInterval(x);
+            console.log("EXPIRED");
+          }
+        }, 1000);
 
         pollsObject.push({
           userId: poll.UserId,
@@ -135,7 +156,8 @@ export default Vuex.createStore({
           category: poll.Category,
           creationDate: poll.CreationDate,
           suggestionNum: poll.SuggestionNum,
-          time: poll.Time,
+          time: moment(poll.Time).format("LT").split("P")[0], //,
+          //time: hours + ":" + minutes,
           totalParticipants: totalParticipants,
           isVoted: isParticipant.length > 0 ? true : false,
         });

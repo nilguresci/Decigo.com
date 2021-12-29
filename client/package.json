@@ -21,6 +21,7 @@
     "bootstrap-icons": "^1.7.2",
     "core-js": "^3.6.5",
     "jquery": "^3.6.0",
+    "moment": "^2.29.1",
     "popper.js": "^1.16.1",
     "store": "^2.0.12",
     "vue": "^3.0.0-beta.1",

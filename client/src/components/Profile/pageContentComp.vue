@@ -66,7 +66,7 @@
         <div class="poll-cont">
           <div
             class="poll"
-            :id="$index"
+            :id="'index' + $index"
             v-for="(poll, $index) in polls"
             :key="$index"
           >
@@ -138,7 +138,7 @@
                     </a>
                   </li>
                   <li>
-                    <a class="dropdown-item" href="#"
+                    <a class="dropdown-item" href="#" @click="editPoll()"
                       ><svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="15"
@@ -185,7 +185,24 @@
                 </div>
               </div>
             </div>
-            <div class="mute">{{ poll.totalParticipants }} oy</div>
+            <div class="poll-footer">
+              <!-- <div class="mute">{{ poll.totalParticipants }}buraya kalan dk yazılabilir </div> -->
+              <div class="mute">{{ poll.totalParticipants }} oy</div>
+
+              <div class="save-update" v-if="editpoll">
+                <div class="upt-input">
+                  <input
+                    class="form-control time-select"
+                    type="time"
+                    aria-label=".form-control-sm example"
+                    v-model="poll.time"
+                  />
+                </div>
+                <button type="button" class="btn" @click="updateInfo()">
+                  Kaydet
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -205,6 +222,8 @@ export default {
       polls: [],
       nopoll: false,
       noPollErrMsg: "",
+      expiryDate: "00:01",
+      editpoll: false,
     };
   },
   components: {
@@ -217,6 +236,7 @@ export default {
       () => [this.$store.state.loggedinPolls, this.$store.state.updated],
       async () => {
         this.polls = this.$store.state.loggedinPolls;
+        console.log("polls", this.polls);
       }
     );
 
@@ -236,7 +256,6 @@ export default {
   },
   methods: {
     getMyPolls() {
-      console.log("sfds");
       this.$store.dispatch({
         type: "setMyPolls",
       });
@@ -248,6 +267,9 @@ export default {
     deleteMyPoll(id) {
       this.$store.dispatch("setDeleteMySurvey", id);
       this.polls = this.polls.filter((poll) => poll.id !== id);
+    },
+    editPoll() {
+      this.editpoll = true;
     },
   },
 };
@@ -383,10 +405,7 @@ export default {
         justify-items: flex-start;
         position: relative;
       }
-      #0 {
-        margin-top: 3rem !important;
-        background-color: red;
-      }
+
       .poll {
         left: 50%;
         margin-bottom: 2rem;
@@ -405,11 +424,44 @@ export default {
           display: flex;
           align-items: baseline;
         }
+
+        .poll-footer {
+          display: flex;
+          justify-content: space-between;
+          width: 94%;
+          align-items: baseline;
+
+          .save-update {
+            display: flex;
+            justify-content: end;
+            // width: 94%;
+            // margin-top: 10px;
+            .upt-input {
+              margin-right: 8px;
+            }
+            input {
+              font-size: 12px;
+            }
+            button {
+              background-color: #7442a9;
+              color: #ffff;
+              font-size: 0.7rem;
+              line-height: 1;
+            }
+          }
+        }
+
         .three-dot {
           background-color: transparent;
           border: none;
           border-color: transparent;
           margin-right: 5px;
+        }
+
+        .time-select {
+          height: 26px !important;
+          padding: 0px 5px !important;
+          color: #626c72 !important;
         }
         .dropdown-toggle::after {
           display: none;
@@ -485,6 +537,9 @@ export default {
         transition: width 300ms ease-in-out;
       }
     }
+  }
+  #index0 {
+    margin-top: 3rem;
   }
 }
 </style>
