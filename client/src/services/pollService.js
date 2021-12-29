@@ -64,6 +64,10 @@ export const getReportedPolls = () => {
   return axios.get(url + "/getReporteds");
 };
 
+export const getSurveyByCategory = (category) => {
+  return axios.get(`${url}/category/${category}`);
+};
+
 // export const getPolls = () => {
 //   return axios.get(url);
 // };

@@ -4,49 +4,13 @@
       <div class="categories">
         <h5 class="categories-title">Kategoriler</h5>
         <ul class="categories-list">
-          <li>
-            <!-- <font-awesome-icon icon="book" /> -->
-            <a class="text-list" href="#">Kitaplar</a>
-          </li>
-          <li>
-            <!-- <font-awesome-icon icon="shopping-bag" /> -->
-            <a class="text-list" href="#">Moda</a>
-          </li>
-          <li>
-            <!-- <font-awesome-icon icon="film" /> -->
-            <a class="text-list">Filmler</a>
-          </li>
-          <li>
-            <!-- <font-awesome-icon icon="pump-soap" /> -->
-            <a class="text-list" href="#">Cilt Bakımı</a>
-          </li>
-          <li>
-            <!-- <font-awesome-icon icon="pizza-slice" /> -->
-            <a class="text-list" href="#">Yemek</a>
-          </li>
-          <li>
-            <!-- <font-awesome-icon icon="biking" /> -->
-            <a href="#" class="text-list">Spor</a>
-          </li>
-          <li>
-            <!-- <font-awesome-icon icon="laptop-code" /> -->
-            <a href="#" class="text-list">Teknoloji</a>
-          </li>
-          <li>
-            <!-- <font-awesome-icon icon="icons" /> -->
-            <a href="#" class="text-list">Sanat</a>
-          </li>
-          <li>
-            <!-- <font-awesome-icon icon="object-group" /> -->
-            <a href="#" class="text-list">Dekorasyon</a>
-          </li>
-          <li>
-            <!-- <font-awesome-icon icon="broom" /> -->
-            <a href="#" class="text-list">Makyaj</a>
-          </li>
-          <li>
-            <!-- <font-awesome-icon icon="cat" /> -->
-            <a href="#" class="text-list">Hayvanlar</a>
+          <li v-for="(category, index) in categories" :key="index">
+            <a
+              class="text-list"
+              href="#"
+              @click.prevent="goToCategory(category)"
+              >{{ category }}</a
+            >
           </li>
         </ul>
       </div>
@@ -54,6 +18,40 @@
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  name: "rightSideBar",
+  data() {
+    return {
+      categories: [
+        "Kitaplar",
+        "Moda",
+        "Filmler",
+        "Cilt Bakımı",
+        "Yemek",
+        "Spor",
+        "Teknoloji",
+        "Sanat",
+        "Dekorasyon",
+        "Makyaj",
+        "Hayvanlar",
+        "Güzellik",
+      ].sort(),
+    };
+  },
+  methods: {
+    async goToCategory(category) {
+      console.log("category", category);
+      this.$store.dispatch("getSurveyByCategory", category);
+      console.log(
+        "await this.$store.state.categorySurveys",
+        await this.$store.state.categorySurveys
+      );
+    },
+  },
+};
+</script>
 
 <style lang="scss">
 $secondary_text: #bbbbdc;

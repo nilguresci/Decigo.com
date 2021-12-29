@@ -19,6 +19,7 @@ export default Vuex.createStore({
     reportedPool: {},
     reportedPools: [],
     decidedReport: {},
+    categorySurveys: [],
   },
   mutations: {
     getPolls(state, payload) {
@@ -204,6 +205,10 @@ export default Vuex.createStore({
     decideReport(state, payload) {
       state.decidedReport = payload;
     },
+    getSurveyByCategory(state, payload) {
+      state.categorySurveys = payload;
+      console.log("state.categorySurveys", state.categorySurveys);
+    },
   },
   actions: {
     setPolls({ commit }) {
@@ -311,6 +316,16 @@ export default Vuex.createStore({
         .decideReport(data)
         .then((res) => {
           commit("decideReport", res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    getSurveyByCategory({ commit }, data) {
+      pollService
+        .getSurveyByCategory(data)
+        .then((res) => {
+          commit("getSurveyByCategory", res.data);
         })
         .catch((err) => {
           console.log(err);
