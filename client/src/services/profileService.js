@@ -39,13 +39,19 @@ export const getMyPolls = (id) => {
         reject(err);
       });
   });
+};
 
-  // return axios
-  //   .get(urlmysurveys, data, { headers: authHeaders })
-  //   .then((res) => {
-  //     console.log(res.data);
-  //   })
-  //   .catch((error) => {
-  //     console.error(error);
-  //   });
+export const deleteMySurvey = (id) => {
+  var urlDelete = url + `/mySurveys/${id}`;
+  return new Promise((resolve, reject) => {
+    axios
+      .delete(urlDelete, { headers: authHeaders })
+      .then((res) => {
+        const data = res.data;
+        resolve(data);
+      })
+      .catch((err) => {
+        reject(err);
+      });
+  });
 };

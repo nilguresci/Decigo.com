@@ -20,6 +20,7 @@ export default Vuex.createStore({
     reportedPools: [],
     decidedReport: {},
     categorySurveys: [],
+    noPollErrMsg: "",
   },
   mutations: {
     getPolls(state, payload) {
@@ -96,7 +97,9 @@ export default Vuex.createStore({
             text: p.Text,
             participants: p.Participants,
             participantNum: p.ParticipantNum,
-            ratio: (p.Participants.length * 100) / totalParticipants,
+            ratio: totalParticipants
+              ? (p.Participants.length * 100) / totalParticipants
+              : 0,
             //ratio2:(((p.Participants.length * 94) / totalParticipants) * 100) / 94,
           });
         });
@@ -155,6 +158,9 @@ export default Vuex.createStore({
     getSurveyByCategory(state, payload) {
       state.categorySurveys = payload;
       console.log("state.categorySurveys", state.categorySurveys);
+    },
+    getDeleteMySurvey(state, payload) {
+      console.log("silindi", payload);
     },
   },
   actions: {
@@ -233,6 +239,7 @@ export default Vuex.createStore({
           }
         })
         .catch((err) => {
+          this.state.noPollErrMsg = "Henüz anket oluşturmadın.";
           console.log(err);
         });
     },
@@ -273,6 +280,16 @@ export default Vuex.createStore({
         .getSurveyByCategory(data)
         .then((res) => {
           commit("getSurveyByCategory", res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    setDeleteMySurvey({ commit }, id) {
+      profileService
+        .deleteMySurvey(id)
+        .then((res) => {
+          commit("getDeleteMySurvey", res.data);
         })
         .catch((err) => {
           console.log(err);
