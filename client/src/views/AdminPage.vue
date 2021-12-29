@@ -165,7 +165,7 @@ export default {
     this.getPolls();
 
     this.$store.watch(
-      () => [this.$store.state.polls, this.$store.state.updated],
+      () => [this.$store.state.reportedPools],
       async () => {
         this.polls = this.$store.state.reportedPools;
       }
