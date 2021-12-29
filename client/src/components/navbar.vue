@@ -15,8 +15,9 @@
               width="16"
               height="16"
               fill="currentColor"
-              class="bi bi-search"
+              class="bi bi-search searchbtn"
               viewBox="0 0 16 16"
+              @click="search()"
             >
               <path
                 d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"
@@ -25,11 +26,8 @@
             <input
               id="search-textfield"
               type="text"
-              name="s"
               placeholder="Search..."
-              value=""
-              autocomplete="off"
-              required=""
+              v-model="searchText"
             />
             <span class="decigo-loading-ring" wfd-invisible="true"></span>
           </div>
@@ -138,6 +136,7 @@ export default {
       isLoggedIn: false,
       username: "",
       avatarno: 0,
+      searchText: "",
     };
   },
   mounted() {
@@ -179,6 +178,13 @@ export default {
       this.$store.state.isLoggedIn = false;
       store.removeItem("userInfo");
       this.avatarno = 0;
+    },
+    search() {
+      if (this.searchText.length < 1) {
+        alert("Arayacak olduğunuz kategoriyi yazınız lütfen");
+      } else {
+        this.$store.dispatch("getSurveyByCategory", this.searchText);
+      }
     },
   },
   //components: { FontAwesomeIcon },
@@ -427,6 +433,10 @@ ul.navbar-user {
   .nav-item {
     position: relative;
   }
+}
+
+.searchbtn {
+  cursor: pointer;
 }
 
 ul.navbar-user .nav-item .nav-link {
