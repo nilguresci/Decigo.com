@@ -100,11 +100,15 @@
                 </div>
               </div>
               <div class="mute">
-                {{
-                  new Date(poll.CreationDate).toLocaleDateString() +
-                  " " +
-                  new Date(poll.CreationDate).toLocaleTimeString()
-                }}
+                <div>
+                  {{
+                    new Date(poll.CreationDate).toLocaleDateString() +
+                    " " +
+                    new Date(poll.CreationDate).toLocaleTimeString() +
+                    " "
+                  }}
+                  <span :id="'TimeLeft' + poll._id">Kalan Tarih</span>
+                </div>
               </div>
             </div>
 
@@ -163,6 +167,7 @@ export default {
       add: false,
       polls: [],
       avatarno: 0,
+      timeLeft: {},
     };
   },
   components: {
@@ -175,10 +180,17 @@ export default {
 
     this.getPolls();
 
+    this.polls.forEach((poll) => {
+      this.calculateTime(poll.Time, poll._id);
+    });
+
     this.$store.watch(
       () => [this.$store.state.polls, this.$store.state.updated],
       async () => {
         this.polls = this.$store.state.polls;
+        this.polls.forEach((poll) => {
+          this.calculateTime(poll.Time, poll._id);
+        });
       }
     );
 
@@ -226,6 +238,9 @@ export default {
         type: "setPolls",
       });
       this.polls = this.$store.state.polls;
+      this.polls.forEach((poll) => {
+        this.calculateTime(poll.Time, poll._id);
+      });
     },
     share(id) {
       navigator.clipboard.writeText(id);
@@ -265,6 +280,47 @@ export default {
         }
       });
       return joinable;
+    },
+    calculateTime(time, id) {
+      console.log(time, id);
+      const endDate = new Date(time).getTime();
+      const inter = setInterval(() => {
+        const now = new Date().getTime();
+        const distance = endDate - now;
+
+        const hours = Math.floor(
+          (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+        );
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        try {
+          document.getElementById(`TimeLeft${id}`).innerHTML =
+            hours.toLocaleString("en-US", {
+              minimumIntegerDigits: 2,
+              useGrouping: false,
+            }) +
+            ":" +
+            minutes.toLocaleString("en-US", {
+              minimumIntegerDigits: 2,
+              useGrouping: false,
+            }) +
+            ":" +
+            seconds.toLocaleString("en-US", {
+              minimumIntegerDigits: 2,
+              useGrouping: false,
+            });
+
+          if (distance < 0) {
+            clearInterval(inter);
+            document.getElementById(`TimeLeft${id}`).innerHTML =
+              "Anket Sonuçlandı";
+          }
+        } catch {
+          //clearInterval(inter);
+          //document.getElementById(`TimeLeft${id}`).innerHTML = "";
+        }
+      }, 1000);
     },
   },
 };
