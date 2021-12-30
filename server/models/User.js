@@ -7,35 +7,25 @@ const UserSchema = new mongoose.Schema({
   Fullname: {
     type: String,
     minLength: 3,
-    required: [true, "Please provide fullname"],
+    required: [true, "Lütfen tam isminizi giriniz"],
   },
-  // Lastname: {
-  //   type: String,
-  //   minLength: 2,
-  //   required: [true, "Please provide lastname"],
-  // },
   Username: {
     type: String,
     unique: true,
-    required: [true, "Please provide username"],
+    required: [true, "Lütfen kullanıcı adınızı giriniz"],
   },
-  // City: {
-  //   type: String,
-  //   minLength: 2,
-  //   required: [true, "Please provide city"],
-  // },
   Email: {
     type: String,
-    required: [true, "Please provide email address"],
+    required: [true, "Lütfen email adresinizi giriniz"],
     unique: true,
     match: [
       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-      "Please provide a valid email",
+      "Lütfen email adresinizi doğru girdiğinizden emin olunuz",
     ],
   },
   Password: {
     type: String,
-    required: [true, "Please add a password"],
+    required: [true, "Lütfen şifre giriniz"],
     minLength: 6,
     select: false,
   },

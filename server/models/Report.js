@@ -4,7 +4,7 @@ const ReportUser = require("./ReportUser");
 const ReportSchema = new mongoose.Schema({
   SurveyId: {
     type: String,
-    required: [true, "Please provide survey id"],
+    required: [true, "Anket idsi tanımlı değil"],
   },
   // Users: {
   //   type: [ReportUser],

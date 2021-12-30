@@ -4,7 +4,8 @@ const Participant = require("./Participant").schema;
 const OptionSchema = new mongoose.Schema({
   Text: {
     type: String,
-    required: [true, "Please provide text of the option"],
+    required: [true, "Lütfen anket seçeneğinizin boş olmadığından emin olunuz"],
+    minLength: [3, "Anket seçeneği üç harften az olamaz"],
   },
   Participants: {
     type: [Participant],

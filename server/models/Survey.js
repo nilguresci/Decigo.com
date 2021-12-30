@@ -4,12 +4,15 @@ const Option = require("./Option").schema;
 const SurveySchema = new mongoose.Schema({
   UserId: {
     type: String,
-    required: [true, "Please provide user id"],
+    required: [true, "Lütfen giriş yapmış olduğunuzdan emin olunuz"],
   },
   Question: {
     type: String,
-    required: [true, "Please provide question"],
-    minLength: [3, "Please enter a valid question with more than 3 letters"],
+    required: [true, "Lütfen anket sorusunu giriniz"],
+    minLength: [
+      3,
+      "Lütfen anket sorusunun üç harften fazla olduğundan emin olunuz",
+    ],
   },
   CreationDate: {
     type: Date,
@@ -21,12 +24,12 @@ const SurveySchema = new mongoose.Schema({
   },
   Options: {
     type: [Option],
-    required: [true, "Please provide options"],
-    minLength: [2, "Please provide options more than 1"],
+    required: [true, "Lütfen anket seçeneği giriniz"],
+    minLength: [2, "Lütfen en az iki anket seçeneği girdiğinizden emin olunuz"],
   },
   Category: {
     type: String,
-    required: [true, "Please provide category"],
+    required: [true, "Lütfen anket kategorisini belirtiniz"],
   },
   SuggestionNum: {
     type: Number,

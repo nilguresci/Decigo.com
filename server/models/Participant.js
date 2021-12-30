@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const ParticipantSchema = new mongoose.Schema({
   UserId: {
     type: String,
-    required: [true, "Please provide user id"],
+    required: [true, "Ankete katılmak için giriş yapmış olmanız gerekli"],
   },
 });
 
