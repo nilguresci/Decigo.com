@@ -170,25 +170,75 @@ export default {
       }
     },
     create() {
-      const options = this.options.map((x) => {
-        return { Text: x.text };
+      const check = this.checkForm();
+      if (check.err) {
+        check.msg.forEach((msg) => {
+          alert(msg);
+        });
+      } else {
+        const options = this.options.map((x) => {
+          return { Text: x.text };
+        });
+        console.log(options);
+        console.log(this.surveyQuestion);
+
+        const splited = this.expiryDate.split(":");
+        const endDate =
+          Date.now() + (splited[0] * 3600000 + splited[1] * 60000);
+        console.log(this.category);
+        this.$store.dispatch("createPool", {
+          Question: this.surveyQuestion,
+          Time: endDate,
+          Options: options,
+          Category: this.category,
+        });
+      }
+    },
+    checkForm() {
+      let res = { err: false, msg: [] };
+
+      if (this.surveyQuestion.length < 3)
+        res = {
+          err: true,
+          msg: [...res.msg, "Anket sorusu 3 karakterden kısa olamaz"],
+        };
+
+      if (this.optionCount < 2)
+        res = {
+          err: true,
+          msg: [...res.msg, "En az iki seçenek olduğundan emin olun"],
+        };
+
+      if (this.expiryDate === "00:00")
+        res = {
+          err: true,
+          msg: [...res.msg, "Anket süresi 0 dk olamaz"],
+        };
+
+      this.options.forEach((option, index) => {
+        if (option.text.length < 3)
+          res = {
+            err: true,
+            msg: [
+              ...res.msg,
+              `${index + 1} numarali seçenek fazla kısa veya boş`,
+            ],
+          };
       });
-      console.log(options);
-      console.log(this.surveyQuestion);
-      console.log(this.expiryDate);
-      console.log(this.category);
-      this.$store.dispatch("createPool", {
-        Question: this.surveyQuestion,
-        Time: Date.now(),
-        Options: options,
-        Category: this.category,
-      });
+
+      if (this.category.length < 1)
+        res = {
+          err: true,
+          msg: [...res.msg, `Lütfen kategori seçiniz`],
+        };
+
+      return res;
     },
   },
 };
 </script>
 
-<style>
+<style scoped>
 .col {
   margin-bottom: 1.5rem !important;
 }
