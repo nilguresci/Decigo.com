@@ -107,7 +107,7 @@
                     new Date(poll.CreationDate).toLocaleTimeString() +
                     " "
                   }}
-                  <span :id="'TimeLeft' + poll._id">Kalan Tarih</span>
+                  <!-- <span :id="'TimeLeft' + poll._id">Kalan Tarih</span> -->
                 </div>
               </div>
             </div>
@@ -144,7 +144,21 @@
                 </div>
               </div>
               <div class="mute vote-count">
-                Toplam {{ totalPaticipants(poll) }} oy
+                {{ totalPaticipants(poll) }} oy
+                <div>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    class="bi bi-dot"
+                    viewBox="0 0 16 16"
+                  >
+                    <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z" />
+                  </svg>
+                </div>
+
+                <span :id="'TimeLeft' + poll._id"> Kalan Tarih</span>
               </div>
             </div>
           </div>
@@ -188,6 +202,17 @@ export default {
       () => [this.$store.state.polls, this.$store.state.updated],
       async () => {
         this.polls = this.$store.state.polls;
+        this.polls.forEach((poll) => {
+          this.calculateTime(poll.Time, poll._id);
+        });
+      }
+    );
+
+    this.$store.watch(
+      () => this.$store.state.getPollsByCategory,
+      async () => {
+        this.polls = this.$store.state.categorySurveys;
+        console.log("gelen", this.polls);
         this.polls.forEach((poll) => {
           this.calculateTime(poll.Time, poll._id);
         });

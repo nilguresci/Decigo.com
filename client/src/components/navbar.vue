@@ -2,13 +2,7 @@
   <nav class="navbar decigo-navbar social fixed-top">
     <div class="container">
       <div id="decigo-search" class="decigo-search">
-        <form
-          role="search"
-          method="get"
-          id="search-form"
-          class="search-form form-inline"
-          action="#link"
-        >
+        <!-- <form role="search" id="search-form" class="search-form form-inline">
           <div class="search-field container">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -28,15 +22,39 @@
               type="text"
               placeholder="Search..."
               v-model="searchText"
+            v-on:keyup.enter="search()"
             />
             <span class="decigo-loading-ring" wfd-invisible="true"></span>
           </div>
-          <!-- 
-          <div class="search-button">
-            <button type="submit" class="search-submit"></button>
-          </div>  -->
-        </form>
-        <div id="search-result" wfd-invisible="true" style="display: none">
+          
+        </form> -->
+        <div id="search-form" class="">
+          <div class="search-field container">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              class="bi bi-search searchbtn"
+              viewBox="0 0 16 16"
+              @click="search()"
+            >
+              <path
+                d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"
+              />
+            </svg>
+            <input
+              type="text"
+              id="form1"
+              placeholder="Kategori arayın"
+              aria-label="Search"
+              v-model="searchText"
+              v-on:keyup.enter="search()"
+            />
+          </div>
+        </div>
+
+        <!-- <div id="search-result" wfd-invisible="true" style="display: none">
           <div class="search-type members">
             <div class="search-type-title">
               <h5>Members</h5>
@@ -72,14 +90,14 @@
               </svg>
             </a>
           </div>
-        </div>
+        </div> -->
       </div>
       <ul id="navbar-user" class="navbar-nav navbar-user" v-show="isLoggedIn">
-        <li class="nav-item">
+        <!-- <li class="nav-item">
           <a class="cart-contents nav-link" href="#" title="View Cart"
             ><font-awesome-icon icon="bell" />
           </a>
-        </li>
+        </li> -->
         <li class="nav-item">
           <a
             href="/profilepage"
@@ -180,9 +198,11 @@ export default {
       this.avatarno = 0;
     },
     search() {
+      console.log(this.searchText);
       if (this.searchText.length < 1) {
         alert("Arayacak olduğunuz kategoriyi yazınız lütfen");
       } else {
+        console.log(this.searchText);
         this.$store.dispatch("getSurveyByCategory", this.searchText);
       }
     },

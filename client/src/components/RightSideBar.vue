@@ -43,10 +43,11 @@ export default {
   methods: {
     async goToCategory(category) {
       console.log("category", category);
+
       this.$store.dispatch("getSurveyByCategory", category);
       console.log(
         "await this.$store.state.categorySurveys",
-        await this.$store.state.categorySurveys
+        this.$store.state.categorySurveys
       );
     },
   },

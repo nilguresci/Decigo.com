@@ -23,6 +23,7 @@ export default Vuex.createStore({
     categorySurveys: [],
     noPollErrMsg: "",
     userInfoUpdated: false,
+    getPollsByCategory: false,
   },
   mutations: {
     getPolls(state, payload) {
@@ -117,36 +118,13 @@ export default Vuex.createStore({
             });
           }
         });
-        // var found = [];
-        // found = state.users.find((element) => element._id === poll.UserId);
 
-        //console.log("found", found);
         state.users.forEach((element) => {
           if (element._id === poll.UserId) {
             survey_username = element.Username;
             avatar_no = element.AvatarNo ? element.AvatarNo : 0;
           }
         });
-        //var time = new Date(poll.Time).toLocaleTimeString();
-        // var countDownDate = new Date(poll.Time).getTime();
-        // console.log(countDownDate);
-        // var hours = "";
-        // var minutes = "";
-        // var x = setInterval(function () {
-        //   var now = new Date().getTime();
-        //   var distance = countDownDate - now;
-
-        //   hours = Math.floor(
-        //     (distance % (1000 * 60 * 60 * 12)) / (1000 * 60 * 60)
-        //   );
-        //   minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        //   //console.log("hours", hours);
-        //   //console.log("min", minutes);
-        //   if (distance < 0) {
-        //     clearInterval(x);
-        //     console.log("EXPIRED");
-        //   }
-        // }, 1000);
 
         pollsObject.push({
           userId: poll.UserId,
@@ -180,7 +158,20 @@ export default Vuex.createStore({
       state.decidedReport = payload;
     },
     getSurveyByCategory(state, payload) {
-      state.categorySurveys = payload;
+      state.categorySurveys = payload.data.map((poll) => {
+        poll.User = state.users.filter((user) => user._id === poll.UserId)[0];
+        return poll;
+      });
+      state.categorySurveys = state.categorySurveys.filter((poll) => poll.User);
+      state.categorySurveys.forEach((poll) => {
+        poll.Options.forEach((option) => {
+          option.Participants = option.Participants.filter(
+            (participant) => participant.UserId != ""
+          );
+        });
+      });
+
+      state.getPollsByCategory = !state.getPollsByCategory;
       console.log("state.categorySurveys", state.categorySurveys);
     },
     getDeleteMySurvey(state, payload) {
