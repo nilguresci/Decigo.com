@@ -22,6 +22,7 @@ export default Vuex.createStore({
     decidedReport: {},
     categorySurveys: [],
     noPollErrMsg: "",
+    userInfoUpdated: false,
   },
   mutations: {
     getPolls(state, payload) {
@@ -58,7 +59,7 @@ export default Vuex.createStore({
       console.log("geldi.", data);
       var userData = {
         username: data._doc.Username,
-        token: data.token,
+        //token: data.token,
         userId: data._doc._id,
         avatarNo: data._doc.AvatarNo,
         fullName: data._doc.Fullname,
@@ -69,6 +70,7 @@ export default Vuex.createStore({
       state.isLoggedIn = true;
       localStorage.setItem("isLoggedIn", true);
       store.set("userInfo", userData);
+      store.set("token", data.token);
       //localStorage.userInfo = userData;
       console.log(state.loggedInUserInfo);
       console.log("giriş yapıldı", payload);
@@ -77,7 +79,7 @@ export default Vuex.createStore({
       state.newPool = payload;
     },
     getMyPolls(state, payload) {
-      console.log("mypolls", payload);
+      //console.log("mypolls", payload);
       //state.loggedinPolls = payload.data;
       const data = payload.data;
       const pollsObject = [];
@@ -126,25 +128,25 @@ export default Vuex.createStore({
           }
         });
         //var time = new Date(poll.Time).toLocaleTimeString();
-        var countDownDate = new Date(poll.Time).getTime();
-        console.log(countDownDate);
-        var hours = "";
-        var minutes = "";
-        var x = setInterval(function () {
-          var now = new Date().getTime();
-          var distance = countDownDate - now;
+        // var countDownDate = new Date(poll.Time).getTime();
+        // console.log(countDownDate);
+        // var hours = "";
+        // var minutes = "";
+        // var x = setInterval(function () {
+        //   var now = new Date().getTime();
+        //   var distance = countDownDate - now;
 
-          hours = Math.floor(
-            (distance % (1000 * 60 * 60 * 12)) / (1000 * 60 * 60)
-          );
-          minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-          console.log("hours", hours);
-          console.log("min", minutes);
-          if (distance < 0) {
-            clearInterval(x);
-            console.log("EXPIRED");
-          }
-        }, 1000);
+        //   hours = Math.floor(
+        //     (distance % (1000 * 60 * 60 * 12)) / (1000 * 60 * 60)
+        //   );
+        //   minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        //   //console.log("hours", hours);
+        //   //console.log("min", minutes);
+        //   if (distance < 0) {
+        //     clearInterval(x);
+        //     console.log("EXPIRED");
+        //   }
+        // }, 1000);
 
         pollsObject.push({
           userId: poll.UserId,
@@ -164,7 +166,7 @@ export default Vuex.createStore({
       });
 
       state.loggedinPolls = pollsObject;
-      console.log("state.loggedinPolls", state.loggedinPolls);
+      //console.log("state.loggedinPolls", state.loggedinPolls);
     },
     reportSurvey(state, payload) {
       state.reportedPool = payload;
@@ -185,8 +187,19 @@ export default Vuex.createStore({
       console.log("silindi", payload);
     },
     getUpdateMyInfo(state, payload) {
-      console.log(payload);
+      console.log("update payload", payload);
       //store.set("userInfo", userData);
+    },
+    getUserInfo(state, payload) {
+      console.log("my user infopayload", payload);
+      var userData = {
+        username: payload.Username,
+        userId: payload._id,
+        avatarNo: payload.AvatarNo,
+        fullName: payload.Fullname,
+        email: payload.Email,
+      };
+      store.set("userInfo", userData);
     },
   },
   actions: {
@@ -255,11 +268,11 @@ export default Vuex.createStore({
     },
     setMyPolls({ commit }) {
       var id = store.get("userInfo").userId;
-      console.log("myid", id);
+      //console.log("myid", id);
       profileService
         .getMyPolls(id)
         .then((res) => {
-          console.log("res geld", res);
+          //console.log("res geld", res);
           if (res.success) {
             commit("getMyPolls", { data: res.data });
           }
@@ -321,11 +334,22 @@ export default Vuex.createStore({
           console.log(err);
         });
     },
-    setUpdateMyInfo({ commit }, data, id) {
+    setUserInfo({ commit }, id) {
       profileService
-        .updateMyInfo(id, data)
+        .getMyUserInfo(id)
         .then((res) => {
-          commit("getupdateMyInfo", res.data);
+          commit("getUserInfo", res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    setUpdateMyInfo({ commit }, data) {
+      profileService
+        .updateMyInfo(data)
+        .then((res) => {
+          this.state.userInfoUpdated = !this.state.userInfoUpdated;
+          commit("getUpdateMyInfo", res.data);
         })
         .catch((err) => {
           console.log(err);

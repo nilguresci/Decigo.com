@@ -2,7 +2,7 @@ import axios from "axios";
 import store from "store";
 const url = "http://localhost:3545/api/profile";
 
-const token = store.get("userInfo") ? store.get("userInfo").token : "";
+const token = store.get("token") ? store.get("token") : "";
 console.log("token", token);
 const authHeaders = {
   Authorization: `Bearer ${token}`,
@@ -56,11 +56,29 @@ export const deleteMySurvey = (id) => {
   });
 };
 
-export const updateMyInfo = (id, data) => {
+export const updateMyInfo = (data) => {
+  console.log("data", data);
+  var id = data.id;
   var urlUpdateInfo = url + `/update/${id}`;
   return new Promise((resolve, reject) => {
     axios
       .put(urlUpdateInfo, data, { headers: authHeaders })
+      .then((res) => {
+        const data = res.data;
+        resolve(data);
+      })
+      .catch((err) => {
+        reject(err);
+      });
+  });
+};
+
+export const getMyUserInfo = (id) => {
+  var urlInfo = url + `/${id}`;
+  console.log("urlinfu", urlInfo);
+  return new Promise((resolve, reject) => {
+    axios
+      .get(urlInfo, { headers: authHeaders })
       .then((res) => {
         const data = res.data;
         resolve(data);

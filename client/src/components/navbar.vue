@@ -82,7 +82,7 @@
         </li>
         <li class="nav-item">
           <a
-            href="#"
+            href="/profilepage"
             id="nav-user"
             class="nav-link login"
             data-toggle="modal"

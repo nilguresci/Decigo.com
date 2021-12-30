@@ -87,6 +87,7 @@ exports.getMyUserInfo = async (req, res, next) => {
 exports.updateUser = async (req, res, next) => {
   //fullname,email,username,avatar güncellenebilecek.
   const { fullname, email, username, avatarno } = req.body;
+  console.log("gelen avatar no", avatarno);
   try {
     const updatedUser = await User.updateOne(
       { _id: req.params.id },
@@ -95,7 +96,7 @@ exports.updateUser = async (req, res, next) => {
           Fullname: fullname,
           Email: email,
           Username: username,
-          Avatarno: avatarno,
+          AvatarNo: avatarno,
         },
       }
     );

@@ -22,7 +22,7 @@
               @click="chooseAvatar(avatarid)"
             >
               <img
-                :src="'../../assets/avatars/' + avatarid + '.png'"
+                :src="'../../assets/avatars/a' + avatarid + '.png'"
                 class="img-thumbnail rounded"
                 alt="..."
                 style="width: 70px; height: 70px"
@@ -49,7 +49,7 @@
             class="form-control edit-input"
             id="formGroupExampleInput1"
             placeholder="Example input placeholder"
-            :value="fullname"
+            v-model="fullname"
             @change="change()"
             @keypress="change()"
           />
@@ -64,7 +64,7 @@
             class="form-control edit-input"
             id="formGroupExampleInput"
             placeholder="Example input placeholder"
-            :value="username"
+            v-model="username"
             @change="change()"
             @keypress="change()"
           />
@@ -76,7 +76,7 @@
             type="email"
             class="form-control edit-input"
             id="inputEmail4"
-            :value="email"
+            v-model="email"
             @change="change()"
             @keypress="change()"
           />
@@ -187,6 +187,7 @@ export default {
   data() {
     return {
       username: "",
+      id: "",
       email: "",
       fullname: "",
       avatarno: 0,
@@ -196,7 +197,7 @@ export default {
       newPasswordAgain: "",
       submitted: false,
       userInfo: {},
-      avatarIds: ["a1", "a2", "a3", "a4", "a5", "a6", "a7", "a8", "a9"],
+      avatarIds: ["1", "2", "3", "4", "5", "6", "7", "8", "9"],
     };
   },
   setup() {
@@ -212,9 +213,17 @@ export default {
     };
   },
   mounted() {
-    this.userInfo = store.get("userInfo");
-    console.log(this.userInfo);
+    this.id = store.get("userInfo").userId;
+    console.log("this.id", this.id);
+
     this.getUserInfo();
+
+    this.$store.watch(
+      () => this.$store.state.userInfoUpdated,
+      async () => {
+        this.getUserInfo();
+      }
+    );
   },
   methods: {
     change() {
@@ -222,16 +231,31 @@ export default {
       console.log("tıklandı");
     },
     getUserInfo() {
-      this.username = this.userInfo.username;
-      this.avatarno = this.userInfo.avatarNo;
-      this.email = this.userInfo.email;
-      this.fullname = this.userInfo.fullName;
+      var id = this.id;
+      this.$store.dispatch("setUserInfo", id);
+      setTimeout(() => {
+        this.userInfo = store.get("userInfo");
+        console.log("userinfoeditiçinde", this.userInfo);
+        this.username = this.userInfo.username;
+        this.avatarno = this.userInfo.avatarNo;
+        this.email = this.userInfo.email;
+        this.fullname = this.userInfo.fullName;
+      }, 1000);
     },
     chooseAvatar(id) {
       console.log("secile", id);
       this.avatarno = id;
     },
     updateInfo() {
+      var data = {
+        fullname: this.fullname,
+        email: this.email,
+        username: this.username,
+        avatarno: this.avatarno,
+        id: this.userInfo.userId,
+      };
+      console.log("giden data", data);
+      this.$store.dispatch("setUpdateMyInfo", data);
       console.log("kaydet");
     },
   },
