@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
 
 const Survey = require("../models/Survey");
 const User = require("../models/User");
@@ -121,15 +122,17 @@ exports.changePassword = async (req, res, next) => {
         new ErrorResponse("Invalid credentials, user not found", 401)
       );
     }
-    const isMatch = Password === (await user.Password);
+    const isMatch = await user.matchPassword(Password);
     if (!isMatch) {
       return next(
         new ErrorResponse("Invalid credentials, password does not match", 401)
       );
     } else {
+      const salt = await bcrypt.genSalt(10);
+      const pass = await bcrypt.hash(newPassword, salt);
       const changedPassword = await User.updateOne(
         { _id: req.params.id },
-        { $set: { Password: newPassword } }
+        { $set: { Password: pass } }
       );
       res.status(200).json({
         success: true,
