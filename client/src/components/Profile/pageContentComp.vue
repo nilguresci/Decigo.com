@@ -195,10 +195,10 @@
                     class="form-control time-select"
                     type="time"
                     aria-label=".form-control-sm example"
-                    v-model="poll.time"
+                    v-model="expiryDate"
                   />
                 </div>
-                <button type="button" class="btn" @click="updateInfo()">
+                <button type="button" class="btn" @click="updateInfo(poll)">
                   Kaydet
                 </button>
               </div>
@@ -270,6 +270,13 @@ export default {
     },
     editPoll() {
       this.editpoll = true;
+      this.expiryDate = "00:01";
+    },
+    updateInfo(poll) {
+      const splited = this.expiryDate.split(":");
+      const endDate = Date.now() + (splited[0] * 3600000 + splited[1] * 60000);
+      this.$store.dispatch("updateSurvey", { id: poll.id, time: endDate });
+      this.expiryDate = "00:01";
     },
   },
 };

@@ -24,6 +24,7 @@ export default Vuex.createStore({
     noPollErrMsg: "",
     userInfoUpdated: false,
     getPollsByCategory: false,
+    updatedSurvey: {},
   },
   mutations: {
     getPolls(state, payload) {
@@ -192,6 +193,9 @@ export default Vuex.createStore({
       };
       store.set("userInfo", userData);
     },
+    updateSurvey(state, payload) {
+      state.updatedSurvey = payload;
+    },
   },
   actions: {
     setPolls({ commit }) {
@@ -345,6 +349,11 @@ export default Vuex.createStore({
         .catch((err) => {
           console.log(err);
         });
+    },
+    updateSurvey({ commit }, data) {
+      profileService.updateSurvey(data.id, data.time).then((res) => {
+        commit("updateSurvey", res.data);
+      });
     },
   },
   modules: {},

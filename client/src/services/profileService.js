@@ -88,3 +88,7 @@ export const getMyUserInfo = (id) => {
       });
   });
 };
+
+export const updateSurvey = (id, time) => {
+  return axios.put(`${url}/mySurveys/${id}`, { time });
+};
