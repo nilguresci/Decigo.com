@@ -141,7 +141,7 @@ export default {
     };
   },
   mounted() {
-    this.avatarno = store.get("userInfo").avatarNo;
+    this.avatarno = store.get("userInfo") ? store.get("userInfo").avatarNo : 0;
     this.$store.watch(
       () => this.$store.state.newPool,
       async () => {

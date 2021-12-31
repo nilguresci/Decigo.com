@@ -169,10 +169,6 @@ export default {
       }
     );
 
-    this.avatarno = store.get("userInfo").avatarNo
-      ? store.get("userInfo").avatarNo
-      : 0;
-
     if (this.isLoggedIn) {
       this.username = store.get("userInfo").username
         ? store.get("userInfo").username
@@ -185,6 +181,10 @@ export default {
           this.username = store.get("userInfo").username
             ? store.get("userInfo").username
             : "";
+
+          this.avatarno = store.get("userInfo").avatarNo
+            ? store.get("userInfo").avatarNo
+            : 0;
         }
       }
     );

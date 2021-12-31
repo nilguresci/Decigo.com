@@ -209,6 +209,7 @@ export default {
     );
 
     this.$store.watch(
+      //kategori seçildiğinde o listeyi buraya atıyor.
       () => this.$store.state.getPollsByCategory,
       async () => {
         this.polls = this.$store.state.categorySurveys;
@@ -273,6 +274,8 @@ export default {
         "Anket numarasını kopyaladınız. Arama çubuğundan anketi bulabilirsiniz " +
           id
       );
+      var url = new URL("http://localhost:8080/"); //burayı çalışıyorum daha
+      url.searchParams.set("param_1", "val_1");
     },
     report(id) {
       this.$store.dispatch("reportSurvey", id);
@@ -292,7 +295,11 @@ export default {
       return (participantNum * 100) / totalPartici;
     },
     isJoinable(poll) {
-      if (!store.get("userInfo").userId) return false;
+      if (
+        store.get("userInfo") === undefined ||
+        store.get("userInfo").userId === undefined
+      )
+        return false;
       let joinable = true;
       const myUserId = store.get("userInfo").userId;
       poll.Options.forEach((option) => {
