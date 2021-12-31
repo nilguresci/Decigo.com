@@ -25,6 +25,11 @@ const routes = [
     name: "AdminPage",
     component: AdminPage,
   },
+  {
+    path: "/:id",
+    name: "HomeWithId",
+    component: Home,
+  },
 ];
 
 const router = createRouter({

@@ -192,7 +192,7 @@ export default {
       type: "setUsers",
     });
 
-    this.getPolls();
+    //this.getPolls();
 
     this.polls.forEach((poll) => {
       this.calculateTime(poll.Time, poll._id);
@@ -227,6 +227,8 @@ export default {
         this.polls = this.$store.state.polls;
       }
     );
+
+    this.getIdFromUrl();
   },
   methods: {
     markAnswer(optionId, poll) {
@@ -270,12 +272,44 @@ export default {
     },
     share(id) {
       navigator.clipboard.writeText(id);
-      alert(
-        "Anket numarasını kopyaladınız. Arama çubuğundan anketi bulabilirsiniz " +
-          id
-      );
-      var url = new URL("http://localhost:8080/"); //burayı çalışıyorum daha
-      url.searchParams.set("param_1", "val_1");
+
+      // var url = new URL("http://localhost:8080"); //burayı çalışıyorum daha
+      let m = "http://localhost:8080";
+      let b = new URL(m);
+      let newUrl = "http://localhost:8080/" + id;
+      let d = new URL(newUrl, b);
+      console.log(d.href);
+      navigator.clipboard.writeText(d.href);
+      alert("Anket linkini kopyaladınız." + d.href);
+    },
+    getIdFromUrl() {
+      var url = window.location.pathname;
+      console.log("current url", url);
+      var id = url.substring(url.lastIndexOf("/") + 1);
+      console.log("id", id);
+      //alert(id); // 234234234
+
+      if (id) {
+        this.sharedPollsList(id);
+      }
+    },
+    sharedPollsList(id) {
+      var sortedPolls = [];
+      this.$store.dispatch({
+        type: "setPolls",
+      });
+      this.polls = this.$store.state.polls;
+      console.log("sharediçinde polls", this.polls);
+      this.polls.forEach((poll) => {
+        this.calculateTime(poll.Time, poll._id);
+      });
+      console.log("polls shared", this.polls);
+      sortedPolls = this.polls.filter((item) => item._id !== id);
+      console.log("sortedpolls 1", sortedPolls);
+      var firstPoll = this.polls.filter((item) => item._id === id);
+      sortedPolls.unshift(firstPoll);
+      console.log("first poll", firstPoll);
+      this.polls = sortedPolls;
     },
     report(id) {
       this.$store.dispatch("reportSurvey", id);
