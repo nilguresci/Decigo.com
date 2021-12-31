@@ -40,11 +40,11 @@ exports.getMySurveys = async (req, res, next) => {
 
 exports.updateSurvey = async (req, res, next) => {
   //time güncellenebilecek sadece
-  const { hour } = req.body;
+  const { time } = req.body;
   try {
     const survey = await Survey.updateOne(
       { _id: req.params.id },
-      { $set: { Time: hour } }
+      { $set: { Time: time } }
     );
     res.status(200).json({
       success: true,
