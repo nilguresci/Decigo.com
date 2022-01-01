@@ -362,10 +362,12 @@ export default Vuex.createStore({
     },
     setChangePassw({ commit }, data) {
       var passData = {
-        Password: data.password,
-        newPassword: data.newPassword,
+        Password: data.data.password,
+        newPassword: data.data.newPassword,
       };
-      profileService.changeMyPassword(data.id, passData).then((res) => {
+      var id = data.data.id;
+      console.log(data);
+      profileService.changeMyPassword(id, passData).then((res) => {
         commit("getChangeMyPassw", res.data);
       });
     },

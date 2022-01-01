@@ -94,5 +94,6 @@ export const updateSurvey = (id, time) => {
 };
 
 export const changeMyPassword = (id, data) => {
-  return axios.put(`${url}/changePass/${id}`, data);
+  console.log("url id", id);
+  return axios.put(`${url}/changePass/${id}`, data, { headers: authHeaders });
 };

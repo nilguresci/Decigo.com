@@ -141,6 +141,7 @@
                           type="password"
                           class="form-control"
                           id="inputnewPassword"
+                          v-model="newPassword"
                         />
                       </div>
                     </div>
@@ -155,12 +156,13 @@
                           type="password"
                           class="form-control"
                           id="inputnewPassword2"
+                          v-model="newPasswordAgain"
                         />
                       </div>
                     </div>
                   </div>
                   <div class="modal-footer save-pass">
-                    <button type="button" @click="submit()" class="btn">
+                    <button type="button" @click="changePassword()" class="btn">
                       Kaydet
                     </button>
                   </div>
@@ -182,6 +184,7 @@
 import store from "store";
 import useVuelidate from "@vuelidate/core";
 import { required, minLength, sameAs } from "@vuelidate/validators";
+import $ from "jquery";
 export default {
   name: "profileEditComp",
   data() {
@@ -224,6 +227,15 @@ export default {
         this.getUserInfo();
       }
     );
+    this.$store.watch(
+      () => this.$store.state.passwChanged,
+      async () => {
+        //var myModal = document.getElementById("exampleModal");
+        // myModal.style.display = "none";
+        //$("#exampleModal")
+        $("#exampleModal").modal("hide");
+      }
+    );
   },
   methods: {
     change() {
@@ -257,6 +269,18 @@ export default {
       console.log("giden data", data);
       this.$store.dispatch("setUpdateMyInfo", data);
       console.log("kaydet");
+    },
+    changePassword() {
+      var data = {
+        id: this.id,
+        password: this.password,
+        newPassword: this.newPassword,
+      };
+      console.log("change pass data", data);
+      this.$store.dispatch({
+        type: "setChangePassw",
+        data: data,
+      });
     },
   },
 };
