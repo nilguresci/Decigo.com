@@ -173,6 +173,10 @@ export default {
       this.username = store.get("userInfo").username
         ? store.get("userInfo").username
         : "";
+
+      this.avatarno = store.get("userInfo").avatarNo
+        ? store.get("userInfo").avatarNo
+        : 0;
     }
     this.$store.watch(
       () => this.isLoggedIn,

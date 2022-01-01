@@ -15,13 +15,13 @@
     </div>
     <ul class="connections">
       <li>
-        <span class="count">10</span>
+        <span class="count">{{ pollsCount }}</span>
         <p class="mute">Anketlerim</p>
       </li>
-      <li>
+      <!-- <li>
         <span class="count">50</span>
         <p class="mute">Oyladıklarım</p>
-      </li>
+      </li> -->
     </ul>
   </div>
 </template>
@@ -36,6 +36,7 @@ export default {
       userInfo: {},
       avatarno: 0,
       //avatarfilename: "../../assets/avatars/a0.png",
+      pollsCount: 0,
     };
   },
   mounted() {
@@ -48,6 +49,18 @@ export default {
     //     this.userInfo = localStorage.userInfo; // this.$store.state.loggedInUserInfo =localStorage.getItem("userInfo");
     //   }
     // );
+
+    this.$store.dispatch({
+      type: "setMyPolls",
+    });
+
+    this.$store.watch(
+      () => [this.$store.state.loggedinPolls, this.$store.state.updated],
+      async () => {
+        this.pollsCount = this.$store.state.loggedinPolls.length;
+        console.log("polls count", this.pollsCount);
+      }
+    );
   },
   methods: {
     getUserInfo() {

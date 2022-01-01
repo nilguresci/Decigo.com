@@ -2,7 +2,7 @@
   <div class="layout-left-side-container">
     <div class="layout-left-side">
       <div class="panel-block dark">
-        <a href="#" class="panel-logo item">
+        <a href="/" class="panel-logo item">
           <img src="../assets/logo_beyaz.svg" alt="Italian Trulli" />
         </a>
         <loggedin-user-comp v-if="isLoggedIn"></loggedin-user-comp>

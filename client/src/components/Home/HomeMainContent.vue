@@ -182,6 +182,7 @@ export default {
       polls: [],
       avatarno: 0,
       timeLeft: {},
+      getSpecificPollFirst: false,
     };
   },
   components: {
@@ -192,19 +193,24 @@ export default {
       type: "setUsers",
     });
 
-    //this.getPolls();
-
-    this.polls.forEach((poll) => {
-      this.calculateTime(poll.Time, poll._id);
-    });
+    this.getPolls();
+    this.getIdFromUrl();
+    // this.polls.forEach((poll) => {
+    //   this.calculateTime(poll.Time, poll._id);
+    // });
 
     this.$store.watch(
       () => [this.$store.state.polls, this.$store.state.updated],
       async () => {
-        this.polls = this.$store.state.polls;
-        this.polls.forEach((poll) => {
-          this.calculateTime(poll.Time, poll._id);
-        });
+        if (this.getSpecificPollFirst) {
+          console.log("specific e girdi");
+          this.filteredListById(this.getSpecificPollFirst);
+        } else {
+          this.polls = this.$store.state.polls;
+          this.polls.forEach((poll) => {
+            this.calculateTime(poll.Time, poll._id);
+          });
+        }
       }
     );
 
@@ -227,8 +233,6 @@ export default {
         this.polls = this.$store.state.polls;
       }
     );
-
-    this.getIdFromUrl();
   },
   methods: {
     markAnswer(optionId, poll) {
@@ -273,42 +277,37 @@ export default {
     share(id) {
       navigator.clipboard.writeText(id);
 
-      // var url = new URL("http://localhost:8080"); //burayı çalışıyorum daha
       let m = "http://localhost:8080";
       let b = new URL(m);
       let newUrl = "http://localhost:8080/" + id;
       let d = new URL(newUrl, b);
       console.log(d.href);
       navigator.clipboard.writeText(d.href);
-      alert("Anket linkini kopyaladınız." + d.href);
+      alert("Anket linkini kopyaladınız. " + d.href);
     },
     getIdFromUrl() {
       var url = window.location.pathname;
       console.log("current url", url);
       var id = url.substring(url.lastIndexOf("/") + 1);
       console.log("id", id);
-      //alert(id); // 234234234
 
       if (id) {
-        this.sharedPollsList(id);
+        this.getSpecificPollFirst = id;
       }
     },
-    sharedPollsList(id) {
+    filteredListById(id) {
       var sortedPolls = [];
-      this.$store.dispatch({
-        type: "setPolls",
-      });
       this.polls = this.$store.state.polls;
-      console.log("sharediçinde polls", this.polls);
       this.polls.forEach((poll) => {
         this.calculateTime(poll.Time, poll._id);
       });
-      console.log("polls shared", this.polls);
+
       sortedPolls = this.polls.filter((item) => item._id !== id);
-      console.log("sortedpolls 1", sortedPolls);
+
       var firstPoll = this.polls.filter((item) => item._id === id);
-      sortedPolls.unshift(firstPoll);
-      console.log("first poll", firstPoll);
+      sortedPolls.unshift(firstPoll[0]);
+      console.log("first poll", firstPoll[0]);
+      console.log("sortedpolls son", sortedPolls);
       this.polls = sortedPolls;
     },
     report(id) {

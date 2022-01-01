@@ -148,6 +148,19 @@ export default {
         this.surveyQuestion === "";
       }
     );
+
+    this.$store.watch(
+      () => this.$store.state.isLoggedIn,
+      () => {
+        if (this.$store.state.isLoggedIn) {
+          this.avatarno = store.get("userInfo").avatarNo
+            ? store.get("userInfo").avatarNo
+            : 0;
+        } else {
+          this.avatarno = 0;
+        }
+      }
+    );
   },
   methods: {
     addOption() {

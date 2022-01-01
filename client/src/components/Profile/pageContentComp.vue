@@ -186,8 +186,22 @@
               </div>
             </div>
             <div class="poll-footer">
-              <!-- <div class="mute">{{ poll.totalParticipants }}buraya kalan dk yazılabilir </div> -->
-              <div class="mute">{{ poll.totalParticipants }} oy</div>
+              <div class="mute vote-count">
+                <div class="">{{ poll.totalParticipants }} oy</div>
+                <div>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    class="bi bi-dot"
+                    viewBox="0 0 16 16"
+                  >
+                    <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z" />
+                  </svg>
+                </div>
+                <span :id="'TimeLeft' + poll._id"> Kalan Tarih</span>
+              </div>
 
               <div class="save-update" v-if="editpoll">
                 <div class="upt-input">
@@ -224,6 +238,7 @@ export default {
       noPollErrMsg: "",
       expiryDate: "00:01",
       editpoll: false,
+      timeLeft: {},
     };
   },
   components: {
@@ -237,6 +252,9 @@ export default {
       async () => {
         this.polls = this.$store.state.loggedinPolls;
         console.log("polls", this.polls);
+        this.polls.forEach((poll) => {
+          this.calculateTime(poll.Time, poll._id);
+        });
       }
     );
 
@@ -244,6 +262,9 @@ export default {
       () => this.$store.state.updated,
       async () => {
         this.polls = this.$store.state.loggedinPolls;
+        this.polls.forEach((poll) => {
+          this.calculateTime(poll.Time, poll._id);
+        });
       }
     );
     this.$store.watch(
@@ -258,6 +279,10 @@ export default {
     getMyPolls() {
       this.$store.dispatch({
         type: "setMyPolls",
+      });
+      this.polls = this.$store.state.polls;
+      this.polls.forEach((poll) => {
+        this.calculateTime(poll.Time, poll._id);
       });
     },
     changetab() {
@@ -277,6 +302,47 @@ export default {
       const endDate = Date.now() + (splited[0] * 3600000 + splited[1] * 60000);
       this.$store.dispatch("updateSurvey", { id: poll.id, time: endDate });
       this.expiryDate = "00:01";
+    },
+    calculateTime(time, id) {
+      console.log(time, id);
+      const endDate = new Date(time).getTime();
+      const inter = setInterval(() => {
+        const now = new Date().getTime();
+        const distance = endDate - now;
+
+        const hours = Math.floor(
+          (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+        );
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        try {
+          document.getElementById(`TimeLeft${id}`).innerHTML =
+            hours.toLocaleString("en-US", {
+              minimumIntegerDigits: 2,
+              useGrouping: false,
+            }) +
+            ":" +
+            minutes.toLocaleString("en-US", {
+              minimumIntegerDigits: 2,
+              useGrouping: false,
+            }) +
+            ":" +
+            seconds.toLocaleString("en-US", {
+              minimumIntegerDigits: 2,
+              useGrouping: false,
+            });
+
+          if (distance < 0) {
+            clearInterval(inter);
+            document.getElementById(`TimeLeft${id}`).innerHTML =
+              "Anket Sonuçlandı";
+          }
+        } catch {
+          //clearInterval(inter);
+          //document.getElementById(`TimeLeft${id}`).innerHTML = "";
+        }
+      }, 1000);
     },
   },
 };
@@ -405,7 +471,7 @@ export default {
         color: #626c72;
       }
       .poll-cont {
-        top: 7%;
+        top: 4%;
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
@@ -437,6 +503,12 @@ export default {
           justify-content: space-between;
           width: 94%;
           align-items: baseline;
+
+          .vote-count {
+            //padding-left: 58px;
+            display: flex;
+            font-size: 85%;
+          }
 
           .save-update {
             display: flex;
@@ -495,6 +567,7 @@ export default {
         display: flex;
         justify-self: flex-start;
         padding-left: 42px;
+        text-align: left;
       }
 
       .answers-area {

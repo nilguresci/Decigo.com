@@ -3,7 +3,7 @@ import * as pollService from "../services/pollService";
 import * as authService from "../services/authService";
 import * as profileService from "../services/profileService";
 import * as adminService from "../services/adminService";
-import moment from "moment";
+//import moment from "moment";
 import store from "store";
 
 export default Vuex.createStore({
@@ -25,6 +25,7 @@ export default Vuex.createStore({
     userInfoUpdated: false,
     getPollsByCategory: false,
     updatedSurvey: {},
+    passwChanged: false,
   },
   mutations: {
     getPolls(state, payload) {
@@ -137,7 +138,7 @@ export default Vuex.createStore({
           category: poll.Category,
           creationDate: poll.CreationDate,
           suggestionNum: poll.SuggestionNum,
-          time: moment(poll.Time).format("LT").split("P")[0], //,
+          Time: poll.Time, //,
           //time: hours + ":" + minutes,
           totalParticipants: totalParticipants,
           isVoted: isParticipant.length > 0 ? true : false,
@@ -195,6 +196,10 @@ export default Vuex.createStore({
     },
     updateSurvey(state, payload) {
       state.updatedSurvey = payload;
+    },
+    getChangeMyPassw(state, payload) {
+      state.passwChanged = true;
+      console.log(payload);
     },
   },
   actions: {
@@ -353,6 +358,15 @@ export default Vuex.createStore({
     updateSurvey({ commit }, data) {
       profileService.updateSurvey(data.id, data.time).then((res) => {
         commit("updateSurvey", res.data);
+      });
+    },
+    setChangePassw({ commit }, data) {
+      var passData = {
+        Password: data.password,
+        newPassword: data.newPassword,
+      };
+      profileService.changeMyPassword(data.id, passData).then((res) => {
+        commit("getChangeMyPassw", res.data);
       });
     },
   },

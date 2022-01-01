@@ -13,6 +13,7 @@ const SurveySchema = new mongoose.Schema({
       3,
       "Lütfen anket sorusunun üç harften fazla olduğundan emin olunuz",
     ],
+    maxLength: [120, "120 karakteri aşamazsınız."],
   },
   CreationDate: {
     type: Date,
@@ -26,6 +27,7 @@ const SurveySchema = new mongoose.Schema({
     type: [Option],
     required: [true, "Lütfen anket seçeneği giriniz"],
     minLength: [2, "Lütfen en az iki anket seçeneği girdiğinizden emin olunuz"],
+    maxLength: [5, "Beşden fazla cevap oluşturulamaz."],
   },
   Category: {
     type: String,

@@ -92,3 +92,7 @@ export const getMyUserInfo = (id) => {
 export const updateSurvey = (id, time) => {
   return axios.put(`${url}/mySurveys/${id}`, { time });
 };
+
+export const changeMyPassword = (id, data) => {
+  return axios.put(`${url}/changePass/${id}`, data);
+};
