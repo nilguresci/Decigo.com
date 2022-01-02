@@ -41,6 +41,11 @@ export default Vuex.createStore({
           );
         });
       });
+      if (store.get("userInfo") && store.get("userInfo").userId) {
+        state.polls = state.polls.filter(
+          (poll) => poll.UserId !== store.get("userInfo").userId
+        );
+      }
     },
     getJoinPoll(state, payload) {
       state.updated = payload.data;
