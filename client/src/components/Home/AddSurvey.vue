@@ -24,7 +24,7 @@
       </div>
     </div>
 
-    <div v-if="surveyQuestion">
+    <div v-if="surveyQuestion || onProfilePage === true">
       <div class="row" v-for="(option, index) in options" :key="index">
         <div class="col">
           <div class="input-group mb-3">
@@ -138,6 +138,7 @@ export default {
       expiryDate: "00:01",
       category: "",
       avatarno: 0,
+      onProfilePage: false,
     };
   },
   mounted() {
@@ -146,6 +147,20 @@ export default {
       () => this.$store.state.newPool,
       async () => {
         this.surveyQuestion === "";
+      }
+    );
+
+    this.$store.state.onProfilePage
+      ? (this.onProfilePage = true)
+      : (this.onProfilePage = false);
+
+    console.log("comp açıldı", this.onProfilePage);
+    this.$store.watch(
+      () => this.$store.state.onProfilePage,
+      () => {
+        this.$store.state.onProfilePage
+          ? (this.onProfilePage = true)
+          : (this.onProfilePage = false);
       }
     );
 

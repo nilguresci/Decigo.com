@@ -8,8 +8,8 @@
             <button
               type="button"
               class="btn btn-light"
-              :class="[activity ? '' : 'nothere']"
-              @click="changetab()"
+              :class="[activity.value ? '' : 'nothere']"
+              @click="changetab(activity.id)"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -23,13 +23,13 @@
                   d="M0 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2h2a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-2H2a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H2z"
                 />
               </svg>
-              <span class="" v-show="!activity">Activity</span>
+              <span class="" v-show="!activity.value">Activity</span>
             </button>
             <button
               type="button"
               class="btn btn-light"
-              :class="[profile ? '' : 'nothere']"
-              @click="changetab()"
+              :class="[profile.value ? '' : 'nothere']"
+              @click="changetab(profile.id)"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -46,7 +46,30 @@
                   d="M2 1a2 2 0 0 0-2 2v9.5A1.5 1.5 0 0 0 1.5 14h.653a5.373 5.373 0 0 1 1.066-2H1V3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v9h-2.219c.554.654.89 1.373 1.066 2h.653a1.5 1.5 0 0 0 1.5-1.5V3a2 2 0 0 0-2-2H2Z"
                 />
               </svg>
-              <span class="" v-show="!profile">Profile</span>
+              <span class="" v-show="!profile.value">Profile</span>
+            </button>
+            <button
+              type="button"
+              class="btn btn-light"
+              :class="[addPoll.value ? '' : 'nothere']"
+              @click="changetab(addPoll.id)"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-plus-square"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"
+                />
+                <path
+                  d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
+                />
+              </svg>
+              <span class="" v-show="!addPoll.value">Anket Oluştur</span>
             </button>
           </ul>
         </div>
@@ -54,7 +77,7 @@
     </nav>
     <div class="page-body d-flex">
       <div class="col-2 body-left"></div>
-      <div class="col-8 body-main d-flex" v-if="activity">
+      <div class="col-8 body-main d-flex" v-if="activity.value">
         <nav>
           <ul>
             <li>Anketlerim</li>
@@ -200,7 +223,7 @@
                     <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z" />
                   </svg>
                 </div>
-                <span :id="'TimeLeft' + poll._id"> Kalan Tarih</span>
+                <span :id="'TimeLeft' + poll.id"> Kalan Tarih</span>
               </div>
 
               <div class="save-update" v-if="editpoll">
@@ -220,19 +243,22 @@
           </div>
         </div>
       </div>
-      <profile-edit-view-comp v-if="!activity"></profile-edit-view-comp>
+      <profile-edit-view-comp v-if="profile.value"></profile-edit-view-comp>
+      <add-survey-comp v-if="addPoll.value"></add-survey-comp>
       <div class="col-2 body-right"></div>
     </div>
   </div>
 </template>
 <script>
 import profileEditViewComp from "./profileEditViewComp.vue";
+import addSurveyComp from "./addSurveyComp.vue";
 export default {
   name: "pagecontentcomp",
   data() {
     return {
-      activity: false,
-      profile: true,
+      activity: { id: "activity", value: true },
+      profile: { id: "profile", value: false },
+      addPoll: { id: "addPoll", value: false },
       polls: [],
       nopoll: false,
       noPollErrMsg: "",
@@ -243,9 +269,19 @@ export default {
   },
   components: {
     "profile-edit-view-comp": profileEditViewComp,
+    "add-survey-comp": addSurveyComp,
   },
   mounted() {
     this.getMyPolls();
+    this.$store.watch(
+      () => this.$store.state.loggedinPolls,
+      async () => {
+        this.polls = this.$store.state.loggedinPolls;
+        this.polls.forEach((poll) => {
+          this.calculateTime(poll.Time, poll.id);
+        });
+      }
+    );
 
     this.$store.watch(
       () => [this.$store.state.loggedinPolls, this.$store.state.updated],
@@ -253,20 +289,20 @@ export default {
         this.polls = this.$store.state.loggedinPolls;
         console.log("polls", this.polls);
         this.polls.forEach((poll) => {
-          this.calculateTime(poll.Time, poll._id);
+          this.calculateTime(poll.Time, poll.id);
         });
       }
     );
 
-    this.$store.watch(
-      () => this.$store.state.updated,
-      async () => {
-        this.polls = this.$store.state.loggedinPolls;
-        this.polls.forEach((poll) => {
-          this.calculateTime(poll.Time, poll._id);
-        });
-      }
-    );
+    // this.$store.watch(
+    //   () => this.$store.state.updated,
+    //   async () => {
+    //     this.polls = this.$store.state.loggedinPolls;
+    //     this.polls.forEach((poll) => {
+    //       this.calculateTime(poll.Time, poll.id);
+    //     });
+    //   }
+    // );
     this.$store.watch(
       () => this.$store.state.noPollErrMsg,
       async () => {
@@ -280,14 +316,35 @@ export default {
       this.$store.dispatch({
         type: "setMyPolls",
       });
-      this.polls = this.$store.state.polls;
-      this.polls.forEach((poll) => {
-        this.calculateTime(poll.Time, poll._id);
-      });
+      // this.polls = this.$store.state.loggedinPolls;
+      // this.polls.forEach((poll) => {
+      //   this.calculateTime(poll.Time, poll.id);
+      // });
     },
-    changetab() {
-      this.activity = !this.activity;
-      this.profile = !this.profile;
+    changetab(id) {
+      console.log("tab id", id);
+      // id === "activity"
+      //   ? (this.activity = true)
+      //   : id === "profile"
+      //   ? (this.profile = true)
+      //   : id === "addPoll"
+      //   ? (this.addPoll = true)
+      //   : false;
+
+      if (id === "activity") {
+        this.activity.value = true;
+        this.profile.value = false;
+        this.addPoll.value = false;
+      } else if (id === "profile") {
+        this.activity.value = false;
+        this.profile.value = true;
+        this.addPoll.value = false;
+      } else if (id === "addPoll") {
+        this.$store.state.onProfilePage = true;
+        this.activity.value = false;
+        this.profile.value = false;
+        this.addPoll.value = true;
+      }
     },
     deleteMyPoll(id) {
       this.$store.dispatch("setDeleteMySurvey", id);

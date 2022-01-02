@@ -26,6 +26,7 @@ export default Vuex.createStore({
     getPollsByCategory: false,
     updatedSurvey: {},
     passwChanged: false,
+    onProfilePage: false,
   },
   mutations: {
     getPolls(state, payload) {
@@ -154,7 +155,7 @@ export default Vuex.createStore({
       });
 
       state.loggedinPolls = pollsObject;
-      //console.log("state.loggedinPolls", state.loggedinPolls);
+      console.log("mypolls state", state.loggedinPolls);
     },
     reportSurvey(state, payload) {
       state.reportedPool = payload;
