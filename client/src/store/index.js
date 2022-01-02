@@ -46,6 +46,9 @@ export default Vuex.createStore({
           (poll) => poll.UserId !== store.get("userInfo").userId
         );
       }
+      state.polls.sort((a, b) => {
+        return new Date(b.CreationDate) - new Date(a.CreationDate);
+      });
     },
     getJoinPoll(state, payload) {
       state.updated = payload.data;
