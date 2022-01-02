@@ -271,6 +271,14 @@ export default {
       console.log("kaydet");
     },
     changePassword() {
+      if (this.password.length < 6 || this.newPassword.length < 6) {
+        alert("Şifre 6 karakterden kısa olamaz");
+        return;
+      }
+      if (this.newPassword !== this.newPasswordAgain) {
+        alert("Yeni şifreyi iki kez doğru girdiğinizden emin olunuz");
+        return;
+      }
       var data = {
         id: this.id,
         password: this.password,
