@@ -24,9 +24,12 @@ export default Vuex.createStore({
     noPollErrMsg: "",
     userInfoUpdated: false,
     getPollsByCategory: false,
-    updatedSurvey: {},
+    updatedSurvey: false,
     passwChanged: false,
     onProfilePage: false,
+    pollAdded: false,
+    notFoundErrorMsg: "",
+    successMsg: "",
   },
   mutations: {
     getPolls(state, payload) {
@@ -88,6 +91,7 @@ export default Vuex.createStore({
       console.log("giriş yapıldı", payload);
     },
     getCreatePool(state, payload) {
+      state.pollAdded = true;
       state.newPool = payload;
     },
     getMyPolls(state, payload) {
@@ -159,6 +163,7 @@ export default Vuex.createStore({
     },
     reportSurvey(state, payload) {
       state.reportedPool = payload;
+      state.successMsg = "Anket başarılı bir şekilde raporlandı.";
     },
     getReportedPolls(state, payload) {
       console.log("Payload", payload);
@@ -186,9 +191,12 @@ export default Vuex.createStore({
       console.log("state.categorySurveys", state.categorySurveys);
     },
     getDeleteMySurvey(state, payload) {
+      state.successMsg = "Anket başarılı bir şekilde silindi.";
       console.log("silindi", payload);
     },
     getUpdateMyInfo(state, payload) {
+      state.successMsg =
+        "Kullanıcı bilgileriniz başarılı bir şekilde güncellendi.";
       console.log("update payload", payload);
       //store.set("userInfo", userData);
     },
@@ -204,9 +212,12 @@ export default Vuex.createStore({
       store.set("userInfo", userData);
     },
     updateSurvey(state, payload) {
-      state.updatedSurvey = payload;
+      state.successMsg = "Anket başarılı bir şekilde güncellendi.";
+      console.log(payload);
+      state.updatedSurvey = true;
     },
     getChangeMyPassw(state, payload) {
+      state.successMsg = "Şifreniz değiştirildi.";
       state.passwChanged = true;
       console.log(payload);
     },
@@ -330,7 +341,7 @@ export default Vuex.createStore({
           commit("getSurveyByCategory", res.data);
         })
         .catch((err) => {
-          console.log(err);
+          console.log("error msg", err.message);
         });
     },
     setDeleteMySurvey({ commit }, id) {

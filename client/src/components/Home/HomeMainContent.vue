@@ -170,6 +170,7 @@
 
 <script>
 import AddSurveyComponent from "./AddSurvey.vue";
+import Swal from "sweetalert2";
 import store from "store";
 export default {
   name: "HomeMainContent",
@@ -183,6 +184,7 @@ export default {
       avatarno: 0,
       timeLeft: {},
       getSpecificPollFirst: false,
+      successMsg: "",
     };
   },
   components: {
@@ -195,9 +197,6 @@ export default {
 
     this.getPolls();
     this.getIdFromUrl();
-    // this.polls.forEach((poll) => {
-    //   this.calculateTime(poll.Time, poll._id);
-    // });
 
     this.$store.watch(
       () => [this.$store.state.polls, this.$store.state.updated],
@@ -231,6 +230,25 @@ export default {
       async () => {
         this.getPolls();
         this.polls = this.$store.state.polls;
+      }
+    );
+
+    this.$store.watch(
+      () => this.$store.state.successMsg,
+      () => {
+        if (this.$store.state.successMsg) {
+          this.successMsg = this.$store.state.successMsg;
+          Swal.fire({
+            icon: "success",
+            title: this.successMsg,
+            showConfirmButton: false,
+            timer: 1500,
+          });
+
+          setTimeout(() => {
+            this.$store.state.successMsg = "";
+          }, 2000);
+        }
       }
     );
   },
@@ -283,7 +301,15 @@ export default {
       let d = new URL(newUrl, b);
       console.log(d.href);
       navigator.clipboard.writeText(d.href);
-      alert("Anket linkini kopyaladınız. " + d.href);
+      //alert("Anket linkini kopyaladınız. " + d.href);
+      //var link = `<a href="${d.href}">Git</a> `;
+      Swal.fire({
+        icon: "success",
+        title: "Anket linkini kopyaladınız.",
+        //html: link,
+        showConfirmButton: false,
+        timer: 1500,
+      });
     },
     getIdFromUrl() {
       var url = window.location.pathname;
@@ -312,7 +338,7 @@ export default {
     },
     report(id) {
       this.$store.dispatch("reportSurvey", id);
-      alert("Anket raporlandı. Teşekkür ederiz.");
+      //alert("Anket raporlandı. Teşekkür ederiz.");
     },
     totalPaticipants(poll) {
       let total = 0;

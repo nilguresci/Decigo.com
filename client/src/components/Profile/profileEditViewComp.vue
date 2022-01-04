@@ -184,6 +184,7 @@
 import store from "store";
 import useVuelidate from "@vuelidate/core";
 import { required, minLength, sameAs } from "@vuelidate/validators";
+import Swal from "sweetalert2";
 import $ from "jquery";
 export default {
   name: "profileEditComp",
@@ -234,6 +235,25 @@ export default {
         // myModal.style.display = "none";
         //$("#exampleModal")
         $("#exampleModal").modal("hide");
+      }
+    );
+
+    this.$store.watch(
+      () => this.$store.state.successMsg,
+      () => {
+        if (this.$store.state.successMsg) {
+          this.successMsg = this.$store.state.successMsg;
+          Swal.fire({
+            icon: "success",
+            title: this.successMsg,
+            showConfirmButton: false,
+            timer: 1500,
+          });
+
+          setTimeout(() => {
+            this.$store.state.successMsg = "";
+          }, 2000);
+        }
       }
     );
   },

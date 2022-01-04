@@ -161,7 +161,7 @@
                     </a>
                   </li>
                   <li>
-                    <a class="dropdown-item" href="#" @click="editPoll()"
+                    <a class="dropdown-item" href="#" @click="editPoll(poll.id)"
                       ><svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="15"
@@ -226,7 +226,7 @@
                 <span :id="'TimeLeft' + poll.id"> Kalan Tarih</span>
               </div>
 
-              <div class="save-update" v-if="editpoll">
+              <div class="save-update" v-if="editpoll === poll.id">
                 <div class="upt-input">
                   <input
                     class="form-control time-select"
@@ -252,6 +252,7 @@
 <script>
 import profileEditViewComp from "./profileEditViewComp.vue";
 import addSurveyComp from "./addSurveyComp.vue";
+import Swal from "sweetalert2";
 export default {
   name: "pagecontentcomp",
   data() {
@@ -265,6 +266,7 @@ export default {
       expiryDate: "00:01",
       editpoll: false,
       timeLeft: {},
+      showId: "",
     };
   },
   components: {
@@ -283,31 +285,51 @@ export default {
       }
     );
 
-    this.$store.watch(
-      () => [this.$store.state.loggedinPolls, this.$store.state.updated],
-      async () => {
-        this.polls = this.$store.state.loggedinPolls;
-        console.log("polls", this.polls);
-        this.polls.forEach((poll) => {
-          this.calculateTime(poll.Time, poll.id);
-        });
-      }
-    );
-
     // this.$store.watch(
-    //   () => this.$store.state.updated,
+    //   () => [this.$store.state.loggedinPolls, this.$store.state.updated],
     //   async () => {
     //     this.polls = this.$store.state.loggedinPolls;
+    //     console.log("polls", this.polls);
     //     this.polls.forEach((poll) => {
     //       this.calculateTime(poll.Time, poll.id);
     //     });
     //   }
     // );
+
+    this.$store.watch(
+      () => [this.$store.state.updated, this.$store.state.updatedSurvey], //burada bir hata var, çözülcek
+      async () => {
+        this.getMyPolls();
+        //this.polls = this.$store.state.loggedinPolls;
+        // this.polls.forEach((poll) => {
+        //   this.calculateTime(poll.Time, poll.id);
+        // });
+      }
+    );
     this.$store.watch(
       () => this.$store.state.noPollErrMsg,
       async () => {
         this.nopoll = true;
         this.noPollErrMsg = this.$store.state.noPollErrMsg;
+      }
+    );
+
+    this.$store.watch(
+      () => this.$store.state.successMsg,
+      () => {
+        if (this.$store.state.successMsg) {
+          this.successMsg = this.$store.state.successMsg;
+          Swal.fire({
+            icon: "success",
+            title: this.successMsg,
+            showConfirmButton: false,
+            timer: 1500,
+          });
+
+          setTimeout(() => {
+            this.$store.state.successMsg = "";
+          }, 2000);
+        }
       }
     );
   },
@@ -350,11 +372,12 @@ export default {
       this.$store.dispatch("setDeleteMySurvey", id);
       this.polls = this.polls.filter((poll) => poll.id !== id);
     },
-    editPoll() {
-      this.editpoll = true;
+    editPoll(id) {
+      this.editpoll = id;
       this.expiryDate = "00:01";
     },
     updateInfo(poll) {
+      //anket güncelleme işlemi
       const splited = this.expiryDate.split(":");
       const endDate = Date.now() + (splited[0] * 3600000 + splited[1] * 60000);
       this.$store.dispatch("updateSurvey", { id: poll.id, time: endDate });
@@ -400,6 +423,25 @@ export default {
           //document.getElementById(`TimeLeft${id}`).innerHTML = "";
         }
       }, 1000);
+    },
+    share(id) {
+      navigator.clipboard.writeText(id);
+
+      let m = "http://localhost:8080";
+      let b = new URL(m);
+      let newUrl = "http://localhost:8080/" + id;
+      let d = new URL(newUrl, b);
+      console.log(d.href);
+      navigator.clipboard.writeText(d.href);
+      //alert("Anket linkini kopyaladınız. " + d.href);
+      //var link = `<a href="${d.href}">Git</a> `;
+      Swal.fire({
+        icon: "success",
+        title: "Anket linkini kopyaladınız.",
+        //html: link,
+        showConfirmButton: false,
+        timer: 1500,
+      });
     },
   },
 };
@@ -528,7 +570,6 @@ export default {
         color: #626c72;
       }
       .poll-cont {
-        top: 4%;
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
@@ -537,9 +578,9 @@ export default {
       }
 
       .poll {
-        left: 50%;
         margin-bottom: 2rem;
-        transform: translate(-50%, -50%);
+        margin-left: 1rem;
+        margin-right: 1rem;
         width: 94%;
         background: #fff;
         border-radius: 10px;
@@ -548,7 +589,7 @@ export default {
         display: flex;
         flex-direction: column;
         height: auto;
-        margin-top: 15px;
+        //margin-top: 15px;
         .poll-header {
           justify-content: space-between;
           display: flex;
@@ -675,8 +716,8 @@ export default {
       }
     }
   }
-  #index0 {
-    margin-top: 3rem;
-  }
+  // #index0 {
+  //   margin-top: 3rem;
+  // }
 }
 </style>

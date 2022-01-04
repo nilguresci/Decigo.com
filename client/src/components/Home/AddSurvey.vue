@@ -124,6 +124,7 @@
 
 <script>
 import store from "store";
+import Swal from "sweetalert2";
 export default {
   name: "add-survey",
   components: {},
@@ -173,6 +174,15 @@ export default {
             : 0;
         } else {
           this.avatarno = 0;
+        }
+      }
+    );
+
+    this.$store.watch(
+      () => this.$store.state.pollAdded,
+      () => {
+        if (this.$store.state.pollAdded) {
+          this.showSuccesAlert();
         }
       }
     );
@@ -261,6 +271,14 @@ export default {
         };
 
       return res;
+    },
+    showSuccesAlert() {
+      Swal.fire({
+        icon: "success",
+        title: "Anket başarılı bir şekilde paylaşıldı.",
+        showConfirmButton: false,
+        timer: 1500,
+      });
     },
   },
 };
