@@ -181,9 +181,17 @@ export default {
     this.$store.watch(
       () => this.$store.state.pollAdded,
       () => {
-        if (this.$store.state.pollAdded) {
-          this.showSuccesAlert();
-        }
+        // if (this.$store.state.pollAdded) {
+        this.showSuccesAlert();
+        // }
+        this.surveyQuestion = "";
+        this.options = [
+          { text: "", id: 1 },
+          { text: "", id: 2 },
+        ];
+        this.expiryDate = "00:01";
+        this.optionCount = 2;
+        this.category = "";
       }
     );
   },
@@ -210,8 +218,15 @@ export default {
     create() {
       const check = this.checkForm();
       if (check.err) {
-        check.msg.forEach((msg) => {
-          alert(msg);
+        // check.msg.forEach((msg) => {
+        //   alert(msg);
+        // });
+        Swal.fire({
+          icon: "error",
+          //title: "Oops...",
+          title: "Lütfen tüm alanları doldurduğunuzdan emin olun!",
+          showConfirmButton: false,
+          timer: 1500,
         });
       } else {
         const options = this.options.map((x) => {

@@ -91,7 +91,7 @@ export default Vuex.createStore({
       console.log("giriş yapıldı", payload);
     },
     getCreatePool(state, payload) {
-      state.pollAdded = true;
+      state.pollAdded = !state.pollAdded;
       state.newPool = payload;
     },
     getMyPolls(state, payload) {
@@ -166,12 +166,14 @@ export default Vuex.createStore({
       state.successMsg = "Anket başarılı bir şekilde raporlandı.";
     },
     getReportedPolls(state, payload) {
-      console.log("Payload", payload);
+      console.log("Payload reported polls", payload);
       state.reportedPools = payload.data;
       console.log("state.reportedPools", state.reportedPools);
     },
     decideReport(state, payload) {
       state.decidedReport = payload;
+      state.successMsg = payload.message;
+      console.log("decidedreport", payload.message);
     },
     getSurveyByCategory(state, payload) {
       state.categorySurveys = payload.data.map((poll) => {
@@ -317,7 +319,7 @@ export default Vuex.createStore({
       pollService
         .getReportedPolls()
         .then((res) => {
-          console.log("res", res.data.data);
+          console.log("reported polls res", res.data.data);
           commit("getReportedPolls", { data: res.data.data });
         })
         .catch((err) => {

@@ -39,9 +39,9 @@
               <div class="accordion" id="accordionPool">
                 <div
                   class="accordion-item poll"
-                  :id="poll._id"
                   v-for="(poll, poolIndex) in polls"
                   :key="poolIndex"
+                  :id="poll._id"
                 >
                   <h5
                     class="accordion-header question"
@@ -70,7 +70,7 @@
                           class="list-group-item d-flex answers"
                           v-for="option in poll.Options"
                           :key="option"
-                          :id="option.id"
+                          :id="option._id"
                         >
                           {{ option.Text }}
                         </li>
@@ -134,7 +134,6 @@
             </div>
             <div class="col-lg-4 rightside">
               <right-side-bar></right-side-bar>
-              boş
             </div>
           </div>
         </div>
@@ -146,6 +145,7 @@
 <script>
 import LeftSideBarComp from "../components/LeftSideBar.vue";
 import Navbar from "../components/navbar.vue";
+import Swal from "sweetalert2";
 export default {
   components: {
     //"login-component": LoginComponent,
@@ -165,19 +165,39 @@ export default {
     this.getPolls();
 
     this.$store.watch(
-      () => [this.$store.state.reportedPools],
-      async () => {
+      () => this.$store.state.reportedPools,
+      () => {
         this.polls = this.$store.state.reportedPools;
+        console.log("this.polls", this.polls);
+      }
+    );
+
+    this.$store.watch(
+      () => this.$store.state.successMsg,
+      () => {
+        if (this.$store.state.successMsg) {
+          this.successMsg = this.$store.state.successMsg;
+          Swal.fire({
+            icon: "success",
+            title: this.successMsg,
+            showConfirmButton: false,
+            timer: 1500,
+          });
+
+          setTimeout(() => {
+            this.$store.state.successMsg = "";
+          }, 2000);
+        }
       }
     );
   },
   methods: {
-    async getPolls() {
+    getPolls() {
       this.$store.dispatch({
         type: "getReportedPolls",
       });
-      this.polls = await this.$store.state.reportedPools;
-      console.log("this.polls", this.polls);
+      // this.polls = this.$store.state.reportedPools;
+      // console.log("this.polls", this.polls);
     },
     decideReport(decide, SurveyId, ReportId) {
       console.log({ decide, SurveyId, ReportId });
