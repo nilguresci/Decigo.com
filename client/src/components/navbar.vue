@@ -201,6 +201,7 @@ export default {
       localStorage.removeItem("userInfo");
       this.$store.state.isLoggedIn = false;
       store.removeItem("userInfo");
+      store.removeItem("token");
       this.avatarno = 0;
     },
     search() {

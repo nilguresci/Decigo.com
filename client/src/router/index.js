@@ -20,6 +20,9 @@ const routes = [
     path: "/profilepage",
     name: "ProfilePage2",
     component: ProfilePage2,
+    meta: {
+      isLoggedIn: true,
+    },
   },
   {
     path: "/admin",
@@ -43,7 +46,8 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const isAdmin = store.get("userInfo") && store.get("userInfo").isAdmin;
-  console.log("isAdmin", isAdmin);
+  console.log("info", store.get("userInfo"));
+  const isLoggedIn = store.get("userInfo") && store.get("token");
   if (to.matched.some((record) => record.meta.adminRoute) && !isAdmin) {
     alert("Sadece admin bu sayfaya erişebilir");
     next("/");
@@ -51,6 +55,11 @@ router.beforeEach((to, from, next) => {
   if (isAdmin && to.matched.some((record) => !record.meta.adminRoute)) {
     next("/admin");
   }
+  if (!isLoggedIn && to.matched.some((record) => record.meta.isLoggedIn)) {
+    alert("Bu sayfaya erişmek için giriş yapmalısınız.");
+    next("/");
+  }
+
   next();
 });
 

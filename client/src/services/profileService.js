@@ -3,7 +3,7 @@ import store from "store";
 const url = "http://localhost:3545/api/profile";
 
 const token = store.get("token") ? store.get("token") : "";
-console.log("token", token);
+//console.log("token", token);
 const authHeaders = {
   Authorization: `Bearer ${token}`,
 };
@@ -25,8 +25,8 @@ const authHeaders = {
 
 export const getMyPolls = (id) => {
   var urlmysurveys = url + `/mySurveys/${id}`;
-  console.log("urlmysurveys", urlmysurveys);
-  console.log("token", authHeaders);
+  // console.log("urlmysurveys", urlmysurveys);
+  // console.log("token", authHeaders);
 
   return new Promise((resolve, reject) => {
     axios
