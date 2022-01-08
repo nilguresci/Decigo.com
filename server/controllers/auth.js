@@ -25,24 +25,22 @@ exports.login = async (req, res, next) => {
 
   if (!Username || !Password)
     return next(
-      new ErrorResponse("Please provide an username and password", 400)
+      new ErrorResponse(
+        "Lütfen geçerli bir kullanıcı adı ve şifre giriniz.",
+        400
+      )
     );
 
   try {
     const user = await User.findOne({ Username }).select("+Password");
     console.log("user", user);
     if (!user) {
-      return next(
-        new ErrorResponse("Invalid credentials, user not found", 401)
-      );
+      return next(new ErrorResponse("Böyle bir kullanıcı bulunamadı.", 401));
     }
 
     const isMatch = await user.matchPassword(Password);
     console.log("ismatch", isMatch);
-    if (!isMatch)
-      return next(
-        new ErrorResponse("Invalid credentials, password does not match", 401)
-      );
+    if (!isMatch) return next(new ErrorResponse("Şifreniz yanlış.", 401));
 
     sendToken(user, 200, res);
   } catch (err) {

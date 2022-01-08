@@ -178,7 +178,9 @@ export default {
       pollCount: 20,
       answersWeight: [40, 40, 20, 100],
       selectedAnswer: -1,
-      add: this.$store.state.isLoggedIn,
+      add: localStorage.getItem("isLoggedIn")
+        ? localStorage.getItem("isLoggedIn")
+        : false,
       polls: [],
       avatarno: 0,
       timeLeft: {},
@@ -249,7 +251,7 @@ export default {
     this.$store.watch(
       () => this.$store.state.isLoggedIn,
       () => {
-        this.add = this.$store.state.isLoggedIn;
+        this.add = localStorage.getItem("isLoggedIn");
       }
     );
 

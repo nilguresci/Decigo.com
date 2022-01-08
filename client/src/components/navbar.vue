@@ -2,32 +2,6 @@
   <nav class="navbar decigo-navbar social fixed-top">
     <div class="container">
       <div id="decigo-search" class="decigo-search">
-        <!-- <form role="search" id="search-form" class="search-form form-inline">
-          <div class="search-field container">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              fill="currentColor"
-              class="bi bi-search searchbtn"
-              viewBox="0 0 16 16"
-              @click="search()"
-            >
-              <path
-                d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"
-              />
-            </svg>
-            <input
-              id="search-textfield"
-              type="text"
-              placeholder="Search..."
-              v-model="searchText"
-            v-on:keyup.enter="search()"
-            />
-            <span class="decigo-loading-ring" wfd-invisible="true"></span>
-          </div>
-          
-        </form> -->
         <div id="search-form" class="">
           <div class="search-field container">
             <svg
@@ -53,44 +27,6 @@
             />
           </div>
         </div>
-
-        <!-- <div id="search-result" wfd-invisible="true" style="display: none">
-          <div class="search-type members">
-            <div class="search-type-title">
-              <h5>Members</h5>
-            </div>
-            <ul class="members">
-              <li class="item">
-                <a href="#">
-                  <div class="thumbnail">
-                    <img src="#" class="avatar" />
-                  </div>
-                  <div class="item-info">
-                    <span class="title ellipsis">
-                      <strong>John Doe</strong>
-                    </span>
-                  </div>
-                </a>
-              </li>
-            </ul>
-            <a href="#" class="view-all color-primary"
-              >View all
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                fill="currentColor"
-                class="bi bi-arrow-right-circle"
-                viewBox="0 0 16 16"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z"
-                />
-              </svg>
-            </a>
-          </div>
-        </div> -->
       </div>
       <ul id="navbar-user" class="navbar-nav navbar-user" v-show="isLoggedIn">
         <!-- <li class="nav-item">

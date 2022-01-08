@@ -10,7 +10,7 @@
     >
       <div class="form-group">
         <div class="user-name">
-          <label class="screen-reader-text">Email/username</label>
+          <label class="screen-reader-text">Username</label>
           <span class="icon"
             ><svg
               xmlns="http://www.w3.org/2000/svg"
@@ -33,7 +33,7 @@
             required=""
             name="log"
             v-model="emailUsername"
-            placeholder="Email or username"
+            placeholder="Username"
           />
         </div>
       </div>

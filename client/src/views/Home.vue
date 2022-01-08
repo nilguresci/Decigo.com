@@ -33,10 +33,13 @@ import LeftSideBar from "../components/LeftSideBar.vue";
 import RightSideBar from "../components/RightSideBar.vue";
 import Navbar from "../components/navbar.vue";
 import HomeMainContent from "../components/Home/HomeMainContent.vue";
+import Swal from "sweetalert2";
 export default {
   name: "Home",
   data() {
-    return {};
+    return {
+      errorMsg: "",
+    };
   },
   components: {
     "left-side-bar": LeftSideBar,
@@ -45,7 +48,26 @@ export default {
     "home-main-content": HomeMainContent,
     //"login-component": LoginComponent,
   },
-  mounted() {},
+  mounted() {
+    this.$store.watch(
+      () => this.$store.state.errorMsg,
+      () => {
+        if (this.$store.state.errorMsg) {
+          this.errorMsg = this.$store.state.errorMsg;
+          Swal.fire({
+            icon: "error",
+            title: this.errorMsg,
+            showConfirmButton: false,
+            timer: 1500,
+          });
+
+          setTimeout(() => {
+            this.$store.state.errorMsg = "";
+          }, 2000);
+        }
+      }
+    );
+  },
 };
 </script>
 

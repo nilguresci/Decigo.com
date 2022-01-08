@@ -9,6 +9,25 @@
           alt="home"
         />
       </a>
+      <button type="button" class="btn btn-light" @click="logout()">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          fill="currentColor"
+          class="bi bi-box-arrow-right"
+          viewBox="0 0 16 16"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z"
+          />
+          <path
+            fill-rule="evenodd"
+            d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"
+          />
+        </svg>
+      </button>
     </nav>
     <div id="item-profile-avatar">
       <div class="item-avatar">
@@ -30,6 +49,7 @@
 </template>
 <script>
 import store from "store";
+import router from "../../router/index";
 export default {
   name: "profileCoverComp",
   data() {
@@ -52,32 +72,40 @@ export default {
         this.getUserInfo();
       }
     );
-  },
-  methods: {
-    getUserInfo() {
-      //this.userInfo = this.$store.state.loggedInUserInfo;
-      //this.userInfo = localStorage.userInfo;
-      var id = this.id;
-      this.$store.dispatch("setUserInfo", id);
-      setTimeout(() => {
+
+    this.$store.watch(
+      () => this.$store.state.loggedInUserInfo,
+      () => {
         this.userInfo = store.get("userInfo");
         console.log("userinfo cover içinde", this.userInfo);
 
         this.username = this.userInfo.username;
         this.avatarno = this.userInfo.avatarNo;
         this.fullname = this.userInfo.fullName;
-      }, 1000);
-
-      //this.avatarfilename = "../../assets/avatars/a" + this.avatarno + ".png"; //bunu test edebilmek için username:avatar pass: 123123 ile girmelisin.
-      // console.log("userInfo", this.userInfo);
-      // console.log("fullname", this.fullname);
+      }
+    );
+  },
+  methods: {
+    getUserInfo() {
+      var id = this.id;
+      this.$store.dispatch("setUserInfo", id);
+    },
+    logout() {
+      router.push({ name: "Home" });
+      localStorage.removeItem("isLoggedIn");
+      localStorage.removeItem("userInfo");
+      this.$store.state.isLoggedIn = false;
+      store.removeItem("userInfo");
+      store.removeItem("token");
+      this.avatarno = 0;
     },
   },
 };
 </script>
 <style scope lang="scss">
 #cover-image-cont {
-  background-image: url("../../assets/cover2.jpg");
+  background-image: url("../../assets/cover13-md.jpg");
+  //background-color: #f3e9fc;
   height: 315px;
   width: 100%;
   display: flex;
@@ -85,10 +113,15 @@ export default {
   justify-content: space-between;
 
   .cover-nav {
-    width: 10%;
+    width: 90%;
     margin-left: 5%;
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between;
+    align-items: baseline;
+    button {
+      height: 40px;
+      width: 40px;
+    }
   }
 
   #item-profile-avatar {

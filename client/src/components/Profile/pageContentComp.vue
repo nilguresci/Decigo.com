@@ -384,7 +384,6 @@ export default {
       this.expiryDate = "00:01";
     },
     calculateTime(time, id) {
-      console.log(time, id);
       const endDate = new Date(time).getTime();
       const inter = setInterval(() => {
         const now = new Date().getTime();
@@ -433,8 +432,6 @@ export default {
       let d = new URL(newUrl, b);
       console.log(d.href);
       navigator.clipboard.writeText(d.href);
-      //alert("Anket linkini kopyaladınız. " + d.href);
-      //var link = `<a href="${d.href}">Git</a> `;
       Swal.fire({
         icon: "success",
         title: "Anket linkini kopyaladınız.",

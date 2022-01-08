@@ -31,6 +31,7 @@ export default Vuex.createStore({
     pollAdded: false,
     notFoundErrorMsg: "",
     successMsg: "",
+    errorMsg: "",
     categoriesList: [
       "Kitaplar",
       "Moda",
@@ -103,8 +104,8 @@ export default Vuex.createStore({
       store.set("userInfo", userData);
       store.set("token", data.token);
       //localStorage.userInfo = userData;
-      console.log(state.loggedInUserInfo);
-      console.log("giriş yapıldı", payload);
+      // console.log(state.loggedInUserInfo);
+      // console.log("giriş yapıldı", payload);
       if (userData.isAdmin) router.push("admin");
     },
     getCreatePool(state, payload) {
@@ -176,7 +177,6 @@ export default Vuex.createStore({
       });
 
       state.loggedinPolls = pollsObject;
-      console.log("mypolls state", state.loggedinPolls);
     },
     reportSurvey(state, payload) {
       state.reportedPool = payload;
@@ -228,7 +228,7 @@ export default Vuex.createStore({
         fullName: payload.Fullname,
         email: payload.Email,
       };
-      store.set("userInfo", userData);
+      state.loggedInUserInfo = store.set("userInfo", userData);
     },
     updateSurvey(state, payload) {
       state.successMsg = "Anket başarılı bir şekilde güncellendi.";
@@ -287,7 +287,8 @@ export default Vuex.createStore({
           }
         },
         (err) => {
-          console.log("giriş yapılamadı", err);
+          this.state.errorMsg = err.response.data.error;
+          console.log("giriş yapılamadı", err.response.data.error);
         }
       );
     },

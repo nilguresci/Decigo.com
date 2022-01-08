@@ -9,7 +9,7 @@
         />
       </a>
       <div class="profile-name">
-        <a href="#userprofilelinki" class="name ellipsis">{{ username }}</a>
+        <a href="profilepage" class="name ellipsis">{{ username }}</a>
         <small>Member</small>
       </div>
     </div>
@@ -70,7 +70,7 @@ export default {
       this.avatarno = this.userInfo.avatarNo;
       //this.avatarfilename = "../../assets/avatars/a" + this.avatarno + ".png"; //bunu test edebilmek için username:avatar pass: 123123 ile girmelisin.
       console.log("userInfo", this.userInfo);
-      console.log("userInfo", this.avatarno);
+      console.log("avatarno", this.avatarno);
     },
   },
 };
