@@ -3,6 +3,7 @@ const bcrypt = require("bcryptjs");
 
 const Survey = require("../models/Survey");
 const User = require("../models/User");
+const Report = require("../models/Report");
 const ErrorResponse = require("../utils/errorResponse");
 
 exports.getMySurveys = async (req, res, next) => {
@@ -58,10 +59,15 @@ exports.updateSurvey = async (req, res, next) => {
 
 exports.deleteSurvey = async (req, res, next) => {
   try {
-    const deleteSurvey = await Survey.findByIdAndDelete(req.params.id);
+    const deletedSurvey = await Survey.findByIdAndDelete(req.params.id);
+    try {
+      await Report.deleteOne({ SurveyId: req.params.id });
+    } catch (err) {
+      console.log(err);
+    }
     res.status(200).json({
       success: true,
-      data: deleteSurvey,
+      data: deletedSurvey,
     });
   } catch (error) {
     next(error);
