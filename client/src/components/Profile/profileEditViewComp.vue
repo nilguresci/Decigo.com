@@ -160,6 +160,11 @@
                         />
                       </div>
                     </div>
+                    <div class="row change-pass-item" v-if="error != ''">
+                      <div class="alert alert-danger" role="alert">
+                        {{ error }}
+                      </div>
+                    </div>
                   </div>
                   <div class="modal-footer save-pass">
                     <button type="button" @click="changePassword()" class="btn">
@@ -202,6 +207,7 @@ export default {
       submitted: false,
       userInfo: {},
       avatarIds: ["1", "2", "3", "4", "5", "6", "7", "8", "9"],
+      error: "",
     };
   },
   setup() {
@@ -218,7 +224,6 @@ export default {
   },
   mounted() {
     this.id = store.get("userInfo").userId;
-    console.log("this.id", this.id);
 
     this.getUserInfo();
 
@@ -260,14 +265,12 @@ export default {
   methods: {
     change() {
       this.updated = true;
-      console.log("tıklandı");
     },
     getUserInfo() {
       var id = this.id;
       this.$store.dispatch("setUserInfo", id);
       setTimeout(() => {
         this.userInfo = store.get("userInfo");
-        console.log("userinfoeditiçinde", this.userInfo);
         this.username = this.userInfo.username;
         this.avatarno = this.userInfo.avatarNo;
         this.email = this.userInfo.email;
@@ -275,7 +278,6 @@ export default {
       }, 1000);
     },
     chooseAvatar(id) {
-      console.log("secile", id);
       this.avatarno = id;
     },
     updateInfo() {
@@ -286,17 +288,15 @@ export default {
         avatarno: this.avatarno,
         id: this.userInfo.userId,
       };
-      console.log("giden data", data);
       this.$store.dispatch("setUpdateMyInfo", data);
-      console.log("kaydet");
     },
     changePassword() {
       if (this.password.length < 6 || this.newPassword.length < 6) {
-        alert("Şifre 6 karakterden kısa olamaz");
+        this.showError("Şifre 6 karakterden kısa olamaz");
         return;
       }
       if (this.newPassword !== this.newPasswordAgain) {
-        alert("Yeni şifreyi iki kez doğru girdiğinizden emin olunuz");
+        this.showError("Yeni şifreyi iki kez doğru girdiğinizden emin olunuz");
         return;
       }
       var data = {
@@ -304,11 +304,16 @@ export default {
         password: this.password,
         newPassword: this.newPassword,
       };
-      console.log("change pass data", data);
       this.$store.dispatch({
         type: "setChangePassw",
         data: data,
       });
+    },
+    showError(err) {
+      this.error = err;
+      setTimeout(() => {
+        this.error = "";
+      }, 3500);
     },
   },
 };
