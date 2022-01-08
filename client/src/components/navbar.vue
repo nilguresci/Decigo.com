@@ -144,6 +144,7 @@
 <script>
 //import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import store from "store";
+import router from "../router/index";
 export default {
   name: "navbar",
   props: {
@@ -195,6 +196,7 @@ export default {
   },
   methods: {
     logout() {
+      router.push({ name: "Home" });
       localStorage.removeItem("isLoggedIn");
       localStorage.removeItem("userInfo");
       this.$store.state.isLoggedIn = false;
