@@ -1,8 +1,8 @@
 <template>
   <div id="main">
-    <div class="activity-update-form">
+    <div class="activity-update-form" v-show="add">
       <div class="create-survey-input">
-        <add-survey-component v-show="!add"></add-survey-component>
+        <add-survey-component></add-survey-component>
       </div>
     </div>
     <div class="main-content">
@@ -178,7 +178,7 @@ export default {
       pollCount: 20,
       answersWeight: [40, 40, 20, 100],
       selectedAnswer: -1,
-      add: false,
+      add: this.$store.state.isLoggedIn,
       polls: [],
       avatarno: 0,
       timeLeft: {},
@@ -243,6 +243,13 @@ export default {
       async () => {
         this.getPolls();
         //this.polls = this.$store.state.polls;
+      }
+    );
+
+    this.$store.watch(
+      () => this.$store.state.isLoggedIn,
+      () => {
+        this.add = this.$store.state.isLoggedIn;
       }
     );
 
@@ -435,6 +442,7 @@ $primary_color: #8224e3;
 $grey_text: #626c72;
 #main {
   margin: 0 15px;
+  margin-top: 2rem;
 }
 .hide {
   display: none;
