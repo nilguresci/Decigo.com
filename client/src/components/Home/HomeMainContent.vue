@@ -157,7 +157,7 @@
                   </svg>
                 </div>
 
-                <span :id="'TimeLeft' + poll._id"> Kalan Tarih</span>
+                <span :id="'TimeLeft' + poll._id">Kalan Zaman</span>
               </div>
             </div>
           </div>
@@ -293,7 +293,7 @@ export default {
 
         this.getPolls();
       } else {
-        console.log("zaten katılmışsın!!!");
+        console.log("Ankete Katılınamıyor");
       }
     },
     getPolls() {
@@ -362,7 +362,8 @@ export default {
     isJoinable(poll) {
       if (
         store.get("userInfo") === undefined ||
-        store.get("userInfo").userId === undefined
+        store.get("userInfo").userId === undefined ||
+        poll.End
       )
         return false;
       let joinable = true;
@@ -412,6 +413,11 @@ export default {
             clearInterval(inter);
             document.getElementById(`TimeLeft${id}`).innerHTML =
               "Anket Sonuçlandı";
+            this.polls.map((poll) => {
+              if (poll._id == id) {
+                poll.End = true;
+              }
+            });
           }
         } catch {
           //clearInterval(inter);
