@@ -16,7 +16,7 @@
           id="surveyInput"
           :class="{ input_survey_deactive: !x, input_survey_active: x }"
           type="text"
-          placeholder="Survey Question"
+          placeholder="Bir soru sor..."
           v-model="surveyQuestion"
           @change="change()"
           @keypress="change()"
@@ -36,16 +36,14 @@
               <input
                 type="text"
                 class="form-control option"
-                placeholder="Survey Option"
+                placeholder="Seçenek"
                 aria-label="Option 1"
-                aria-describedby="button-addon2"
                 v-model="option.text"
               />
               <button
                 v-if="optionCount > 2"
                 class="btn option-button delete"
                 type="button"
-                id="button-addon2"
                 @click="deleteOption(option.id)"
               >
                 <svg
@@ -122,12 +120,12 @@
             v-model="expiryDate"
           />
         </div>
-        <div class="col">
+        <div class="col post-survey">
           <input
             type="submit"
             id="survey-submit"
             class="survey-submit"
-            value="Post Survey"
+            value="Anket Paylaş"
             @click="create()"
           />
         </div>
@@ -342,6 +340,7 @@ export default {
   height: 26px !important;
   padding: 0px 5px !important;
   color: #626c72 !important;
+  font-size: 13px;
 }
 
 .survey-submit {
@@ -369,13 +368,16 @@ export default {
   border: none;
   padding: 0.375rem 2rem;
   background-size: 200%;
-  background-color: #8224e3;
-  background-image: linear-gradient(
-    90deg,
-    #8224e3 0,
-    #a968ec 50%,
-    #8224e3 100%
-  );
+  color: #fff;
+
+  background-color: #995ed4;
+
+  // background-image: linear-gradient(
+  //   90deg,
+  //   #8224e3 0,
+  //   #a968ec 50%,
+  //   #8224e3 100%
+  // );
   box-shadow: 0 1px 2px 0 rgba(130, 36, 227, 0.5);
   color: #fff;
   display: block;
@@ -514,9 +516,15 @@ export default {
 }
 
 .add-survey-footer {
+  margin-top: 2rem;
   select,
   input {
     border-radius: 15px;
+  }
+  .post-survey {
+    margin-left: 0;
+    margin-right: 10px;
+    padding-left: 0;
   }
 }
 </style>
