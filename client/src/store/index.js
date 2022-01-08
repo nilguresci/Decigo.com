@@ -3,6 +3,7 @@ import * as pollService from "../services/pollService";
 import * as authService from "../services/authService";
 import * as profileService from "../services/profileService";
 import * as adminService from "../services/adminService";
+import router from "../router/index";
 //import moment from "moment";
 import store from "store";
 
@@ -93,6 +94,7 @@ export default Vuex.createStore({
         avatarNo: data._doc.AvatarNo,
         fullName: data._doc.Fullname,
         email: data._doc.Email,
+        isAdmin: data._doc.IsAdmin,
       };
       state.loggedInUserInfo = userData;
       state.loggedInUserId = payload.userid;
@@ -103,6 +105,7 @@ export default Vuex.createStore({
       //localStorage.userInfo = userData;
       console.log(state.loggedInUserInfo);
       console.log("giriş yapıldı", payload);
+      if (userData.isAdmin) router.push("admin");
     },
     getCreatePool(state, payload) {
       state.pollAdded = !state.pollAdded;

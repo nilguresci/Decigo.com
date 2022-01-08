@@ -3,6 +3,7 @@ import Home from "../views/Home.vue";
 import ProfilePage from "../views/ProfilePage.vue";
 import ProfilePage2 from "../views/ProfilePage2.vue";
 import AdminPage from "../views/AdminPage.vue";
+import store from "store";
 
 const routes = [
   {
@@ -24,6 +25,9 @@ const routes = [
     path: "/admin",
     name: "AdminPage",
     component: AdminPage,
+    meta: {
+      adminRoute: true,
+    },
   },
   {
     path: "/:id",
@@ -35,6 +39,19 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(),
   routes,
+});
+
+router.beforeEach((to, from, next) => {
+  const isAdmin = store.get("userInfo") && store.get("userInfo").isAdmin;
+  console.log("isAdmin", isAdmin);
+  if (to.matched.some((record) => record.meta.adminRoute) && !isAdmin) {
+    alert("Sadece admin bu sayfaya erişebilir");
+    next("/");
+  }
+  if (isAdmin && to.matched.some((record) => !record.meta.adminRoute)) {
+    next("/admin");
+  }
+  next();
 });
 
 export default router;
