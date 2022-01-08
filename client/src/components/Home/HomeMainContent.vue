@@ -226,7 +226,11 @@ export default {
     );
 
     this.$store.watch(
-      () => [this.$store.state.updated, this.$store.state.newPool],
+      () => [
+        this.$store.state.updated,
+        this.$store.state.newPool,
+        this.$store.state.isLoggedIn,
+      ],
       async () => {
         this.getPolls();
         this.polls = this.$store.state.polls;

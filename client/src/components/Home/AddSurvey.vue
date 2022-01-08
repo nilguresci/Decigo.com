@@ -1,7 +1,7 @@
 <template class="addSurvey">
   <div class="container">
     <div class="row">
-      <div class="col-2">
+      <div class="col-2" style="padding-left: 8px">
         <img
           loading="lazy"
           :src="'../../assets/avatars/a' + this.avatarno + '.png'"
@@ -11,7 +11,7 @@
           alt="Profile picture of user"
         />
       </div>
-      <div class="col">
+      <div class="col" style="padding-left: 0">
         <textarea
           id="surveyInput"
           :class="{ input_survey_deactive: !x, input_survey_active: x }"
@@ -25,69 +25,80 @@
     </div>
 
     <div v-if="surveyQuestion || onProfilePage === true">
-      <div class="row" v-for="(option, index) in options" :key="index">
-        <div class="col">
-          <div class="input-group mb-3">
-            <input
-              type="text"
-              class="form-control option"
-              placeholder="Survey Option"
-              aria-label="Option 1"
-              aria-describedby="button-addon2"
-              v-model="option.text"
-            />
+      <div class="add-survey-body d-flex">
+        <div class="survey-i-cont-left d-flex">
+          <div
+            class="d-flex survey-body-input"
+            v-for="(option, index) in options"
+            :key="index"
+          >
+            <div class="input-group mb-3">
+              <input
+                type="text"
+                class="form-control option"
+                placeholder="Survey Option"
+                aria-label="Option 1"
+                aria-describedby="button-addon2"
+                v-model="option.text"
+              />
+              <button
+                v-if="optionCount > 2"
+                class="btn option-button delete"
+                type="button"
+                id="button-addon2"
+                @click="deleteOption(option.id)"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="14"
+                  height="14"
+                  fill="currentColor"
+                  class="bi bi-x-lg"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M13.854 2.146a.5.5 0 0 1 0 .708l-11 11a.5.5 0 0 1-.708-.708l11-11a.5.5 0 0 1 .708 0Z"
+                  />
+                  <path
+                    fill-rule="evenodd"
+                    d="M2.146 2.146a.5.5 0 0 0 0 .708l11 11a.5.5 0 0 0 .708-.708l-11-11a.5.5 0 0 0-.708 0Z"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div
+          v-if="optionCount < 5"
+          style="align-self: end"
+          class="add-option-btn"
+        >
+          <div class="col">
             <button
-              v-if="optionCount > 2"
-              class="btn btn-outline-danger option-button"
+              class="btn option-button float-end"
               type="button"
               id="button-addon2"
-              @click="deleteOption(option.id)"
+              @click="addOption"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
+                width="20"
+                height="20"
                 fill="currentColor"
-                class="bi bi-x-lg"
+                class="bi bi-plus"
                 viewBox="0 0 16 16"
               >
                 <path
-                  fill-rule="evenodd"
-                  d="M13.854 2.146a.5.5 0 0 1 0 .708l-11 11a.5.5 0 0 1-.708-.708l11-11a.5.5 0 0 1 .708 0Z"
-                />
-                <path
-                  fill-rule="evenodd"
-                  d="M2.146 2.146a.5.5 0 0 0 0 .708l11 11a.5.5 0 0 0 .708-.708l-11-11a.5.5 0 0 0-.708 0Z"
+                  d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
                 />
               </svg>
             </button>
           </div>
         </div>
       </div>
-      <div class="row" v-if="optionCount < 5">
-        <div class="col">
-          <button
-            class="btn btn-outline-success option-button float-end"
-            type="button"
-            id="button-addon2"
-            @click="addOption"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              fill="currentColor"
-              class="bi bi-plus"
-              viewBox="0 0 16 16"
-            >
-              <path
-                d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
-              />
-            </svg>
-          </button>
-        </div>
-      </div>
-      <div class="row">
+
+      <div class="row add-survey-footer">
         <div class="col">
           <select
             class="form-select form-select-sm kategori"
@@ -95,7 +106,10 @@
             v-model="category"
           >
             <option selected>Kategori</option>
-            <option value="Kitap">Kitap</option>
+            <option :v-for="(c, id) in categories" :key="id" :value="c">
+              {{ c }}
+            </option>
+
             <option value="Moda">Moda</option>
             <option value="Filmler">Filmler</option>
           </select>
@@ -140,6 +154,20 @@ export default {
       category: "",
       avatarno: 0,
       onProfilePage: false,
+      categories: [
+        "Kitaplar",
+        "Moda",
+        "Filmler",
+        "Cilt Bakımı",
+        "Yemek",
+        "Spor",
+        "Teknoloji",
+        "Sanat",
+        "Dekorasyon",
+        "Makyaj",
+        "Hayvanlar",
+        "Güzellik",
+      ].sort(),
     };
   },
   mounted() {
@@ -150,6 +178,9 @@ export default {
         this.surveyQuestion === "";
       }
     );
+    //this.categories = this.$store.state.categoriesList;
+
+    console.log("kkk", this.categories);
 
     this.$store.state.onProfilePage
       ? (this.onProfilePage = true)
@@ -299,7 +330,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .col {
   margin-bottom: 1.5rem !important;
 }
@@ -345,7 +376,7 @@ export default {
     #a968ec 50%,
     #8224e3 100%
   );
-  box-shadow: 0 1px 2px 0 rgb(130 36 227 / 50%);
+  box-shadow: 0 1px 2px 0 rgba(130, 36, 227, 0.5);
   color: #fff;
   display: block;
   height: 30px px;
@@ -381,9 +412,25 @@ export default {
   border: 1px solid #e7edf2 !important;
 }
 .option-button {
-  height: 1.8rem !important;
+  //height: 1.8rem !important;
   text-align: center;
-  padding: unset !important;
+  padding: 2px;
+  :hover {
+    border-radius: 57%;
+    background-color: #e6d2f9;
+  }
+
+  color: #7442a9;
+  border-color: none;
+}
+
+.option-button .delete {
+  border: none;
+  background-color: none;
+  :hover {
+    border: none;
+    background-color: transparent;
+  }
 }
 .input_survey_deactive {
   margin: 0;
@@ -447,5 +494,29 @@ export default {
   border-color: transparent;
   resize: vertical;
   height: auto;
+}
+.add-survey-body {
+  justify-content: space-between;
+  margin-bottom: 10px;
+  .survey-i-cont-left {
+    flex-direction: column;
+    width: 95%;
+    justify-content: flex-start;
+    .survey-body-input {
+      //margin-left: 12px;
+      margin-bottom: 14px;
+      margin-top: 8px;
+      input {
+        border-radius: calc(1.25rem + 1px);
+      }
+    }
+  }
+}
+
+.add-survey-footer {
+  select,
+  input {
+    border-radius: 15px;
+  }
 }
 </style>

@@ -30,6 +30,20 @@ export default Vuex.createStore({
     pollAdded: false,
     notFoundErrorMsg: "",
     successMsg: "",
+    categoriesList: [
+      "Kitaplar",
+      "Moda",
+      "Filmler",
+      "Cilt Bakımı",
+      "Yemek",
+      "Spor",
+      "Teknoloji",
+      "Sanat",
+      "Dekorasyon",
+      "Makyaj",
+      "Hayvanlar",
+      "Güzellik",
+    ],
   },
   mutations: {
     getPolls(state, payload) {
