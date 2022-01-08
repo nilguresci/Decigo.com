@@ -178,13 +178,13 @@ export default {
     );
     //this.categories = this.$store.state.categoriesList;
 
-    console.log("kkk", this.categories);
+    //console.log("kkk", this.categories);
 
     this.$store.state.onProfilePage
       ? (this.onProfilePage = true)
       : (this.onProfilePage = false);
 
-    console.log("comp açıldı", this.onProfilePage);
+    // console.log("comp açıldı", this.onProfilePage);
     this.$store.watch(
       () => this.$store.state.onProfilePage,
       () => {

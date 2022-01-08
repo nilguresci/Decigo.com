@@ -198,10 +198,10 @@ export default {
     this.getIdFromUrl();
 
     this.$store.watch(
-      () => [this.$store.state.polls, this.$store.state.updated],
+      () => this.$store.state.polls,
       async () => {
         if (this.getSpecificPollFirst) {
-          console.log("specific e girdi");
+          //kopyalanan anketi getirme işlemi
           this.filteredListById(this.getSpecificPollFirst);
         } else {
           this.polls = this.$store.state.polls;
@@ -209,6 +209,16 @@ export default {
             this.calculateTime(poll.Time, poll._id);
           });
         }
+      }
+    );
+
+    this.$store.watch(
+      () => this.$store.state.updated,
+      async () => {
+        this.polls = this.$store.state.polls;
+        this.polls.forEach((poll) => {
+          this.calculateTime(poll.Time, poll._id);
+        });
       }
     );
 
@@ -232,7 +242,7 @@ export default {
       ],
       async () => {
         this.getPolls();
-        this.polls = this.$store.state.polls;
+        //this.polls = this.$store.state.polls;
       }
     );
 
@@ -290,10 +300,6 @@ export default {
       this.$store.dispatch({
         type: "setPolls",
       });
-      this.polls = this.$store.state.polls;
-      this.polls.forEach((poll) => {
-        this.calculateTime(poll.Time, poll._id);
-      });
     },
     share(id) {
       navigator.clipboard.writeText(id);
@@ -302,7 +308,6 @@ export default {
       let b = new URL(m);
       let newUrl = "http://localhost:8080/" + id;
       let d = new URL(newUrl, b);
-      console.log(d.href);
       navigator.clipboard.writeText(d.href);
       //alert("Anket linkini kopyaladınız. " + d.href);
       //var link = `<a href="${d.href}">Git</a> `;
@@ -316,9 +321,7 @@ export default {
     },
     getIdFromUrl() {
       var url = window.location.pathname;
-      console.log("current url", url);
       var id = url.substring(url.lastIndexOf("/") + 1);
-      console.log("id", id);
 
       if (id) {
         this.getSpecificPollFirst = id;
@@ -335,8 +338,8 @@ export default {
 
       var firstPoll = this.polls.filter((item) => item._id === id);
       sortedPolls.unshift(firstPoll[0]);
-      console.log("first poll", firstPoll[0]);
-      console.log("sortedpolls son", sortedPolls);
+      // console.log("first poll", firstPoll[0]);
+      // console.log("sortedpolls son", sortedPolls);
       this.polls = sortedPolls;
     },
     report(id) {
@@ -377,7 +380,7 @@ export default {
       return joinable;
     },
     calculateTime(time, id) {
-      console.log(time, id);
+      //console.log(time, id);
       const endDate = new Date(time).getTime();
       const inter = setInterval(() => {
         const now = new Date().getTime();
@@ -615,14 +618,6 @@ $grey_text: #626c72;
               border-radius: 10px;
               cursor: pointer;
               overflow: hidden;
-
-              // border: 2px solid #e6e6e6;
-              // border-radius: 15px;
-              // padding-top: 8px;
-              // padding-bottom: 8px;
-              // padding-left: 2%;
-              // padding-right: 0;
-              // margin-bottom: 10px;
             }
           }
         }
@@ -646,12 +641,6 @@ $grey_text: #626c72;
           width: 0%;
           height: 100%;
           background: #e6d2f9;
-          // background-image: linear-gradient(
-          //   90deg,
-          //   #f6effe 0,
-          //   #a968ec 50%,
-          //   #f6effe 100%
-          // );
           z-index: -1;
           transition: width 300ms ease-in-out;
         }
