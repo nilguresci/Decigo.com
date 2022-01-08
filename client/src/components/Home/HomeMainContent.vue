@@ -2,7 +2,6 @@
   <div id="main">
     <div class="activity-update-form">
       <div class="create-survey-input">
-        <!-- <add-survey></add-survey> -->
         <add-survey-component v-show="!add"></add-survey-component>
       </div>
     </div>
@@ -677,6 +676,7 @@ $grey_text: #626c72;
   display: flex;
   justify-content: space-around;
   margin-top: 1rem;
+  padding-bottom: 1.5rem;
 
   #whats-new-form {
     position: relative;
