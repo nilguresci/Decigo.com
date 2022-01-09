@@ -95,7 +95,6 @@
           </div>
         </div>
       </div>
-
       <div class="row add-survey-footer">
         <div class="col">
           <select
@@ -103,13 +102,9 @@
             aria-label=".form-select-sm example"
             v-model="category"
           >
-            <option selected>Kategori</option>
-            <option :v-for="(c, id) in categories" :key="id" :value="c">
+            <option v-for="(c, index) in categories" :key="index" :value="c">
               {{ c }}
             </option>
-
-            <option value="Moda">Moda</option>
-            <option value="Filmler">Filmler</option>
           </select>
         </div>
         <div class="col">
@@ -152,20 +147,7 @@ export default {
       category: "",
       avatarno: 0,
       onProfilePage: false,
-      categories: [
-        "Kitaplar",
-        "Moda",
-        "Filmler",
-        "Cilt Bakımı",
-        "Yemek",
-        "Spor",
-        "Teknoloji",
-        "Sanat",
-        "Dekorasyon",
-        "Makyaj",
-        "Hayvanlar",
-        "Güzellik",
-      ].sort(),
+      categories: this.$store.state.categoriesList.sort(),
     };
   },
   mounted() {
