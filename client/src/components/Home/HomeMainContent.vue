@@ -5,6 +5,11 @@
         <add-survey-component></add-survey-component>
       </div>
     </div>
+    <div class="d-flex h-first">
+      <div class="main-cont-header">
+        <div class="h-item">Anketler</div>
+      </div>
+    </div>
     <div class="main-content">
       <ul class="survey-list">
         <li class="survey-item" v-for="(poll, id) in polls" :key="id">
@@ -444,11 +449,26 @@ $primary_color: #8224e3;
 $grey_text: #626c72;
 #main {
   margin: 0 15px;
-  margin-top: 2rem;
 }
 .hide {
   display: none;
 }
+.h-first {
+  width: 100%;
+  border-bottom: 1px solid #e7edf2;
+  margin-bottom: 1.5rem;
+  .main-cont-header {
+    justify-content: flex-start;
+    margin-left: 1rem;
+    .h-item {
+      border-bottom: 2px solid #8224e3;
+      padding-bottom: 5px;
+      font-weight: 600;
+      color: #8224e3;
+    }
+  }
+}
+
 .main-content {
   display: block;
   .survey-list {

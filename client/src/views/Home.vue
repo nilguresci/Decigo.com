@@ -49,6 +49,10 @@ export default {
     //"login-component": LoginComponent,
   },
   mounted() {
+    this.$store.dispatch({
+      type: "setPolls",
+    });
+
     this.$store.watch(
       () => this.$store.state.errorMsg,
       () => {

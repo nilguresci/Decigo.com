@@ -105,7 +105,16 @@ $grey_text: #626c72;
   display: inline-block;
   position: relative;
   margin-bottom: 0.75rem;
-
+  // ::before {
+  //   content: url("../../assets/ring.png");
+  //   position: absolute;
+  //   left: 50%;
+  //   transform: translateX(-50%);
+  //   top: -6px;
+  // }
+  border: 1px solid #bbbbdc;
+  border-radius: 50%;
+  padding: 3px;
   img.user-img {
     width: 50px;
     box-shadow: 0 7px 35px rgba(58, 46, 68, 0.1);
