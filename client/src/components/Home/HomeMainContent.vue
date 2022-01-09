@@ -380,6 +380,7 @@ export default {
         poll.End
       )
         return false;
+      if (poll.UserId == store.get("userInfo").userId) return false;
       let joinable = true;
       const myUserId = store.get("userInfo").userId;
       poll.Options.forEach((option) => {

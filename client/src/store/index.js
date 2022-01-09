@@ -61,11 +61,11 @@ export default Vuex.createStore({
           );
         });
       });
-      if (store.get("userInfo") && store.get("userInfo").userId) {
-        state.polls = state.polls.filter(
-          (poll) => poll.UserId !== store.get("userInfo").userId
-        );
-      }
+      // if (store.get("userInfo") && store.get("userInfo").userId) {
+      //   state.polls = state.polls.filter(
+      //     (poll) => poll.UserId !== store.get("userInfo").userId
+      //   );
+      // }
       state.polls.sort((a, b) => {
         return new Date(b.CreationDate) - new Date(a.CreationDate);
       });
