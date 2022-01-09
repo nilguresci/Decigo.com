@@ -6,10 +6,6 @@ const ReportSchema = new mongoose.Schema({
     type: String,
     required: [true, "Anket idsi tanımlı değil"],
   },
-  // Users: {
-  //   type: [ReportUser],
-  //   required: [true, "Please provide users"],
-  // },
   CreationDate: {
     type: Date,
     default: Date.now,

@@ -6,18 +6,21 @@ const jwt = require("jsonwebtoken");
 const UserSchema = new mongoose.Schema({
   Fullname: {
     type: String,
-    minLength: 3,
+    minLength: [3, "Tam adınızı ve soyadınızı girdiğinizden emin olunuz"],
     required: [true, "Lütfen tam isminizi giriniz"],
   },
   Username: {
     type: String,
-    unique: true,
+    unique: [
+      true,
+      "Kullanıcı adı zaten kullanımda. Lütfen başka bir isim seçiniz",
+    ],
     required: [true, "Lütfen kullanıcı adınızı giriniz"],
   },
   Email: {
     type: String,
     required: [true, "Lütfen email adresinizi giriniz"],
-    unique: true,
+    unique: [true, "Bu Email zaten kullanımda"],
     match: [
       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
       "Lütfen email adresinizi doğru girdiğinizden emin olunuz",
@@ -26,7 +29,7 @@ const UserSchema = new mongoose.Schema({
   Password: {
     type: String,
     required: [true, "Lütfen şifre giriniz"],
-    minLength: 6,
+    minLength: [6, "Şifreniz 6 karakterden kısa olamaz"],
     select: false,
   },
   AvatarNo: {
@@ -48,7 +51,6 @@ UserSchema.pre("save", async function (next) {
 });
 
 UserSchema.methods.matchPassword = async function (password) {
-  console.log("Gelen şifre", password);
   return await bcrypt.compare(password, this.Password);
 };
 

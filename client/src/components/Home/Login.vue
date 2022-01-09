@@ -1,6 +1,6 @@
 <template>
   <div class="my-card item">
-    <h4 class="form-title">Login Now</h4>
+    <h4 class="form-title">Giriş Yap</h4>
     <form
       method="post"
       id="panel-login-form"
@@ -10,7 +10,7 @@
     >
       <div class="form-group">
         <div class="user-name">
-          <label class="screen-reader-text">Username</label>
+          <label class="screen-reader-text">Kullanıcı Adı</label>
           <span class="icon"
             ><svg
               xmlns="http://www.w3.org/2000/svg"
@@ -33,13 +33,13 @@
             required=""
             name="log"
             v-model="emailUsername"
-            placeholder="Username"
+            placeholder="Kullanıcı Adı"
           />
         </div>
       </div>
       <div class="form-group">
         <div class="pass">
-          <label class="screen-reader-text">Password</label>
+          <label class="screen-reader-text">Şifre</label>
           <span class="icon"
             ><svg
               xmlns="http://www.w3.org/2000/svg"
@@ -61,7 +61,7 @@
             required=""
             name="pwd"
             v-model="password"
-            placeholder="Password"
+            placeholder="Şifre"
           />
         </div>
       </div>
@@ -73,7 +73,7 @@
           class="submit-login"
           name="wp-submit"
         >
-          Log In
+          Giriş Yap
         </button>
       </div>
       <div class="register-link">
@@ -83,7 +83,7 @@
           class="btn btn-link register-btn"
           @click="goRegister()"
         >
-          Signup
+          Kaydol
         </button>
       </div>
       <input

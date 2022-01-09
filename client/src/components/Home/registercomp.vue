@@ -1,6 +1,6 @@
 <template>
   <div class="my-card item">
-    <h4 class="form-title">Register</h4>
+    <h4 class="form-title">Kaydol</h4>
     <form
       method="post"
       id="panel-login-form"
@@ -10,7 +10,7 @@
     >
       <div class="form-group">
         <div class="user-name">
-          <label class="screen-reader-text">Fullname</label>
+          <label class="screen-reader-text">İsim & Soyisim</label>
           <input
             type="text"
             id="username"
@@ -18,34 +18,34 @@
             required=""
             v-model="data.fullname"
             name="log"
-            placeholder="Fullnme"
+            placeholder="İsim & Soyisim"
           />
         </div>
       </div>
       <div class="form-group">
         <div class="user-name">
-          <label class="screen-reader-text">E-mail</label>
+          <label class="screen-reader-text">E-Mail</label>
           <input
-            type="text"
+            type="email"
             id="username"
             class="username-control"
             required=""
             name="log"
             v-model="data.email"
-            placeholder="Email"
+            placeholder="E-Mail"
           />
         </div>
       </div>
       <div class="form-group">
         <div class="user-name">
-          <label class="screen-reader-text">Kullanıcı adı</label>
+          <label class="screen-reader-text">Kullanıcı Adı</label>
           <input
             type="text"
             id="username"
             class="username-control"
             required=""
             name="log"
-            placeholder="Username"
+            placeholder="Kullanıcı Adı"
             v-model="data.username"
           />
         </div>
@@ -59,7 +59,7 @@
             class="password-control"
             required=""
             name="pwd"
-            placeholder="Password"
+            placeholder="Şifre"
             v-model="data.password"
           />
         </div>
@@ -72,12 +72,12 @@
           class="submit-login"
           name="wp-submit"
         >
-          Sign up
+          Kaydol
         </button>
       </div>
       <div class="login-link">
         <button type="button" class="btn btn-link login-btn" @click="goLogin()">
-          Log in
+          Giriş Yap
         </button>
       </div>
       <input
@@ -258,10 +258,12 @@ input {
   padding-left: 0.8rem;
 }
 input[type="text"]:not(:focus),
+input[type="email"]:not(:focus),
 input[type="password"]:not(:focus) {
   border: 1px solid #e7edf2;
 }
 input[type="text"]:focus,
+input[type="email"]:focus,
 input[type="password"]:focus {
   border: 1px solid #8224e3;
 }

@@ -7,6 +7,17 @@ exports.register = async (req, res, next) => {
   const { Fullname, Username, Email, Password } = req.body;
 
   try {
+    const users = await User.find();
+    let inUse = false;
+    users.forEach((user) => {
+      if (user.Fullname == Fullname) {
+        inUse = true;
+      }
+    });
+
+    if (inUse)
+      return next(new ErrorResponse("Kullanıcı adı zaten kullanımda.", 400));
+
     const user = await User.create({
       Fullname,
       Username,
@@ -33,13 +44,11 @@ exports.login = async (req, res, next) => {
 
   try {
     const user = await User.findOne({ Username }).select("+Password");
-    console.log("user", user);
     if (!user) {
       return next(new ErrorResponse("Böyle bir kullanıcı bulunamadı.", 401));
     }
 
     const isMatch = await user.matchPassword(Password);
-    console.log("ismatch", isMatch);
     if (!isMatch) return next(new ErrorResponse("Şifreniz yanlış.", 401));
 
     sendToken(user, 200, res);
