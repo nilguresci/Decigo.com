@@ -16,7 +16,7 @@
     <ul class="connections">
       <li>
         <span class="count">{{ pollsCount }}</span>
-        <p class="mute">Anketlerim</p>
+        <p class="mute">Anketler</p>
       </li>
       <!-- <li>
         <span class="count">50</span>

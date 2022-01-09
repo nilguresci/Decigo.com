@@ -1,8 +1,10 @@
 <template>
   <div class="page-content">
-    <nav class="d-flex">
+    <nav class="d-flex" style="width: 100%">
       <div class="content-nav">
-        <h3 class="col-3"></h3>
+        <h3 class="col-3 d-flex">
+          <h3>{{ fullName }}</h3>
+        </h3>
         <div class="tabs col-9">
           <ul class="profile-nav">
             <button
@@ -76,8 +78,17 @@
       </div>
     </nav>
     <div class="page-body d-flex">
-      <div class="col-2 body-left"></div>
-      <div class="col-8 body-main d-flex" v-if="activity.value">
+      <div class="col-3 body-left">
+        <div class="b-left">
+          <ul class="connections">
+            <li>
+              <span class="count">{{ pollsCount }}</span>
+              <p class="mute">Anketler</p>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-6 body-main d-flex" v-if="activity.value">
         <nav>
           <ul>
             <li>Anketlerim</li>
@@ -241,11 +252,20 @@
               </div>
             </div>
           </div>
+         
         </div>
       </div>
       <profile-edit-view-comp v-if="profile.value"></profile-edit-view-comp>
-      <add-survey-comp v-if="addPoll.value"></add-survey-comp>
-      <div class="col-2 body-right"></div>
+      <div class="col-6 body-main" v-if="addPoll.value">
+        <nav>
+          <ul>
+            <li>Anket Paylaş</li>
+          </ul>
+        </nav>
+        <add-survey-comp></add-survey-comp>
+      </div>
+
+      <div class="col-3 body-right"></div>
     </div>
   </div>
 </template>
@@ -253,6 +273,7 @@
 import profileEditViewComp from "./profileEditViewComp.vue";
 import addSurveyComp from "./addSurveyComp.vue";
 import Swal from "sweetalert2";
+import store from "store";
 export default {
   name: "pagecontentcomp",
   data() {
@@ -267,6 +288,8 @@ export default {
       editpoll: false,
       timeLeft: {},
       showId: "",
+      fullName: "",
+      pollsCount: 0,
     };
   },
   components: {
@@ -282,6 +305,7 @@ export default {
         this.polls.forEach((poll) => {
           this.calculateTime(poll.Time, poll.id);
         });
+        this.pollsCount = this.$store.state.loggedinPolls.length;
       }
     );
 
@@ -313,7 +337,7 @@ export default {
         this.noPollErrMsg = this.$store.state.noPollErrMsg;
       }
     );
-
+    this.fullName = store.get("userInfo").fullName;
     this.$store.watch(
       () => this.$store.state.successMsg,
       () => {
@@ -446,8 +470,8 @@ export default {
 <style lang="scss" scoped>
 .page-content {
   position: relative;
-  margin-right: 15%;
-  margin-left: 15%;
+  // margin-right: 15%;
+  // margin-left: 15%;
   display: flex;
   flex-direction: column;
 
@@ -458,11 +482,15 @@ export default {
     align-items: baseline;
 
     h3 {
-      margin-top: 2.5rem;
-      padding-right: 12rem;
+      margin-top: 1.5rem;
+      //padding-right: 12rem;
+      justify-content: flex-end;
+      padding-right: 2rem;
+      color: #4f515b;
     }
     .tabs {
       flex-grow: 3;
+      margin-left: 2rem;
       .profile-nav {
         display: flex;
         white-space: nowrap;
@@ -530,6 +558,38 @@ export default {
     .body-left {
       //width: 10%;
       border-right: 1px solid #e7edf2;
+      display: flex;
+      justify-content: center;
+      .b-left {
+        display: flex;
+        justify-content: flex-end;
+        width: 50%;
+        margin-top: 1rem;
+        ul.connections {
+          margin-bottom: 0;
+          padding: 0;
+          text-align: center;
+
+          li {
+            list-style: none;
+            display: inline-block;
+            padding: 0 0.5rem;
+            line-height: 1.75;
+            border: none !important;
+
+            p {
+              margin: 0;
+              line-height: 1;
+              color: #838daa;
+            }
+            .count {
+              font-size: 1rem;
+              font-weight: 600;
+              color: #8224e3;
+            }
+          }
+        }
+      }
     }
     .body-right {
       //width: 10%;
@@ -548,7 +608,7 @@ export default {
           width: 100%;
           justify-self: flex-start;
           display: flex;
-          padding-left: 11%;
+          padding-left: 16px;
           li {
             border-bottom: 2px solid #8224e3;
             list-style: none;

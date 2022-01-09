@@ -94,7 +94,7 @@ $grey_text: #626c72;
 
 .panel-block .panel-logo img {
   max-width: 90%;
-  max-height: 115px;
+  max-height: 150px;
 }
 img {
   max-width: 100%;

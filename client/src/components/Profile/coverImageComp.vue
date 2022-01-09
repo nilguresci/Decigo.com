@@ -5,29 +5,40 @@
       <a href="/">
         <img
           src="../../assets/logo_beyaz.svg"
-          style="width: 80px; height: 120px"
+          style="width: 90%; max-height: 114px"
           alt="home"
         />
       </a>
-      <button type="button" class="btn btn-light" @click="logout()">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          fill="currentColor"
-          class="bi bi-box-arrow-right"
-          viewBox="0 0 16 16"
+      <div class="d-flex">
+        <a
+          href="/profilepage"
+          id="nav-user"
+          class="nav-link login"
+          data-toggle="modal"
+          data-target="#login-modal"
         >
-          <path
-            fill-rule="evenodd"
-            d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z"
-          />
-          <path
-            fill-rule="evenodd"
-            d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"
-          />
-        </svg>
-      </button>
+          <span class="user-name">{{ username }}</span>
+        </a>
+        <button type="button" class="btn btn-light" @click="logout()">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-box-arrow-right"
+            viewBox="0 0 16 16"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z"
+            />
+            <path
+              fill-rule="evenodd"
+              d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"
+            />
+          </svg>
+        </button>
+      </div>
     </nav>
     <div id="item-profile-avatar">
       <div class="item-avatar">
@@ -41,7 +52,7 @@
         </a>
       </div>
       <div class="profile-name">
-        <h3>{{ fullname }}</h3>
+        <!-- <h3>{{ fullname }}</h3> -->
         <h2 class="user-nickname">@{{ username }}</h2>
       </div>
     </div>
@@ -104,7 +115,7 @@ export default {
 </script>
 <style scope lang="scss">
 #cover-image-cont {
-  background-image: url("../../assets/cover13-md.jpg");
+  background-image: url("../../assets/cover14-md.jpg");
   //background-color: #f3e9fc;
   height: 315px;
   width: 100%;
@@ -118,9 +129,13 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
+    background-color: transparent;
     button {
       height: 40px;
       width: 40px;
+    }
+    .nav-link {
+      color: #4f515b;
     }
   }
 
@@ -146,12 +161,14 @@ export default {
       flex-direction: column;
       justify-content: end;
       text-align: left;
+      color: #4f515b;
       h3 {
         margin-left: 3rem;
       }
       .user-nickname {
-        font-size: 1rem;
+        font-size: 1.3rem;
         margin-left: 3rem;
+        margin-bottom: 1rem;
       }
     }
 

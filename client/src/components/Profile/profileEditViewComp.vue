@@ -1,8 +1,8 @@
 <template>
-  <div class="col-8 body-main d-flex">
+  <div class="col-6 body-main d-flex">
     <nav>
       <ul>
-        <li>Profile</li>
+        <li>Profil</li>
       </ul>
     </nav>
 
@@ -13,7 +13,7 @@
       <div class="content">
         <div class="mb-3 d-flex content-d">
           <label class="form-label edit">Avatarını değiştir</label>
-          <div @click="change()" style="width: 105%">
+          <div @click="change()" style="width: 82%">
             <button
               type="button"
               class="btn"
@@ -71,7 +71,9 @@
         </div>
 
         <div class="mb-3 d-flex content-d">
-          <label for="inputEmail4" class="form-label edit">Email</label>
+          <label for="inputEmail4" class="form-label edit"
+            >E-posta adresin</label
+          >
           <input
             type="email"
             class="form-control edit-input"
@@ -324,7 +326,7 @@ export default {
   padding: 30px 15px 70px 15px;
   flex-direction: column;
   nav {
-    margin-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
     background: transparent;
     width: 100%;
     ul {
@@ -332,7 +334,7 @@ export default {
       width: 100%;
       justify-self: flex-start;
       display: flex;
-      padding-left: 11%;
+      padding-left: 16px;
       li {
         border-bottom: 2px solid #8224e3;
         list-style: none;
@@ -356,7 +358,7 @@ export default {
     h3 {
       position: relative;
       font-size: 15px;
-      padding-left: 11%;
+      padding-left: 16px;
       color: gray;
       font-family: "Quicksand", Verdana, sans-serif;
     }
@@ -429,7 +431,7 @@ export default {
       }
       .content-d {
         align-items: baseline;
-        padding-left: 11%;
+        padding-left: 16px;
         font-size: 14px;
         justify-content: space-between;
         width: 100%;
