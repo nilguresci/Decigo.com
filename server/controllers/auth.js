@@ -15,8 +15,7 @@ exports.register = async (req, res, next) => {
       }
     });
 
-    if (inUse)
-      return next(new ErrorResponse("Kullanıcı adı zaten kullanımda.", 400));
+    if (inUse) return next(new ErrorResponse("Kullanıcı adı alınmış.", 400));
 
     const user = await User.create({
       Fullname,

@@ -64,6 +64,13 @@
           />
         </div>
       </div>
+      <div
+        id="validationServer03Feedback"
+        class="invalid-feedback"
+        :v-if="registerErrorMsg"
+      >
+        hata: {{ errorMsg }}
+      </div>
       <div class="login-result"></div>
       <div class="submit">
         <button
@@ -104,6 +111,8 @@ export default {
         email: "",
         password: "",
         username: "",
+        registerErrorMsg: false,
+        errorMsg: "",
       },
     };
   },
@@ -114,6 +123,13 @@ export default {
     //     this.show = this.$store.state.showRegisterComp;
     //   }
     // );
+    this.$store.watch(
+      () => this.$store.state.registerErrMsg,
+      () => {
+        this.registerErrorMsg = true;
+        this.errorMsg = this.$store.state.registerErrMsg;
+      }
+    );
   },
   methods: {
     goLogin() {

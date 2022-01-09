@@ -36,7 +36,11 @@
             placeholder="Kullanıcı Adı"
           />
         </div>
+        <!-- <div v-if="!errorMsg">
+          <span style="color: red">hata</span>
+        </div> -->
       </div>
+
       <div class="form-group">
         <div class="pass">
           <label class="screen-reader-text">Şifre</label>
@@ -64,6 +68,13 @@
             placeholder="Şifre"
           />
         </div>
+      </div>
+      <div
+        id="validationServer03Feedback"
+        class="invalid-feedback"
+        v-if="errorMsg"
+      >
+        {{ errorMsg }}
       </div>
       <div class="login-result"></div>
       <div class="submit">
@@ -106,7 +117,18 @@ export default {
     return {
       emailUsername: "",
       password: "",
+      errorMsg: "",
     };
+  },
+  mounted() {
+    this.$store.watch(
+      () => this.$store.state.loginRegisterErrMsg,
+      () => {
+        if (this.$store.state.loginRegisterErrMsg) {
+          this.errorMsg = this.$store.state.loginRegisterErrMsg;
+        }
+      }
+    );
   },
   methods: {
     goRegister() {

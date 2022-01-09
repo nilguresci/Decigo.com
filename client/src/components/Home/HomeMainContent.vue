@@ -472,10 +472,23 @@ $grey_text: #626c72;
 
 .main-content {
   display: block;
+  scroll-behavior: smooth;
   .survey-list {
     position: relative;
     padding: 0;
     margin-left: 13px;
+    li:before {
+      content: "";
+      display: block;
+      background: #e7edf2;
+      width: 2px;
+      height: 137%;
+      position: absolute;
+      left: 20px;
+      top: 2px;
+      z-index: -1;
+      opacity: 0.7;
+    }
     li {
       visibility: visible;
       position: relative;

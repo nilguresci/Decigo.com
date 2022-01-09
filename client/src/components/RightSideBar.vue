@@ -155,6 +155,7 @@ $grey_text: #626c72;
       transition: 0.5s;
       font-size: 14px;
       cursor: pointer;
+      margin-left: 38px;
     }
   }
 }

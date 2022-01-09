@@ -32,6 +32,8 @@ export default Vuex.createStore({
     notFoundErrorMsg: "",
     successMsg: "",
     errorMsg: "",
+    loginRegisterErrMsg: "",
+    registerErrMsg: "",
     categoriesList: [
       "Kitaplar",
       "Moda",
@@ -76,9 +78,8 @@ export default Vuex.createStore({
     },
     getRegister(state) {
       state.showRegisterComp = false;
-      console.log(
-        "kayıt oldu üstte ki değeri false yaparak  rgister componentini kapatıp login i açmış olduk yani kayıt olan kullanıcıyı logine yönlendirdik."
-      );
+
+      state.loginRegisterErrMsg = "";
     },
     getUsers(state, payload) {
       state.users = payload.data;
@@ -103,6 +104,7 @@ export default Vuex.createStore({
       localStorage.setItem("isLoggedIn", true);
       store.set("userInfo", userData);
       store.set("token", data.token);
+      state.loginRegisterErrMsg = "";
       //localStorage.userInfo = userData;
       // console.log(state.loggedInUserInfo);
       // console.log("giriş yapıldı", payload);
@@ -269,7 +271,8 @@ export default Vuex.createStore({
           }
         },
         (err) => {
-          console.log("kayıt olunmadı", err);
+          this.state.registerErrMsg = err.response.data.error;
+          console.log("kayıt olunmadı", err.response.data.error);
         }
       );
     },
@@ -287,7 +290,7 @@ export default Vuex.createStore({
           }
         },
         (err) => {
-          this.state.errorMsg = err.response.data.error;
+          this.state.loginRegisterErrMsg = err.response.data.error;
           console.log("giriş yapılamadı", err.response.data.error);
         }
       );
