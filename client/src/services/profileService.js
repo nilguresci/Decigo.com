@@ -3,30 +3,13 @@ import store from "store";
 const url = "http://localhost:3545/api/profile";
 
 const token = store.get("token") ? store.get("token") : "";
-//console.log("token", token);
+
 const authHeaders = {
   Authorization: `Bearer ${token}`,
 };
 
-// axios.interceptors.response.use(
-//   (response) => {
-//     return response;
-//   },
-//   (error) => {
-//     if (error.response.status === 401) {
-//       store.remove("userInfo");
-//       setTimeout(() => {
-//         window.location.href = "/";
-//       }, 1000);
-//     }
-//     throw error;
-//   }
-// );
-
 export const getMyPolls = (id) => {
   var urlmysurveys = url + `/mySurveys/${id}`;
-  // console.log("urlmysurveys", urlmysurveys);
-  // console.log("token", authHeaders);
 
   return new Promise((resolve, reject) => {
     axios

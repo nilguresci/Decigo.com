@@ -280,6 +280,7 @@ export default Vuex.createStore({
         (err) => {
           this.state.registerErrMsg = err.response.data.error;
           console.log("kayıt olunmadı", err.response.data.error);
+          console.log("this.state.registerErrMsg", this.state.registerErrMsg);
         }
       );
     },

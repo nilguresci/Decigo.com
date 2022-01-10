@@ -64,12 +64,8 @@
           />
         </div>
       </div>
-      <div
-        id="validationServer03Feedback"
-        class="invalid-feedback"
-        :v-if="registerErrorMsg"
-      >
-        hata: {{ errorMsg }}
+      <div id="validationServer03Feedback" class="invalid-feedback">
+        {{ errorMsg }}
       </div>
       <div class="login-result"></div>
       <div class="submit">
@@ -106,13 +102,12 @@ export default {
   data() {
     return {
       show: false,
+      errorMsg: "",
       data: {
         fullname: "",
         email: "",
         password: "",
         username: "",
-        registerErrorMsg: false,
-        errorMsg: "",
       },
     };
   },
@@ -126,7 +121,6 @@ export default {
     this.$store.watch(
       () => this.$store.state.registerErrMsg,
       () => {
-        this.registerErrorMsg = true;
         this.errorMsg = this.$store.state.registerErrMsg;
       }
     );
