@@ -79,7 +79,7 @@ exports.getMyUserInfo = async (req, res, next) => {
     const myInfo = await User.findById(req.params.id);
     if (!myInfo)
       return next(
-        new ErrorResponse(`There's no user with id of ${req.params.id}`, 400)
+        new ErrorResponse(`${req.params.id} id'li kullanıcı bulunamadı.`, 400)
       );
 
     res.status(200).json({
@@ -124,15 +124,11 @@ exports.changePassword = async (req, res, next) => {
     );
 
     if (!user) {
-      return next(
-        new ErrorResponse("Invalid credentials, user not found", 401)
-      );
+      return next(new ErrorResponse("Kullanıcı bulunamadı.", 401));
     }
     const isMatch = await user.matchPassword(Password);
     if (!isMatch) {
-      return next(
-        new ErrorResponse("Invalid credentials, password does not match", 401)
-      );
+      return next(new ErrorResponse("Şifreniz doğru değil.", 401));
     } else {
       const salt = await bcrypt.genSalt(10);
       const pass = await bcrypt.hash(newPassword, salt);

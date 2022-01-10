@@ -14,7 +14,7 @@
       <ul class="survey-list">
         <li class="survey-item" v-for="(poll, id) in polls" :key="id">
           <div class="survey-avatar">
-            <a href="#profile">
+            <a href="#">
               <img
                 loading="lazy"
                 :src="'../../assets/avatars/a' + poll.User.AvatarNo + '.png'"
@@ -176,6 +176,7 @@
 import AddSurveyComponent from "./AddSurvey.vue";
 import Swal from "sweetalert2";
 import store from "store";
+import router from "../../router";
 export default {
   name: "HomeMainContent",
   data() {
@@ -189,7 +190,7 @@ export default {
       polls: [],
       avatarno: 0,
       timeLeft: {},
-      getSpecificPollFirst: false,
+      getSpecificPollFirst: "",
       successMsg: "",
     };
   },
@@ -206,8 +207,9 @@ export default {
 
     this.$store.watch(
       () => this.$store.state.polls,
-      async () => {
-        if (this.getSpecificPollFirst) {
+      () => {
+        console.log(this.getSpecificPollFirst);
+        if (this.getSpecificPollFirst === true) {
           //kopyalanan anketi getirme işlemi
           this.filteredListById(this.getSpecificPollFirst);
         } else {
@@ -307,7 +309,7 @@ export default {
 
         this.getPolls();
       } else {
-        console.log("Ankete Katılınamıyor");
+        this.$store.state.errorMsg = "Bu ankete katılınamıyor.";
       }
     },
     getPolls() {
@@ -351,10 +353,18 @@ export default {
       sortedPolls = this.polls.filter((item) => item._id !== id);
 
       var firstPoll = this.polls.filter((item) => item._id === id);
-      sortedPolls.unshift(firstPoll[0]);
-      // console.log("first poll", firstPoll[0]);
-      // console.log("sortedpolls son", sortedPolls);
-      this.polls = sortedPolls;
+      if (firstPoll.length > 0) {
+        sortedPolls.unshift(firstPoll[0]);
+        console.log("first poll", firstPoll[0]);
+        // console.log("sortedpolls son", sortedPolls);
+        this.polls = sortedPolls;
+      } else {
+        console.log("böyle bir şey yok");
+        this.$store.state.errorMsg = "Böyle bir anket yok veya silinmiş.";
+        setTimeout(() => {
+          router.push({ name: "Home" });
+        }, 2000);
+      }
     },
     report(id) {
       this.$store.dispatch("reportSurvey", id);
@@ -378,8 +388,10 @@ export default {
         store.get("userInfo") === undefined ||
         store.get("userInfo").userId === undefined ||
         poll.End
-      )
+      ) {
         return false;
+      }
+
       if (poll.UserId == store.get("userInfo").userId) return false;
       let joinable = true;
       const myUserId = store.get("userInfo").userId;
@@ -477,7 +489,7 @@ $grey_text: #626c72;
     position: relative;
     padding: 0;
     margin-left: 13px;
-    li:before {
+    li.survey-item:before {
       content: "";
       display: block;
       background: #e7edf2;

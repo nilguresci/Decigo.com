@@ -205,7 +205,7 @@ exports.getSurveyByCategory = async (req, res, next) => {
     console.log("Hata");
     return next(
       new ErrorResponse(
-        `There are currently no survey with ${category} category`,
+        ` ${category} kategorisiyle ilgili anket bulunamadı.`,
         400
       )
     );

@@ -13,7 +13,7 @@
         <small>Member</small>
       </div>
     </div>
-    <ul class="connections">
+    <ul class="connections" v-if="!isAdmin">
       <li>
         <span class="count">{{ pollsCount }}</span>
         <p class="mute">Anketler</p>
@@ -37,6 +37,7 @@ export default {
       avatarno: 0,
       //avatarfilename: "../../assets/avatars/a0.png",
       pollsCount: 0,
+      isAdmin: store.get("userInfo") ? store.get("userInfo").isAdmin : false,
     };
   },
   mounted() {

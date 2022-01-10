@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar decigo-navbar social fixed-top">
     <div class="container">
-      <div id="decigo-search" class="decigo-search">
+      <div id="decigo-search" class="decigo-search" v-if="!isAdmin">
         <div id="search-form" class="">
           <div class="search-field container">
             <svg
@@ -92,6 +92,7 @@ export default {
       username: "",
       avatarno: 0,
       searchText: "",
+      isAdmin: store.get("userInfo") ? store.get("userInfo").isAdmin : false,
     };
   },
   mounted() {

@@ -245,9 +245,15 @@ export default Vuex.createStore({
   },
   actions: {
     setPolls({ commit }) {
-      pollService.getPolls().then((res) => {
-        commit("getPolls", { data: res.data });
-      });
+      pollService
+        .getPolls()
+        .then((res) => {
+          commit("getPolls", { data: res.data });
+        })
+        .catch((err) => {
+          this.state.errorMsg = err.response.data.error;
+          console.log(err.response.data.error);
+        });
     },
     joinPoll({ commit }, data) {
       pollService.joinPoll(data).then(
@@ -258,7 +264,8 @@ export default Vuex.createStore({
           }
         },
         (err) => {
-          console.log("başarısız", err);
+          this.state.errorMsg = err.response.data.error;
+          console.log(err.response.data.error);
         }
       );
     },
@@ -306,7 +313,8 @@ export default Vuex.createStore({
           }
         })
         .catch((err) => {
-          console.log("Create Olmadı", err);
+          this.state.errorMsg = err.response.data.error;
+          console.log(err.response.data.error);
         });
     },
     setMyPolls({ commit }) {
@@ -332,7 +340,8 @@ export default Vuex.createStore({
           commit("reportSurvey", res);
         })
         .catch((err) => {
-          console.log(err);
+          this.state.errorMsg = err.response.data.error;
+          console.log(err.response.data.error);
         });
     },
     getReportedPolls({ commit }) {
@@ -344,7 +353,8 @@ export default Vuex.createStore({
           commit("getReportedPolls", { data: res.data.data });
         })
         .catch((err) => {
-          console.log(err);
+          this.state.errorMsg = err.response.data.error;
+          console.log(err.response.data.error);
         });
     },
     decideReport({ commit }, data) {
@@ -354,7 +364,8 @@ export default Vuex.createStore({
           commit("decideReport", res.data);
         })
         .catch((err) => {
-          console.log(err);
+          this.state.errorMsg = err.response.data.error;
+          console.log(err.response.data.error);
         });
     },
     getSurveyByCategory({ commit }, data) {
@@ -364,7 +375,7 @@ export default Vuex.createStore({
           commit("getSurveyByCategory", res.data);
         })
         .catch((err) => {
-          console.log("error msg", err.message);
+          this.state.errorMsg = err.response.data.error;
         });
     },
     setDeleteMySurvey({ commit }, id) {
@@ -374,7 +385,8 @@ export default Vuex.createStore({
           commit("getDeleteMySurvey", res.data);
         })
         .catch((err) => {
-          console.log(err);
+          this.state.errorMsg = err.response.data.error;
+          console.log(err.response.data.error);
         });
     },
     setUserInfo({ commit }, id) {
@@ -384,7 +396,8 @@ export default Vuex.createStore({
           commit("getUserInfo", res.data);
         })
         .catch((err) => {
-          console.log(err);
+          this.state.errorMsg = err.response.data.error;
+          console.log(err.response.data.error);
         });
     },
     setUpdateMyInfo({ commit }, data) {
@@ -395,13 +408,20 @@ export default Vuex.createStore({
           commit("getUpdateMyInfo", res.data);
         })
         .catch((err) => {
-          console.log(err);
+          this.state.errorMsg = err.response.data.error;
+          console.log(err.response.data.error);
         });
     },
     updateSurvey({ commit }, data) {
-      profileService.updateSurvey(data.id, data.time).then((res) => {
-        commit("updateSurvey", res.data);
-      });
+      profileService
+        .updateSurvey(data.id, data.time)
+        .then((res) => {
+          commit("updateSurvey", res.data);
+        })
+        .catch((err) => {
+          this.state.errorMsg = err.response.data.error;
+          console.log(err.response.data.error);
+        });
     },
     setChangePassw({ commit }, data) {
       var passData = {
@@ -410,9 +430,15 @@ export default Vuex.createStore({
       };
       var id = data.data.id;
       console.log(data);
-      profileService.changeMyPassword(id, passData).then((res) => {
-        commit("getChangeMyPassw", res.data);
-      });
+      profileService
+        .changeMyPassword(id, passData)
+        .then((res) => {
+          commit("getChangeMyPassw", res.data);
+        })
+        .catch((err) => {
+          this.state.errorMsg = err.response.data.error;
+          console.log(err.response.data.error);
+        });
     },
   },
   modules: {},

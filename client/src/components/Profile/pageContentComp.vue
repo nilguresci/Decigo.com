@@ -252,7 +252,6 @@
               </div>
             </div>
           </div>
-         
         </div>
       </div>
       <profile-edit-view-comp v-if="profile.value"></profile-edit-view-comp>
@@ -278,8 +277,8 @@ export default {
   name: "pagecontentcomp",
   data() {
     return {
-      activity: { id: "activity", value: true },
-      profile: { id: "profile", value: false },
+      activity: { id: "activity", value: false },
+      profile: { id: "profile", value: true },
       addPoll: { id: "addPoll", value: false },
       polls: [],
       nopoll: false,
@@ -395,6 +394,7 @@ export default {
     deleteMyPoll(id) {
       this.$store.dispatch("setDeleteMySurvey", id);
       this.polls = this.polls.filter((poll) => poll.id !== id);
+      this.pollsCount = this.pollsCount - 1;
     },
     editPoll(id) {
       this.editpoll = id;
