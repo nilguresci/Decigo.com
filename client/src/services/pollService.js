@@ -1,23 +1,13 @@
 import axios from "axios";
+import store from "store";
 const url = "http://localhost:3545/api/survey";
 
-//class pollService {
-//   static getPolls() {
-//     console.log("servise geldi");
-//     return new Promise((resolve, reject) => {
-//       axios
-//         .get(url)
-//         .then((res) => {
-//           const data = res.data;
-//           resolve(data);
-//         })
-//         .catch((err) => {
-//           reject(err);
-//         });
-//     });
-//   }
+const token = store.get("token") ? store.get("token") : "";
 
-//}
+const authHeaders = {
+  Authorization: `Bearer ${token}`,
+};
+
 export const getPolls = () => {
   return new Promise((resolve, reject) => {
     axios
@@ -49,26 +39,21 @@ export const getUsers = () => {
 };
 
 export const joinPoll = (data) => {
-  return axios.patch(url, data);
+  return axios.patch(url, data, { headers: authHeaders });
 };
 
 export const createPool = (pool) => {
-  return axios.post(url, pool);
+  return axios.post(url, pool, { headers: authHeaders });
 };
 
 export const reportPool = (surveyId) => {
-  return axios.post(url + "/report", { surveyId });
+  return axios.post(url + "/report", { surveyId }, { headers: authHeaders });
 };
 
 export const getReportedPolls = () => {
-  return axios.get(url + "/getReporteds");
+  return axios.get(url + "/getReporteds", { headers: authHeaders });
 };
 
 export const getSurveyByCategory = (category) => {
-  return axios.get(`${url}/category/${category}`);
+  return axios.get(`${url}/category/${category}`, { headers: authHeaders });
 };
-
-// export const getPolls = () => {
-//   return axios.get(url);
-// };
-//export default pollService;
