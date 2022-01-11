@@ -11,7 +11,7 @@ exports.protect = async (req, res, next) => {
   )
     token = req.headers.authorization.split(" ")[1];
 
-  if (!token) return next(new ErrorResponse("Otum açılmamış", 401));
+  if (!token) return next(new ErrorResponse("Oturum açılmamış", 401));
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
@@ -24,6 +24,6 @@ exports.protect = async (req, res, next) => {
 
     next();
   } catch (err) {
-    return next(new ErrorResponse("Otum açılmamış veya süresi dolmuş", 401));
+    return next(new ErrorResponse("Oturum açılmamış veya süresi dolmuş", 401));
   }
 };

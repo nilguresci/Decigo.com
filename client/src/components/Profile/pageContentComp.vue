@@ -314,7 +314,7 @@ export default {
         this.pollsCount = this.$store.state.loggedinPolls.length;
       }
     );
-
+    this.fullName = store.get("userInfo").fullName;
     // this.$store.watch(
     //   () => [this.$store.state.loggedinPolls, this.$store.state.updated],
     //   async () => {
@@ -343,7 +343,17 @@ export default {
         this.noPollErrMsg = this.$store.state.noPollErrMsg;
       }
     );
-    this.fullName = store.get("userInfo").fullName;
+    this.$store.watch(
+      () => this.$store.state.userInfoUpdated,
+      async () => {
+        setTimeout(() => {
+          this.fullName = store.get("userInfo").fullName
+            ? store.get("userInfo").fullName
+            : this.fullName;
+        }, 1000);
+      }
+    );
+
     this.$store.watch(
       () => this.$store.state.successMsg,
       () => {
@@ -491,9 +501,9 @@ export default {
     h3 {
       margin-top: 1.5rem;
       //padding-right: 12rem;
-      justify-content: flex-start;
-      // padding-right: 2rem;
-      padding-left: 57px;
+      justify-content: center;
+      padding-right: 40px;
+      //padding-left: 57px;
       color: #4f515b;
     }
     .tabs {

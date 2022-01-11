@@ -18,7 +18,7 @@
         </ul>
       </div>
       <div class="bottom-nav d-flex">
-        <a href="#" @click="aboutUs()">About Us</a>
+        <a href="#" @click="aboutUs()">Hakkımızda</a>
       </div>
     </div>
   </div>
@@ -62,7 +62,7 @@ export default {
     left top
     no-repeat
   `,
-        confirmButtonText: '<i class="fa fa-thumbs-up"></i> Great!',
+        confirmButtonText: '<i class="fa fa-thumbs-up"></i> Teşekkürler!',
       });
     },
   },

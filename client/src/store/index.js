@@ -35,18 +35,21 @@ export default Vuex.createStore({
     loginRegisterErrMsg: "",
     registerErrMsg: "",
     categoriesList: [
-      "Kitaplar",
-      "Moda",
-      "Filmler",
+      "Filmler - Kitaplar",
       "Cilt Bakımı",
       "Yemek",
       "Spor",
       "Teknoloji",
       "Sanat",
       "Dekorasyon",
-      "Makyaj",
+      "Makyaj - Moda",
       "Hayvanlar",
-      "Güzellik",
+      "Bitkiler",
+      "Psikoloji",
+      "Sosyoloji",
+      "Genel Kültür",
+      "Bilim",
+      "Müzik",
     ],
   },
   mutations: {
@@ -218,8 +221,16 @@ export default Vuex.createStore({
     getUpdateMyInfo(state, payload) {
       state.successMsg =
         "Kullanıcı bilgileriniz başarılı bir şekilde güncellendi.";
+      var userData = {
+        username: payload.Username,
+        userId: payload._id,
+        avatarNo: payload.AvatarNo,
+        fullName: payload.Fullname,
+        email: payload.Email,
+      };
       console.log("update payload", payload);
-      //store.set("userInfo", userData);
+      store.set("userInfo", userData);
+      this.state.userInfoUpdated = !this.state.userInfoUpdated;
     },
     getUserInfo(state, payload) {
       console.log("my user infopayload", payload);
@@ -413,7 +424,6 @@ export default Vuex.createStore({
       profileService
         .updateMyInfo(data)
         .then((res) => {
-          this.state.userInfoUpdated = !this.state.userInfoUpdated;
           commit("getUpdateMyInfo", res.data);
         })
         .catch((err) => {

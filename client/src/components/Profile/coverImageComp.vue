@@ -11,14 +11,14 @@
       </a>
       <div class="d-flex">
         <a
-          href="/profilepage"
+          href="#"
           id="nav-user"
           class="nav-link login"
-          data-toggle="modal"
-          data-target="#login-modal"
-        >
-          <span class="user-name">{{ username }}</span>
+          role="button"
+          aria-expanded="false"
+          >{{ username }}
         </a>
+
         <button type="button" class="btn btn-light" @click="logout()">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -115,17 +115,17 @@ export default {
 </script>
 <style scope lang="scss">
 #cover-image-cont {
-  background-image: url("../../assets/cover14-md.jpg");
+  background-image: url("../../assets/cover8-md.jpg");
   //background-color: #f3e9fc;
-  height: 315px;
+  height: 265px;
   width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 
   .cover-nav {
-    width: 90%;
-    margin-left: 5%;
+    width: 95%;
+    margin-left: 2%;
     display: flex;
     justify-content: space-between;
     align-items: baseline;

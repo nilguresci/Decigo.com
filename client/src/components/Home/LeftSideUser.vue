@@ -10,7 +10,7 @@
       </a>
       <div class="profile-name">
         <a href="profilepage" class="name ellipsis">{{ username }}</a>
-        <small>Member</small>
+        <small>Üye</small>
       </div>
     </div>
     <ul class="connections" v-if="!isAdmin">
@@ -56,9 +56,21 @@ export default {
     });
 
     this.$store.watch(
-      () => [this.$store.state.loggedinPolls, this.$store.state.updated],
+      () => [
+        this.$store.state.loggedinPolls,
+        this.$store.state.updated,
+        this.$store.state.pollAdded,
+      ],
       async () => {
         this.pollsCount = this.$store.state.loggedinPolls.length;
+        console.log("polls count", this.pollsCount);
+      }
+    );
+
+    this.$store.watch(
+      () => this.$store.state.pollAdded,
+      async () => {
+        this.pollsCount = this.pollsCount + 1;
         console.log("polls count", this.pollsCount);
       }
     );

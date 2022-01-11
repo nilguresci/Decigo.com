@@ -316,13 +316,17 @@ export default {
       this.$store.dispatch({
         type: "setPolls",
       });
+      this.polls = this.$store.state.polls;
+      this.polls.forEach((poll) => {
+        this.calculateTime(poll.Time, poll._id);
+      });
     },
     share(id) {
       navigator.clipboard.writeText(id);
 
-      let m = "http://localhost:8080";
+      let m = "https://decigo.herokuapp.com/";
       let b = new URL(m);
-      let newUrl = "http://localhost:8080/" + id;
+      let newUrl = "https://decigo.herokuapp.com/" + id;
       let d = new URL(newUrl, b);
       navigator.clipboard.writeText(d.href);
       //alert("Anket linkini kopyaladınız. " + d.href);
@@ -653,6 +657,7 @@ $grey_text: #626c72;
           display: flex;
           justify-self: flex-start;
           padding-left: 58px;
+          text-align: left;
         }
         .answers-area {
           .answers {
