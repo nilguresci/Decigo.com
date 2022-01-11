@@ -9,14 +9,13 @@ const ErrorResponse = require("../utils/errorResponse");
 exports.getMySurveys = async (req, res, next) => {
   const userId = req.params.id;
 
-  if (!userId) return next(new ErrorResponse("User id not found!", 400));
+  if (!userId)
+    return next(new ErrorResponse("Böyle bir kullanıcı bulunmamakta", 400));
 
   try {
     const mySurveys = await Survey.find({ UserId: userId });
     if (mySurveys.length === 0 || !mySurveys) {
-      return next(
-        new ErrorResponse(`There are currently no survey to show`, 400)
-      );
+      return next(new ErrorResponse(`Henüz anket paylaşılmamış`, 400));
     }
 
     res.status(200).json({
@@ -27,18 +26,6 @@ exports.getMySurveys = async (req, res, next) => {
     next(error);
   }
 };
-
-// exports.getOneSurvey = async (req, res, next) => {
-//   const { id } = req.body;
-
-//   if (!id) return next(new ErrorResponse("Poll id not found!", 400));
-
-//   try {
-//     res.status(200);
-//   } catch (error) {
-//     next(error);
-//   }
-// };
 
 exports.updateSurvey = async (req, res, next) => {
   //time güncellenebilecek sadece

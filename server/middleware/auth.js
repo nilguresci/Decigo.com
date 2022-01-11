@@ -11,21 +11,19 @@ exports.protect = async (req, res, next) => {
   )
     token = req.headers.authorization.split(" ")[1];
 
-  if (!token)
-    return next(new ErrorResponse("Not authorized to access this route", 401));
+  if (!token) return next(new ErrorResponse("Otum açılmamış", 401));
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
     const user = await User.findById(decoded.id);
 
-    if (!user)
-      return next(new ErrorResponse("No user found with this id", 404));
+    if (!user) return next(new ErrorResponse("Bu kullanıcı silinmiş", 404));
 
     req.user = user;
 
     next();
   } catch (err) {
-    return next(new ErrorResponse("Not authorized to access this router", 401));
+    return next(new ErrorResponse("Otum açılmamış veya süresi dolmuş", 401));
   }
 };

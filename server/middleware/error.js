@@ -6,7 +6,7 @@ const errorHandler = (err, req, res, next) => {
   error.message = err.message;
 
   if (err.code === 11000) {
-    const message = `Duplicate Field value entered`;
+    const message = `Aynı değer birden fazla kez girildi`;
     error = new ErrorResponse(message, 400);
   }
 
@@ -19,7 +19,7 @@ const errorHandler = (err, req, res, next) => {
 
   res.status(error.statusCode || 500).json({
     success: false,
-    error: error.message || "Server Error",
+    error: error.message || "Sunucu Hatası",
   });
 };
 

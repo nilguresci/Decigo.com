@@ -31,9 +31,7 @@ exports.getSurveys = async (req, res, next) => {
     const surveys = await Survey.find();
 
     if (surveys.length === 0 || !surveys)
-      return next(
-        new ErrorResponse(`There are currently no survey to show`, 400)
-      );
+      return next(new ErrorResponse(`Henüz anket paylaşılmamış`, 400));
 
     res.status(200).json({
       success: true,
@@ -50,7 +48,7 @@ exports.getOneSurvey = async (req, res, next) => {
 
     if (!survey)
       return next(
-        new ErrorResponse(`There's no survey with id of ${req.params.id}`, 400)
+        new ErrorResponse(`${req.params.id} idli bir anket bulunamadı`, 400)
       );
 
     res.status(200).json({
@@ -70,7 +68,7 @@ exports.joinSurvey = async (req, res, next) => {
 
     if (!survey || survey == null || survey == []) {
       return next(
-        new ErrorResponse(`There's no survey with id of ${SurveyId}`, 400)
+        new ErrorResponse(`${SurveyId} idli bir anket bulunamadı`, 400)
       );
     }
 
@@ -78,7 +76,7 @@ exports.joinSurvey = async (req, res, next) => {
 
     if (!option || option == null || option == []) {
       return next(
-        new ErrorResponse(`There's no option with id of ${OptionId}`, 400)
+        new ErrorResponse(`${OptionId} idli seçenek kaldırılmış`, 400)
       );
     }
 
@@ -131,9 +129,7 @@ exports.getUsers = async (req, res, next) => {
     const users = await User.find();
 
     if (users.length === 0 || !users)
-      return next(
-        new ErrorResponse(`There are currently no user to show`, 400)
-      );
+      return next(new ErrorResponse(`Sistemde kullanıcı bulunamadı`, 400));
 
     res.status(200).json({
       success: true,
