@@ -25,7 +25,7 @@
                   d="M0 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2h2a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-2H2a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H2z"
                 />
               </svg>
-              <span class="" v-show="!activity.value">Activity</span>
+              <span class="" v-show="!activity.value">Ana Sayfam</span>
             </button>
             <button
               type="button"
@@ -48,7 +48,7 @@
                   d="M2 1a2 2 0 0 0-2 2v9.5A1.5 1.5 0 0 0 1.5 14h.653a5.373 5.373 0 0 1 1.066-2H1V3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v9h-2.219c.554.654.89 1.373 1.066 2h.653a1.5 1.5 0 0 0 1.5-1.5V3a2 2 0 0 0-2-2H2Z"
                 />
               </svg>
-              <span class="" v-show="!profile.value">Profile</span>
+              <span class="" v-show="!profile.value">Profilim</span>
             </button>
             <button
               type="button"
@@ -172,7 +172,10 @@
                     </a>
                   </li>
                   <li>
-                    <a class="dropdown-item" href="#" @click="editPoll(poll.id)"
+                    <a
+                      class="dropdown-item"
+                      href="#"
+                      @click.prevent="editPoll(poll.id)"
                       ><svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="15"
