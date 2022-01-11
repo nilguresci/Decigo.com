@@ -265,6 +265,7 @@ export default Vuex.createStore({
         },
         (err) => {
           this.state.errorMsg = err.response.data.error;
+          isNotAuth(err);
           console.log(err.response.data.error);
         }
       );
@@ -315,6 +316,7 @@ export default Vuex.createStore({
         })
         .catch((err) => {
           this.state.errorMsg = err.response.data.error;
+          isNotAuth(err);
           console.log(err.response.data.error);
         });
     },
@@ -331,6 +333,7 @@ export default Vuex.createStore({
         })
         .catch((err) => {
           this.state.noPollErrMsg = "Henüz anket oluşturmadın.";
+          isNotAuth(err);
           console.log(err);
         });
     },
@@ -342,6 +345,7 @@ export default Vuex.createStore({
         })
         .catch((err) => {
           this.state.errorMsg = err.response.data.error;
+          isNotAuth(err);
           console.log(err.response.data.error);
         });
     },
@@ -355,6 +359,7 @@ export default Vuex.createStore({
         })
         .catch((err) => {
           this.state.errorMsg = err.response.data.error;
+          isNotAuth(err);
           console.log(err.response.data.error);
         });
     },
@@ -366,6 +371,7 @@ export default Vuex.createStore({
         })
         .catch((err) => {
           this.state.errorMsg = err.response.data.error;
+          isNotAuth(err);
           console.log(err.response.data.error);
         });
     },
@@ -387,6 +393,7 @@ export default Vuex.createStore({
         })
         .catch((err) => {
           this.state.errorMsg = err.response.data.error;
+          isNotAuth(err);
           console.log(err.response.data.error);
         });
     },
@@ -398,6 +405,7 @@ export default Vuex.createStore({
         })
         .catch((err) => {
           this.state.errorMsg = err.response.data.error;
+          isNotAuth(err);
           console.log(err.response.data.error);
         });
     },
@@ -410,6 +418,7 @@ export default Vuex.createStore({
         })
         .catch((err) => {
           this.state.errorMsg = err.response.data.error;
+          isNotAuth(err);
           console.log(err.response.data.error);
         });
     },
@@ -421,6 +430,7 @@ export default Vuex.createStore({
         })
         .catch((err) => {
           this.state.errorMsg = err.response.data.error;
+          isNotAuth(err);
           console.log(err.response.data.error);
         });
     },
@@ -438,9 +448,25 @@ export default Vuex.createStore({
         })
         .catch((err) => {
           this.state.errorMsg = err.response.data.error;
+          isNotAuth(err);
           console.log(err.response.data.error);
         });
     },
   },
   modules: {},
 });
+
+const isNotAuth = (err) => {
+  try {
+    if (err.response.status == 401) {
+      router.push({ name: "Home" });
+      localStorage.removeItem("isLoggedIn");
+      localStorage.removeItem("userInfo");
+      this.$store.state.isLoggedIn = false;
+      store.removeItem("userInfo");
+      store.removeItem("token");
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
