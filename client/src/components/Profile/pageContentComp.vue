@@ -2,9 +2,13 @@
   <div class="page-content">
     <nav class="d-flex" style="width: 100%">
       <div class="content-nav">
-        <h3 class="col-3 d-flex">
-          <h3>{{ fullName }}</h3>
-        </h3>
+        <div class="col-3 d-flex" style="align-self: end">
+          <div class="bosluk" style="width: 50%"></div>
+          <h3 class="d-flex" style="width: 50%">
+            {{ fullName }}
+          </h3>
+        </div>
+
         <div class="tabs col-9">
           <ul class="profile-nav">
             <button
@@ -487,8 +491,9 @@ export default {
     h3 {
       margin-top: 1.5rem;
       //padding-right: 12rem;
-      justify-content: flex-end;
-      padding-right: 2rem;
+      justify-content: flex-start;
+      // padding-right: 2rem;
+      padding-left: 57px;
       color: #4f515b;
     }
     .tabs {
@@ -626,7 +631,7 @@ export default {
       }
       .nopollmsg {
         display: flex;
-        padding-left: 11%;
+        padding-left: 16px;
         color: #626c72;
       }
       .poll-cont {
