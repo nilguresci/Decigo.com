@@ -1,5 +1,5 @@
 import axios from "axios";
-const url = "http://localhost:3545/api/auth";
+const url = "api/auth";
 
 export const register = (data) => {
   return axios.post(`${url}/register`, data);

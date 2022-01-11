@@ -1,6 +1,6 @@
 import axios from "axios";
 import store from "store";
-const url = "http://localhost:3545/api/profile";
+const url = "api/profile";
 
 const token = store.get("token") ? store.get("token") : "";
 
