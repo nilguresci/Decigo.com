@@ -50,7 +50,7 @@ router.beforeEach((to, from, next) => {
     next("/admin");
   }
   if (!isLoggedIn && to.matched.some((record) => record.meta.isLoggedIn)) {
-    alert("Bu sayfaya erişmek için giriş yapmalısınız.");
+    alert("Lütfen giriş yaptığınızdan emin olunuz");
     next("/");
   }
 

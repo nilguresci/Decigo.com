@@ -459,6 +459,7 @@ export default Vuex.createStore({
 const isNotAuth = (err) => {
   try {
     if (err.response.status == 401) {
+      console.log("Çıkış'a yönlendiriliyor çünkü", err);
       router.push({ name: "Home" });
       localStorage.removeItem("isLoggedIn");
       localStorage.removeItem("userInfo");

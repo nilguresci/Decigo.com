@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="noScroll">
     <cover-image-comp></cover-image-comp>
     <page-content-comp></page-content-comp>
   </div>
@@ -58,3 +58,8 @@ export default {
   },
 };
 </script>
+<style>
+.noScroll {
+  overflow-x: hidden !important;
+}
+</style>
