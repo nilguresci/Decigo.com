@@ -493,6 +493,9 @@ export default {
       input {
         border-radius: calc(1.25rem + 1px);
       }
+      div {
+        flex-wrap: nowrap !important;
+      }
     }
   }
 }
