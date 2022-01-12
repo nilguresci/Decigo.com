@@ -17,9 +17,9 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-app.get("/", (req, res, next) => {
-  res.send("Api running");
-});
+// app.get("/", (req, res, next) => {
+//   res.send("Api running");
+// });
 
 app.use("/api/auth", auth);
 app.use("/api/survey", survey);
