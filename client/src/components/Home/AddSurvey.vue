@@ -158,15 +158,11 @@ export default {
         this.surveyQuestion === "";
       }
     );
-    //this.categories = this.$store.state.categoriesList;
-
-    //console.log("kkk", this.categories);
 
     this.$store.state.onProfilePage
       ? (this.onProfilePage = true)
       : (this.onProfilePage = false);
 
-    // console.log("comp açıldı", this.onProfilePage);
     this.$store.watch(
       () => this.$store.state.onProfilePage,
       () => {
@@ -192,9 +188,7 @@ export default {
     this.$store.watch(
       () => this.$store.state.pollAdded,
       () => {
-        // if (this.$store.state.pollAdded) {
         this.showSuccesAlert();
-        // }
         this.surveyQuestion = "";
         this.options = [
           { text: "", id: 1 },
@@ -229,12 +223,8 @@ export default {
     create() {
       const check = this.checkForm();
       if (check.err) {
-        // check.msg.forEach((msg) => {
-        //   alert(msg);
-        // });
         Swal.fire({
           icon: "error",
-          //title: "Oops...",
           title: "Lütfen tüm alanları doldurduğunuzdan emin olun!",
           showConfirmButton: false,
           timer: 1500,
@@ -354,12 +344,6 @@ export default {
 
   background-color: #995ed4;
 
-  // background-image: linear-gradient(
-  //   90deg,
-  //   #8224e3 0,
-  //   #a968ec 50%,
-  //   #8224e3 100%
-  // );
   box-shadow: 0 1px 2px 0 rgba(130, 36, 227, 0.5);
   color: #fff;
   display: block;

@@ -421,8 +421,11 @@ export default {
       //anket güncelleme işlemi
       const splited = this.expiryDate.split(":");
       const endDate = Date.now() + (splited[0] * 3600000 + splited[1] * 60000);
+      console.log("Date.now()", Date.now());
+      console.log("endDate", endDate);
       this.$store.dispatch("updateSurvey", { id: poll.id, time: endDate });
       this.expiryDate = "00:01";
+      this.$router.go();
     },
     calculateTime(time, id) {
       const endDate = new Date(time).getTime();
@@ -467,9 +470,9 @@ export default {
     share(id) {
       navigator.clipboard.writeText(id);
 
-      let m = "http://localhost:8080";
+      let m = "https://decigo.herokuapp.com/";
       let b = new URL(m);
-      let newUrl = "http://localhost:8080/" + id;
+      let newUrl = "https://decigo.herokuapp.com/" + id;
       let d = new URL(newUrl, b);
       console.log(d.href);
       navigator.clipboard.writeText(d.href);

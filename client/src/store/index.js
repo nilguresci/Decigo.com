@@ -86,12 +86,12 @@ export default Vuex.createStore({
     },
     getUsers(state, payload) {
       state.users = payload.data;
-      console.log("users", payload);
+      //console.log("users", payload);
     },
     getLogin(state, payload) {
       //state.loggedInUserInfo = payload;
       var data = payload;
-      console.log("geldi.", data);
+      //("geldi.", data);
       var userData = {
         username: data._doc.Username,
         //token: data.token,
@@ -433,6 +433,7 @@ export default Vuex.createStore({
         });
     },
     updateSurvey({ commit }, data) {
+      console.log("updateSurvey data", data);
       profileService
         .updateSurvey(data.id, data.time)
         .then((res) => {

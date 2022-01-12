@@ -29,6 +29,7 @@ exports.getMySurveys = async (req, res, next) => {
 
 exports.updateSurvey = async (req, res, next) => {
   //time güncellenebilecek sadece
+  console.log("GELEN DATa", req.body);
   const { time } = req.body;
   try {
     const survey = await Survey.updateOne(

@@ -73,7 +73,12 @@ export const getMyUserInfo = (id) => {
 };
 
 export const updateSurvey = (id, time) => {
-  return axios.put(`${url}/mySurveys/${id}`, time, { headers: authHeaders });
+  console.log("SERVİCE", time);
+  return axios.put(
+    `${url}/mySurveys/${id}`,
+    { time },
+    { headers: authHeaders }
+  );
 };
 
 export const changeMyPassword = (id, data) => {
